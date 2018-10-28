@@ -84,7 +84,10 @@ module.exports = env => {
 				},
 				{
 					test: /\.svg$/,
-					loader: 'svg-url-loader'
+					loader: 'file-loader',
+					options: {
+						outputPath: 'assets/'
+					}
 				},
 				{
 					test:  /\.(png|jpg|gif)$/,
