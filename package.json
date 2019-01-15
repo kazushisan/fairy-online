@@ -4,7 +4,9 @@
   "description": "Online Management System for Fairy Ski Club, University of Tsukuba",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+	"test": "echo \"Error: no test specified\" && exit 1",
+	"build": "rm -rf ./dist/* && cp .htaccess ./dist/ && webpack --env.production",
+	"dev": "webpack --watch"
   },
   "author": "",
   "license": "UNLICENSED",
