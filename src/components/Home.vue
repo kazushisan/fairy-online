@@ -6,7 +6,7 @@
 					<div class="form-group col">
 						<input type="password" class="form-control" placeholder="パスワード" v-model="data.password">
 					</div>
-					<div class="from-group col">
+					<div class="from-group col-auto">
 						<button class="btn btn-outline-primary" v-on:click="send">ログイン</button>
 					</div>
 				</div>

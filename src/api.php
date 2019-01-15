@@ -1,5 +1,6 @@
 <?php
-ini_set('display_errors',0);
+ini_set('display_errors', 0);
+
 require __DIR__ . './../vendor/autoload.php';
 use \Firebase\JWT\JWT;
 
@@ -93,7 +94,7 @@ try{
 		echo '{"message":"' . $message . '"}';
 	} else {
 		http_response_code(400);
-		echo '{"message":"Authorization Failed"}';
+		echo '{"message":"' . $message . '"}';
 	}
 }
 

@@ -20,7 +20,7 @@ module.exports = env => {
 			new VueLoaderPlugin(),
 			new CopyWebpackPlugin([
 				{
-					from: 'src/fom.html',
+					from: 'src/fom.html'
 				},
 				{
 					from: 'src/api.php',

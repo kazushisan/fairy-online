@@ -56,7 +56,7 @@
 
 							</div>
 
-							<button class="btn btn-primary" v-on:click="addEvent">追加する</button>
+							<button class="btn btn-primary" v-on:click="addEvent" v-bind:disabled="buttons.add_event !== '追加する'">{{ buttons.add_event }}</button>
 						</div>
 					</div>
 				</div>
@@ -96,8 +96,8 @@
 									</div>
 								</div>
 							</div>
-							<button class="btn btn-primary" v-on:click="editEvent">変更する</button>
-							<button class="btn btn-danger" v-on:click="removeEvent">イベントを削除する</button>
+							<button class="btn btn-primary" v-on:click="editEvent" v-bind:disabled="buttons.edit_event !== '変更する'">{{ buttons.edit_event}}</button>
+							<button class="btn btn-danger" v-on:click="removeEvent" v-bind:disabled="buttons.remove_event !== 'イベントを削除する'">{{ buttons.remove_event }}</button>
 						</div>
 					</div>
 					<div class="card" v-else>
@@ -129,7 +129,7 @@
 										<span v-if="file.name">{{ file.name }}</span>
 									</div>
 									<div class="form-group" v-if="this.file.name">
-										<button class="btn btn-primary" v-on:click="addFile">アップロード</button>
+										<button class="btn btn-primary" v-on:click="addFile" v-bind:disabled="buttons.upload_file !== 'アップロード'">{{ buttons.upload_file }}</button>
 									</div>
 								</form>
 								<ul class="list-group"  v-if="event.files && event.files.length > 0">
@@ -212,9 +212,9 @@
 								</div>
 								<div class="form-group">
 									<label for="inputnote">{{ label.note }}</label>
-									<textarea v-bind="add_participant.note" id="inputnote" class="form-control" rows="3"></textarea>
+									<textarea v-model="add_participant.note" id="inputnote" class="form-control" rows="3"></textarea>
 								</div>
-								<button class="btn btn-primary" v-on:click="addParticipant">送信</button>
+								<button class="btn btn-primary" v-on:click="addParticipant" v-bind:disabled="buttons.add_participant !== '追加する'">{{ buttons.add_participant}}</button>
 							</form>
 						</div>
 					</div>
@@ -250,6 +250,13 @@
 					id: "",
 					data: "",
 					name: ""
+				},
+				buttons: {
+					add_event: "追加する",
+					edit_event: "変更する",
+					upload_file: "アップロード",
+					remove_event: "イベントを削除する",
+					add_participant: "追加する"
 				},
 				label: 	{
 					"name": "氏名",
@@ -367,7 +374,7 @@
 		methods: {
 			download: function(file){
 				const jwt = window.sessionStorage.getItem('fairy_jwt')
-				axios.get(`/api.php?file=` + file.id,
+				axios.get(`api.php?file=` + file.id,
 					{
 						headers: { Authorization: "Bearer " + jwt },
 						responseType: 'blob'
@@ -447,6 +454,17 @@
 				const event_id = event.original_id || event.id
 				const i = this.events.findIndex((item) => item.id === event_id)
 				this.event = this.events[i]
+				this.edit_event = {
+					"id": "",
+					"title": "",
+					"start": "",
+					"end": "",
+					"description": "",
+					"can_apply": false,
+					"due": "",
+					"participants": [],
+					"files": []
+				}
 				for(const key in this.events[i]){
 					this.edit_event[key] = this.events[i][key]
 				}
@@ -501,6 +519,7 @@
 				})
 			},
 			addFile: function(e){
+				this.buttons.upload_file = "アップロード中..."
 				e.stopImmediatePropagation()
 
 				const jwt = window.sessionStorage.getItem('fairy_jwt')
@@ -523,9 +542,11 @@
 					alert(err.response.data.message)
 				}).finally(() => {
 					this.reloadCalendar()
+					this.buttons.upload_file = "アップロード"
 				})
 			},
 			addParticipant: function(e){
+				this.buttons.add_participant = "送信中..."
 				e.stopImmediatePropagation()
 				this.add_participant.id = this.generateID()
 				const jwt = window.sessionStorage.getItem('fairy_jwt')
@@ -586,9 +607,11 @@
 					alert(err.response.data.message)
 				}).finally(() => {
 					this.reloadCalendar()
+					this.buttons.add_participant = "追加する"
 				})
 			},
 			addEvent: function(e){
+				this.buttons.add_event = "送信中..."
 				e.stopImmediatePropagation()
 				const jwt = window.sessionStorage.getItem('fairy_jwt')
 				const add_event = {}
@@ -638,9 +661,11 @@
 					alert(err.response.data.message)
 				}).finally(() => {
 					this.reloadCalendar()
+					this.buttons.add_event = "追加する"
 				})
 			},
 			removeEvent: function(e){
+				this.buttons.remove_event = "送信中..."
 				e.stopImmediatePropagation()
 				const jwt = window.sessionStorage.getItem('fairy_jwt')
 				axios.post(
@@ -672,6 +697,8 @@
 					alert(err.response.data.message)
 				}).finally(() => {
 					this.reloadCalendar()
+					this.buttons.remove_event = "イベントを削除する"
+
 				})
 			}
 		}
