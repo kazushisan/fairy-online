@@ -158,20 +158,18 @@
 							<table class="table table-bordered">
 								<thead>
 									<tr>
-										<th>氏名</th>
-										<th>年次</th>
-										<th>性別</th>
-										<th>年齢</th>
-										<th>車出し</th>
-										<th>備考</th>
+										<th>{{ label.name + " (" + label.affiliation + ", " + label.year + ")"}}</th>
+										<th>{{ label.sex }}</th>
+										<th>{{ label.age }}</th>
+										<th>{{ label.can_drive }}</th>
+										<th>{{ label.note }}</th>
 										<th v-if="event.can_apply">削除</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr v-if="!event.participants || event.participants.length == 0"><td  v-bind:colspan="event.can_apply ? 7 : 6" class="text-center">なし</td></tr>
 									<tr v-for="participant in event.participants" v-bind:key="participant.id">
-										<td>{{ participant.name }}</td>
-										<td>{{ participant.year }}</td>
+										<td>{{ participant.name}} ({{ participant.affiliation ?  participant.affiliation : ""}}{{ participant.year }})</td>
 										<td>{{ participant.sex }}</td>
 										<td>{{ participant.age }}</td>
 										<td>{{ participant.can_drive ? "はい" : "いいえ"}}</td>
@@ -188,6 +186,12 @@
 										<label for="inputname">{{ label.name }}</label>
 										<input type="text" class="form-control" id="inputname" v-model="add_participant.name" v-bind:placeholder="label.name">
 									</div>
+									<div class="form-group col-md-6">
+										<label for="inputaffiliation">{{ label.affiliation }}</label>
+										<input type="text" class="form-control" id="inputaffiliation" v-model="add_participant.affiliation" v-bind:placeholder="label.affiliation">
+									</div>
+								</div>
+								<div class="form-row">
 									<div class="form-group col-md-2">
 										<label for="inputyear">{{ label.year }}</label>
 										<select type="text" id="inputyear" class="form-control" v-model="add_participant.year" v-bind:placeholder="label.year">
@@ -205,10 +209,13 @@
 										<label for="inputage">{{ label.age }}</label>
 										<input type="text" v-model="add_participant.age" class="form-control" id="inputage" v-bind:placeholder="label.age">
 									</div>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" v-model="add_participant.can_drive" id="can_drive">
-									<label class="form-check-label" for="can_drive">車出しできますか？</label>
+									<div class="form-group col-md-6">
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox" v-model="add_participant.can_drive" id="can_drive">
+											<label class="form-check-label" for="can_drive">車出しできますか？</label>
+										</div>
+										
+									</div>
 								</div>
 								<div class="form-group">
 									<label for="inputnote">{{ label.note }}</label>
@@ -240,6 +247,7 @@
 	import '@fortawesome/fontawesome-free/js/all.js'
 	import 'fullcalendar'
 	import 'fullcalendar/dist/fullcalendar.css'
+	import { saveAs} from 'file-saver'
 
 	const axios = require('axios')
 
@@ -270,6 +278,7 @@
 						"M2",
 						"その他"
 					],
+					"affiliation": "所属",
 					"sex": "性別",
 					"age": "年齢",
 					"can_drive": "車出し",
@@ -278,6 +287,7 @@
 				add_participant: {
 					"id": "",
 					"name": "",
+					"affiliation": "",
 					"year": "",
 					"sex": "",
 					"age": 0,
@@ -380,13 +390,7 @@
 						responseType: 'blob'
 					}
 				).then(response => {
-					console.log(response)
-					const url = window.URL.createObjectURL(new Blob([response.data]));
-					const link = document.createElement('a')
-					link.href = url
-					link.setAttribute('download', file.name)
-					document.body.appendChild(link)
-					link.click()
+					saveAs(response.data, file.name)
 				}).catch(err => {
 					alert('failed to retrive data')
 				})

@@ -4,9 +4,9 @@
   "description": "Online Management System for Fairy Ski Club, University of Tsukuba",
   "main": "index.js",
   "scripts": {
-	"test": "echo \"Error: no test specified\" && exit 1",
-	"build": "rm -rf ./dist/* && cp .htaccess ./dist/ && webpack --env.production",
-	"dev": "webpack --watch"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -rf ./dist/* && cp .htaccess ./dist/ && webpack --env.production",
+    "dev": "webpack --watch"
   },
   "author": "",
   "license": "UNLICENSED",
@@ -22,6 +22,7 @@
     "css-loader": "^1.0.0",
     "cssnano": "^4.1.7",
     "file-loader": "^2.0.0",
+    "file-saver": "^2.0.0",
     "fullcalendar": "^3.9.0",
     "jquery": "^3.3.1",
     "moment": "^2.22.2",
