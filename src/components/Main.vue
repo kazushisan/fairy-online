@@ -1,5 +1,12 @@
 <template>
 	<div id="main">
+		<nav class="nabbar navbar-expand-md navbar-light bg-light mb-5 p-3">
+			<div class="container">
+				<button class="btn btn-outline-primary float-right" v-on:click="logout">ログアウト</button>
+				<a href="" class="navbar-brand">FOM: Fairy Online Manager</a>
+				<span class="navbar-text">筑波大学体育会フェアリースキークラブオンライン管理システム</span>
+			</div>
+		</nav>
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-md-8 col-lg-6">
@@ -243,8 +250,6 @@
 
 <script>
 	import $ from 'jquery'
-	import 'bootstrap'
-	import '@fortawesome/fontawesome-free/js/all.js'
 	import 'fullcalendar'
 	import 'fullcalendar/dist/fullcalendar.css'
 	import { saveAs} from 'file-saver'
@@ -382,6 +387,10 @@
 			}
 		},
 		methods: {
+			logout: function(){
+				window.sessionStorage.removeItem('fairy_jwt')
+				this.$router.push({ path: '/' })
+			},
 			download: function(file){
 				const jwt = window.sessionStorage.getItem('fairy_jwt')
 				axios.get(`api.php?file=` + file.id,

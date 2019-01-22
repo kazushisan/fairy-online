@@ -7,7 +7,8 @@ import Home from './components/Home.vue'
 import Main from './components/Main.vue'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
-
+import 'bootstrap'
+import '@fortawesome/fontawesome-free/js/all.js'
 Vue.use(Router)
 
 const router = new Router({

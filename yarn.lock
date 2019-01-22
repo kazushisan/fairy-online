@@ -596,6 +596,11 @@
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.6.3.tgz#61c122c420d7a91613f393d6a06e5a4c6ae6abf3"
   integrity sha512-s5PLdI9NYgjBvfrv6rhirPHlAHWx+Sfo/IjsAeiXYfmemC/GSjwsyz1wLnGPazbLPXWfk62ks980o9AmsxYUEQ==
 
+"@types/google-apps-script@^0.0.35":
+  version "0.0.35"
+  resolved "https://registry.yarnpkg.com/@types/google-apps-script/-/google-apps-script-0.0.35.tgz#269b487f5ad0a3d94e0685ec7f5033723864f039"
+  integrity sha512-rm5ojk+E1IbVKUoKvEypp9aJVcr6+uFIghznf+rmu+waX9e6bOU/kP4uBliAw1V/FM1pcbVBozSLTYxBoY5mow==
+
 "@types/q@^1.5.1":
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.1.tgz#48fd98c1561fe718b61733daed46ff115b496e18"
