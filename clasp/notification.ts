@@ -34,15 +34,34 @@ const diffDays = (day: Date):number => {
 	const MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000
 	return Math.ceil((day.getTime() - today.getTime())/MILLISECONDS_PER_DAY)
 }
+interface participant{
+	id: string,
+	name: string,
+	year: string,
+	sex: string,
+	age: number,
+	can_drive: boolean,
+	note: string
+}
+interface event{
+	id: string,
+	title: string,
+	start: string,
+	end: string,
+	description: string,
+	due: string,
+	participants: participant[],
+	can_apply: boolean
+}
 
 function notification():void{
 	const {events, jwt} = getEvents()
-	events.forEach(event => {
+	events.forEach((event: event):void => {
 		const diff = diffDays(new Date(event.due))
 		if(diff === 0){
 			if(event.can_apply){
 				event.can_apply = false
-				const participants = event.participants.map(participant => participant.name).join(", ")
+				const participants = event.participants.map((participant: participant):string => participant.name).join(", ")
 				MailApp.sendEmail({
 					to: "fairyski@freeml.com",
 					subject: `【フェアリースキークラブ】お知らせ: ${event.title}の参加申請を締め切りました`,

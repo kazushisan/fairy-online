@@ -1,8 +1,6 @@
 const path = require("path")
 const autoprefixer = require("autoprefixer")
 const cssnano = require("cssnano")
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = env => {
 	const isProduction = Boolean(env && env.production)
@@ -11,52 +9,21 @@ module.exports = env => {
 	return {
 		mode: isProduction ? 'production' : 'development',
 		devtool: isProduction ? 'source-map' : 'inline-source-map',
-		entry: path.resolve(__dirname, "src/index.js"),
+		entry: path.resolve(__dirname, "src/index.tsx"),
 		output: {
-			path: path.resolve(__dirname, "dist"),
+			path: path.resolve(__dirname, "public/static"),
 			filename: 'bundle.js'
 		},
-		plugins: [
-			new VueLoaderPlugin(),
-			new CopyWebpackPlugin([
-				{
-					from: 'src/index.html'
-				},
-				{
-					from: 'src/api.php',
-				},
-				{
-					from: 'src/auth.php'
-				}
-			])
-		],
 		module: {
 			rules: [
 				{
-					test: /\.vue$/,
-					loader: 'vue-loader'
-				},
-				{
-					test: /\.js$/,
-					exclude: /node_modules/,
-					loader: 'babel-loader'
-				},
-				{
-					test: /\.css$/,
-					use: [
-						'vue-style-loader',
-						{
-							loader: 'css-loader',
-							options: {
-								sourceMap: !isProduction
-							}
-						},
-					]
+					test: /\.tsx?$/,
+					loader: 'ts-loader'
 				},
 				{
 					test: /\.scss$/,
 					use: [
-						'vue-style-loader',
+						'style-loader',
 						{
 							loader: 'css-loader',
 							options: {
