@@ -36,16 +36,18 @@
     "webpack-cli": "^3.1.2"
   },
   "dependencies": {
-	"@types/google-apps-script": "^0.0.35",
-	"antd": "^3.12.4",
+    "@types/google-apps-script": "^0.0.35",
+    "@types/styled-components": "^4.1.6",
+    "antd": "^3.12.4",
     "axios": "^0.18.0",
     "file-saver": "^2.0.0",
     "mobx": "^5.9.0",
     "mobx-react": "^5.4.3",
-	"moment": "^2.24.0",
+    "moment": "^2.24.0",
     "react": "^16.7.0",
     "react-big-calendar": "^0.20.3",
     "react-dom": "^16.7.0",
-    "react-router-dom": "^4.3.1"
+    "react-router-dom": "^4.3.1",
+    "styled-components": "^4.1.3"
   }
 }
