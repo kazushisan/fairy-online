@@ -2,6 +2,7 @@ version: "3"
 services:
   web:
     build: ./docker
+    command: sh -c "httpd && echo Sever listening on localhost\:8000 && tail -f /var/www/logs/access.log"
     volumes:
       - ./node_modules:/var/www/node_modules
       - ./vendor:/var/www/vendor
@@ -10,3 +11,10 @@ services:
     working_dir: /var/www/html
     ports:
       - "8000:80"
+  node:
+    image: node:10.15-alpine
+    command: sh -c "yarn watch"
+    volumes:
+      - ./:/app
+    working_dir: /app
+
