@@ -3,7 +3,7 @@ import { observer } from 'mobx-react'
 import * as React from 'react'
 import styled from 'styled-components'
 import { File } from '../../entities/File'
-import { FileService } from '../../services/FileService'
+import * as FileApi from '../../services/FileApi'
 import { EventStore } from '../../stores/EventStore'
 import { EventParticipants } from './EventParticipants'
 import { Uploader } from './Uploader'
@@ -13,7 +13,6 @@ interface Props {
 	visible: boolean
 	onClose: () => void
 }
-const fileService = new FileService()
 
 const DrawerContents = styled.div`
 	overflow: scroll;
@@ -57,7 +56,7 @@ export class EventDetails extends React.Component<Props> {
 							dataSource={event.files}
 							renderItem={(file: File) => (
 								<List.Item
-									onClick={() => fileService.download(file)}
+									onClick={() => FileApi.download(file)}
 									actions={[
 										<a
 											href="javascript:;"

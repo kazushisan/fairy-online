@@ -12,10 +12,12 @@
   "license": "UNLICENSED",
   "devDependencies": {
     "@types/file-saver": "^2.0.0",
+    "@types/google-apps-script": "^0.0.35",
     "@types/react": "^16.7.20",
     "@types/react-big-calendar": "^0.20.2",
     "@types/react-dom": "^16.0.11",
     "@types/react-router-dom": "^4.3.1",
+    "@types/styled-components": "^4.1.6",
     "autoprefixer": "^9.3.1",
     "copy-webpack-plugin": "^4.5.4",
     "css-loader": "^1.0.0",
@@ -38,8 +40,6 @@
   },
   "dependencies": {
     "@google/clasp": "^2.0.1",
-    "@types/google-apps-script": "^0.0.35",
-    "@types/styled-components": "^4.1.6",
     "antd": "^3.12.4",
     "axios": "^0.18.0",
     "file-saver": "^2.0.0",
