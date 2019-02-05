@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { action, observable } from 'mobx'
+import { action, computed, observable } from 'mobx'
 // import * as moment from 'moment'
 import { Buttons } from '../entities/Buttons'
 import { Event } from '../entities/Event'
@@ -17,6 +17,22 @@ export class EventStore {
 	@observable public edit_event: Event = new Event()
 	@observable public is_admin: boolean = false
 
+	@computed public get deadlines() {
+		const deadlines: Event[] = []
+		if (this.events.length > 0) {
+			for (const event of this.events) {
+				if (event.due) {
+					const deadline = new Event()
+					deadline.title = event.title + '参加申請期限'
+					deadline.start = event.due
+					deadline.end = event.due
+					deadline.original_id = event.id
+					deadlines.push(deadline)
+				}
+			}
+		}
+		return deadlines
+	}
 	@action public async load() {
 		// const jwt: string | null = window.sessionStorage.getItem('fairy_jwt')
 		// if (jwt === null) {
@@ -90,7 +106,31 @@ export class EventStore {
 		this.add_participant = new Participant()
 		this.add_participant.id = this.generateID()
 	}
-	@action public generateID(): string {
+	@action public addPariticpant(): void {
+		// const jwt = window.sessionStorage.getItem('fairy_jwt')
+		this.add_participant.id = this.generateID()
+		axios
+			.post(
+				'/api.php',
+				{
+					data: this.add_participant,
+					event_id: this.event.id,
+					type: 'add_participant'
+				}
+				// {
+				// 	headers: { Authorization: 'Bearer ' + jwt }
+				// }
+			)
+			.then(response => {
+				this.events = response.data
+				this.setEvent(this.event.id)
+				this.add_participant = new Participant()
+			})
+			.catch(err => {
+				alert(err.response.data.message)
+			})
+	}
+	private generateID(): string {
 		const len = 20
 		// 生成する文字列に含める文字セット
 		const char = 'abcdefghijklmnopqrstuvwxyz0123456789'

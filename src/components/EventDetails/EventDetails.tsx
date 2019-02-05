@@ -23,7 +23,7 @@ export class EventDetails extends React.Component<Props> {
 		const { visible, eventStore, onClose } = this.props
 		const event = eventStore.event
 		const calcWidth = (): string =>
-			window.innerWidth < 1000 ? '100vw' : '1000px'
+			window.innerWidth < 600 ? '100vw' : '600px'
 		const width = calcWidth()
 		return (
 			<Drawer

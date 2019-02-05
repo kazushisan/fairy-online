@@ -55,7 +55,8 @@ export class Main extends React.Component<Props> {
 		const { eventStore, history } = this.props
 
 		const onSelectEvent = (event: Event) => {
-			history.push(`/event/${event.id}`)
+			const id = event.original_id ? event.original_id : event.id
+			history.push(`/event/${id}`)
 		}
 		const onClose = () => {
 			history.push(`/main`)
@@ -66,7 +67,7 @@ export class Main extends React.Component<Props> {
 					<h1>FOM: Fairy Online Manager</h1>
 				</Header>
 				<Calendar
-					events={eventStore.events}
+					events={[...eventStore.events, ...eventStore.deadlines]}
 					onSelectEvent={onSelectEvent}
 				/>
 				<EventDetails

@@ -1,15 +1,8 @@
-import {
-	Button,
-	// Checkbox,
-	// Input,
-	// InputNumber,
-	Popconfirm,
-	// Radio,
-	Table
-} from 'antd'
+import { Button, Popconfirm, Table } from 'antd'
 import { set } from 'mobx'
 import { observer } from 'mobx-react'
 import * as React from 'react'
+import styled from 'styled-components'
 import { Label } from '../../entities/Label'
 import { Participant } from '../../entities/Participant'
 import { EventStore } from '../../stores/EventStore'
@@ -22,11 +15,17 @@ interface State {
 	adding: boolean
 }
 const label = new Label()
+
+const ButtonWrap = styled.div`
+	margin: 16px 0;
+`
 @observer
 export class EventParticipants extends React.Component<Props, State> {
 	public state: State = {
 		adding: false
 	}
+	private formRef: any
+
 	public render() {
 		const { eventStore } = this.props
 		const { participants } = eventStore.event
@@ -34,129 +33,27 @@ export class EventParticipants extends React.Component<Props, State> {
 		const columns = [
 			{
 				dataIndex: 'name',
-				// render: (text: string, record: Participant, index: number) =>
-				// 	index === participants.length ? (
-				// 		<Input
-				// 			value={add_participant.name}
-				// 			onChange={e => {
-				// 				const modified: Participant = Object.assign(
-				// 					{},
-				// 					add_participant
-				// 				)
-				// 				modified.name = e.target.value
-				// 				set(eventStore, { add_participant: modified })
-				// 			}}
-				// 		/>
-				// 	) : (
-				// 		text
-				// 	),
 				title: label.name
 			},
 			{
 				dataIndex: 'affiliation',
-				// render: (text: string, record: Participant, index: number) =>
-				// 	index === participants.length ? (
-				// 		<Input
-				// 			value={add_participant.affiliation}
-				// 			onChange={e => {
-				// 				const modified: Participant = Object.assign(
-				// 					{},
-				// 					add_participant
-				// 				)
-				// 				modified.affiliation = e.target.value
-				// 				set(eventStore, { add_participant: modified })
-				// 			}}
-				// 		/>
-				// 	) : (
-				// 		text
-				// 	),
 				title: label.affiliation
 			},
 			{
 				dataIndex: 'age',
-				// render: (text: number, record: Participant, index: number) =>
-				// 	index === participants.length ? (
-				// 		<InputNumber
-				// 			value={add_participant.age}
-				// 			onChange={value => {
-				// 				const modified: Participant = Object.assign(
-				// 					{},
-				// 					add_participant
-				// 				)
-				// 				modified.age = value!
-				// 				set(eventStore, { add_participant: modified })
-				// 			}}
-				// 		/>
-				// 	) : (
-				// 		text
-				// 	),
 				title: label.age
 			},
 			{
 				dataIndex: 'sex',
-				// render: (text: 'M' | 'F', record: Participant, index: number) =>
-				// 	index === participants.length ? (
-				// 		<Radio.Group
-				// 			value={add_participant.sex}
-				// 			onChange={e => {
-				// 				const modified: Participant = Object.assign(
-				// 					{},
-				// 					add_participant
-				// 				)
-				// 				modified.sex = e.target.value
-				// 				set(eventStore, { add_participant: modified })
-				// 			}}
-				// 		>
-				// 			<Radio value="M">M</Radio>
-				// 			<Radio value="F">F</Radio>
-				// 		</Radio.Group>
-				// 	) : (
-				// 		text
-				// 	),
 				title: label.sex
 			},
 			{
 				dataIndex: 'can_drive',
-				// render: (text: boolean, record: Participant, index: number) =>
-				// 	index === participants.length ? (
-				// 		<Checkbox
-				// 			value={add_participant.can_drive}
-				// 			onChange={e => {
-				// 				const modified: Participant = Object.assign(
-				// 					{},
-				// 					add_participant
-				// 				)
-				// 				modified.can_drive = e.target.value
-				// 				set(eventStore, { add_participant: modified })
-				// 			}}
-				// 		>
-				// 			可能
-				// 		</Checkbox>
-				// 	) : text ? (
-				// 		'はい'
-				// 	) : (
-				// 		'いいえ'
-				// 	),
+				render: (can_drive: boolean) => (can_drive ? 'はい' : 'いいえ'),
 				title: label.can_drive
 			},
 			{
 				dataIndex: 'note',
-				// render: (text: string, record: Participant, index: number) =>
-				// 	index === participants.length ? (
-				// 		<Input.TextArea
-				// 			value={add_participant.note}
-				// 			onChange={e => {
-				// 				const modified: Participant = Object.assign(
-				// 					{},
-				// 					add_participant
-				// 				)
-				// 				modified.note = e.target.value
-				// 				set(eventStore, { add_participant: modified })
-				// 			}}
-				// 		/>
-				// 	) : (
-				// 		text
-				// 	),
 				title: label.note
 			},
 			{
@@ -176,14 +73,24 @@ export class EventParticipants extends React.Component<Props, State> {
 		const handleDelete = (id: string) => {
 			eventStore.removeParticipant(id)
 		}
-		const handleInit = (e: React.MouseEvent<HTMLElement>) => {
-			eventStore.initAddParticipant()
-		}
 		const handleFormChange = (values: object) => {
-			console.log(values)
 			set(eventStore, {
 				add_participant: Object.assign(add_participant, values)
 			})
+		}
+		const handleCreate = () => {
+			const form = this.formRef.props.form
+			form.validateFields((err: any, values: any) => {
+				if (!err) {
+					eventStore.addPariticpant()
+				}
+			})
+		}
+		const handleCancel = () => {
+			set(eventStore, {
+				add_participant: new Participant()
+			})
+			this.setState({ adding: false })
 		}
 		return (
 			<div>
@@ -193,16 +100,27 @@ export class EventParticipants extends React.Component<Props, State> {
 					rowKey={(row: Participant) => row.id}
 					pagination={false}
 					scroll={{ x: true }}
+					bordered
 				/>
-				<div>
-					<ParticipantForm
-						add_participant={add_participant}
-						onChange={handleFormChange}
-					/>
-				</div>
-				<Button type="primary" onClick={handleInit}>
-					追加
-				</Button>
+				<ParticipantForm
+					add_participant={add_participant}
+					onChange={handleFormChange}
+					wrappedComponentRef={(formRef: any) =>
+						(this.formRef = formRef)
+					}
+					onCreate={handleCreate}
+					onCancel={handleCancel}
+					visible={this.state.adding}
+					title={eventStore.event.title}
+				/>
+				<ButtonWrap>
+					<Button
+						type="primary"
+						onClick={() => this.setState({ adding: true })}
+					>
+						参加申請
+					</Button>
+				</ButtonWrap>
 			</div>
 		)
 	}
