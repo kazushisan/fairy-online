@@ -17,7 +17,7 @@ interface State {
 const label = new Label()
 
 const ButtonWrap = styled.div`
-	margin: 16px 0;
+	margin: 16px 0 0 0;
 `
 @observer
 export class EventParticipants extends React.Component<Props, State> {

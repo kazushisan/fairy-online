@@ -59,15 +59,50 @@ export class EventStore {
 			})
 	}
 
-	@action public handleFile(e: any): void {
-		const file = e.target!.files[0]
-		const reader = new FileReader()
-		reader.onload = (event: any) => {
-			this.file.name = file.name
-			this.file.data = event.target!.result!
-			this.file.id = this.generateID()
-		}
-		reader.readAsDataURL(file)
+	@action public async uploadFile(file: File) {
+		const jwt = window.sessionStorage.getItem('fairy_jwt')
+
+		await axios
+			.post(
+				'/api.php',
+				{
+					type: 'add_file',
+					file,
+					event_id: this.event.id
+				},
+				{
+					headers: { Authorization: 'Bearer ' + jwt }
+				}
+			)
+			.then(response => {
+				this.events = response.data
+				this.setEvent(this.event.id)
+			})
+			.catch(err => {
+				alert(err.response.data.message)
+			})
+	}
+	@action public removeFile(file: File) {
+		// const jwt = window.sessionStorage.getItem('fairy_jwt')
+		axios
+			.post(
+				'/api.php',
+				{
+					type: 'remove_file',
+					file_id: file.id,
+					event_id: this.event.id
+				}
+				// {
+				// 	  headers: { Authorization: "Bearer " + jwt }
+				// }
+			)
+			.then(response => {
+				this.events = response.data
+				this.setEvent(this.event.id)
+			})
+			.catch(err => {
+				alert(err.response.data.message)
+			})
 	}
 	@action public setEvent(id: string): void {
 		const event = this.events.find((item: Event) => item.id === id)
@@ -130,7 +165,7 @@ export class EventStore {
 				alert(err.response.data.message)
 			})
 	}
-	private generateID(): string {
+	@action public generateID(): string {
 		const len = 20
 		// 生成する文字列に含める文字セット
 		const char = 'abcdefghijklmnopqrstuvwxyz0123456789'

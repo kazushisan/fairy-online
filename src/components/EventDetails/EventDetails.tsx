@@ -1,10 +1,12 @@
-import { Divider, Drawer, List } from 'antd'
+import { Divider, Drawer, Empty, List } from 'antd'
 import { observer } from 'mobx-react'
 import * as React from 'react'
 import styled from 'styled-components'
+import { File } from '../../entities/File'
 import { FileService } from '../../services/FileService'
 import { EventStore } from '../../stores/EventStore'
 import { EventParticipants } from './EventParticipants'
+import { Uploader } from './Uploader'
 
 interface Props {
 	eventStore: EventStore
@@ -25,6 +27,14 @@ export class EventDetails extends React.Component<Props> {
 		const calcWidth = (): string =>
 			window.innerWidth < 600 ? '100vw' : '600px'
 		const width = calcWidth()
+
+		const handleDeleteFile = (
+			e: React.MouseEvent<HTMLAnchorElement>,
+			file: File
+		) => {
+			e.stopPropagation()
+			eventStore.removeFile(file)
+		}
 		return (
 			<Drawer
 				placement="right"
@@ -48,14 +58,27 @@ export class EventDetails extends React.Component<Props> {
 							renderItem={(file: File) => (
 								<List.Item
 									onClick={() => fileService.download(file)}
+									actions={[
+										<a
+											href="javascript:;"
+											onClick={(
+												e: React.MouseEvent<
+													HTMLAnchorElement
+												>
+											) => handleDeleteFile(e, file)}
+										>
+											削除
+										</a>
+									]}
 								>
 									{file.name}
 								</List.Item>
 							)}
 						/>
 					) : (
-						<p>資料はありません</p>
+						<Empty description={<span>資料はありません</span>} />
 					)}
+					<Uploader eventStore={eventStore} />
 					<Divider />
 					<EventParticipants eventStore={eventStore} />
 				</DrawerContents>
