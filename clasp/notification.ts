@@ -1,24 +1,30 @@
-type method = 'post' | 'get' | 'delete' | 'patch' | 'put'
-interface option {
-	method: method
-	contentType: string
-	payload: string
-	headers?: {
-		Authorization: string
-	}
+import { Event } from '../src/entities/Event'
+import { Participant } from '../src/entities/Participant'
+
+interface Options {
+	contentType?: string
+	headers?: object
+	method?: 'get' | 'delete' | 'patch' | 'post' | 'put'
+	payload?: string | object | Blob
+	validateHttpsCertificates?: boolean
+	followRedirects?: boolean
+	muteHttpExceptions?: boolean
+	escaping?: boolean
 }
+/* TODO: Optionsをきちんとimportしてくる */
+
 const baseUrl: string = 'https://www.stb.tsukuba.ac.jp/~fairyski/'
 
-const getEvents = (): { events: any; jwt: string } => {
+const getEvents = (): { events: Event[]; jwt: string } => {
 	const auth: { password: string } = {
 		password: 'fairyski2018'
 	}
-	const option: option = {
+	const options: Options = {
 		method: 'post',
 		contentType: 'application/json',
 		payload: JSON.stringify(auth)
 	}
-	let response = UrlFetchApp.fetch(baseUrl + 'auth.php', option)
+	let response = UrlFetchApp.fetch(baseUrl + 'auth.php', options)
 
 	const jwt = JSON.parse(response.getContentText('UTF-8')).jwt
 	response = UrlFetchApp.fetch(baseUrl + 'api.php', {
@@ -34,37 +40,17 @@ const diffDays = (day: Date): number => {
 	const MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000
 	return Math.ceil((day.getTime() - today.getTime()) / MILLISECONDS_PER_DAY)
 }
-interface participant {
-	id: string
-	name: string
-	year: string
-	sex: string
-	age: number
-	can_drive: boolean
-	note: string
-}
-interface event {
-	id: string
-	title: string
-	start: string
-	end: string
-	description: string
-	due: string
-	participants: participant[]
-	can_apply: boolean
-}
-
 function notification(): void {
 	const { events, jwt } = getEvents()
 	events.forEach(
-		(event: event): void => {
+		(event: Event): void => {
 			const diff = diffDays(new Date(event.due))
 			if (diff === 0) {
 				if (event.can_apply) {
 					event.can_apply = false
 					const participants = event.participants
 						.map(
-							(participant: participant): string =>
+							(participant: Participant): string =>
 								participant.name
 						)
 						.join(', ')
@@ -91,7 +77,7 @@ function notification(): void {
 					</html>
 					`
 					})
-					const option: option = {
+					const option: Options = {
 						method: 'post',
 						contentType: 'application/json',
 						payload: JSON.stringify({
