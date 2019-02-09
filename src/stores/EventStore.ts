@@ -9,18 +9,28 @@ import * as FileApi from '../services/FileApi'
 import * as ParticipantApi from '../services/ParticipantApi'
 
 export class EventStore {
-	@observable public file: File = new File()
-	@observable public buttons: Buttons = new Buttons()
-	@observable public label: Label = new Label()
-	@observable public add_participant: Participant = new Participant()
-	@observable public event: Event = new Event()
-	@observable public events: Event[] = []
-	@observable public edit_event: Event = new Event()
-	@observable public is_admin: boolean = false
+	@observable public file: File
+	@observable public buttons: Buttons
+	@observable public label: Label
+	@observable public add_participant: Participant
+	@observable public event: Event
+	@observable public events: Event[]
+	@observable public edit_event: Event
+	@observable public is_admin: boolean
 
+	constructor() {
+		this.file = new File()
+		this.buttons = new Buttons()
+		this.label = new Label()
+		this.add_participant = new Participant()
+		this.event = new Event()
+		this.events = []
+		this.edit_event = new Event()
+		this.is_admin = false
+	}
 	@computed public get deadlines() {
 		const deadlines: Event[] = []
-		if (this.events.length > 0) {
+		if (this.events && this.events.length > 0) {
 			for (const event of this.events) {
 				if (event.due) {
 					const deadline = new Event()
@@ -35,9 +45,11 @@ export class EventStore {
 		return deadlines
 	}
 	@action public async load() {
-		EventApi.getEvents()
+		await EventApi.getEvents()
 			.then(data => {
-				this.events = data
+				for(const item of data){
+					this.events.push(new Event(item))
+				}
 				this.setEvent(this.event.id)
 			})
 			.catch(err => {
@@ -46,7 +58,7 @@ export class EventStore {
 	}
 
 	@action public async uploadFile(file: File) {
-		FileApi.create(file, this.event.id)
+		await FileApi.create(file, this.event.id)
 			.then(data => {
 				this.events = data
 				this.setEvent(this.event.id)
@@ -55,8 +67,8 @@ export class EventStore {
 				console.log(err)
 			})
 	}
-	@action public removeFile(file: File) {
-		FileApi.remove(file, this.event.id)
+	@action public async removeFile(file: File) {
+		await FileApi.remove(file, this.event.id)
 			.then(data => {
 				this.events = data
 				this.setEvent(this.event.id)
@@ -78,7 +90,7 @@ export class EventStore {
 			this.event = new Event()
 		}
 	}
-	@action public async removeParticipant(id: Participant['id']) {
+	@action public removeParticipant(id: Participant['id']) {
 		// const jwt = window.sessionStorage.getItem('fairy_jwt')
 		ParticipantApi.remove(id, this.event.id)
 			.then(data => {
@@ -93,10 +105,10 @@ export class EventStore {
 		this.add_participant = new Participant()
 		this.add_participant.id = this.generateID()
 	}
-	@action public async addPariticpant() {
+	@action public addPariticpant() {
 		// const jwt = window.sessionStorage.getItem('fairy_jwt')
 		this.add_participant.id = this.generateID()
-		await ParticipantApi.add(this.add_participant, this.event.id)
+		ParticipantApi.add(this.add_participant, this.event.id)
 			.then(data => {
 				this.events = data
 				this.setEvent(this.event.id)

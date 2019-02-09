@@ -1,27 +1,26 @@
-import { action, computed, observable } from 'mobx'
-
-interface UserCredentails {
-	user_name: string
-	password: string
-}
+import { action, observable } from 'mobx'
+import { UserCredentails } from '../entities/UserCredentials'
+import * as UserApi from '../services/UserApi'
 
 export class UserStore {
-	@observable public user_name: string = ''
-	@observable public jwt: string = ''
+	@observable public user: string
+	@observable public jwt: string
 
-	@computed public get is_admin(): boolean {
-		if (this.jwt !== '') {
+	constructor() {
+		this.user = ''
+		this.jwt = ''
+	}
+	@action public async login(userCredentials: UserCredentails) {
+		await UserApi.login(userCredentials).then(jwt => {
+			this.jwt = jwt
 			const token_data = this.jwt
 				.split('.')[1]
 				.replace(/-/g, '+')
 				.replace(/_/g, '/')
-			return JSON.parse(atob(token_data)).user === 'admin'
-		} else {
-			return false
-		}
-	}
-	@action public login(userCredentials: UserCredentails) {
-		console.log(userCredentials)
+			this.user = JSON.parse(atob(token_data)).user
+		}).catch(err => {
+			window.alert(err)
+		})
 	}
 }
 

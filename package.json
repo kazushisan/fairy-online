@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf ./dist/* && cp .htaccess ./dist/ && webpack --env.production",
+    "build": "rm -rf ./public/static && webpack --env.production",
     "watch": "webpack --watch"
   },
   "author": "Kazushi Konosu",

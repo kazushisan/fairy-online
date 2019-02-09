@@ -9,10 +9,9 @@ header('Content-Type: application/json; charset=utf-8');
 try{
 	$key = "example_key1234fairyski";
 	$headers = getallheaders();
-	// $authorization = $headers['Authorization'];
-	// $jwt = explode(' ', $authorization)[1];
-	// $token = JWT::decode($jwt, $key, array('HS256'));
-
+	$authorization = $headers['Authorization'];
+	$jwt = explode(' ', $authorization)[1];
+	$token = JWT::decode($jwt, $key, array('HS256'));
 	switch($_SERVER["REQUEST_METHOD"]){
 		case "POST":
 			$filepath = '../data/events.json';

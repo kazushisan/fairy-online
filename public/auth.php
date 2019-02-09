@@ -12,11 +12,13 @@ try{
 	$json = json_decode(file_get_contents('php://input'));
 	$password = "fairyskisuki";
 	$password_admin = "fairyski2018";
+	$user = "general";
+	$admin = "admin";
 	$key = "example_key1234fairyski";
 	$current_time = time();
 	$expiry = $current_time + (24 * 60 * 60); 
 
-	if($json->password === $password){
+	if($json->user === $user && $json->password === $password){
 		$token = array(
 			"iat" => $current_time,
 			"exp" => $expiry,
@@ -27,7 +29,7 @@ try{
 			'message' => 'success',
 			'jwt' => $jwt
 		));
-	} else if($json->password === $password_admin){
+	} else if($json->user === $admin && $json->password === $password_admin){
 		$token = array(
 			"iat" => $current_time,
 			"exp" => $expiry,

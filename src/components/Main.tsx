@@ -6,6 +6,7 @@ import { Event } from '../entities/Event'
 import { EventStore } from '../stores/EventStore'
 import { Calendar } from './Calendar/Calendar'
 import { EventDetails } from './EventDetails/EventDetails'
+import { Header } from './Header/Header'
 
 interface MatchParams {
 	id?: string
@@ -17,17 +18,7 @@ interface Props extends RouteComponentProps<MatchParams> {
 const Container = styled.div`
 	display: block;
 `
-const Header = styled.header`
-	padding: 16px 8px 15px;
-	border-bottom: 1px #f5f5f5 solid;
-	h1 {
-		font-size: 16px;
-		line-height: 24px;
-		margin: 0;
-		font-weight: bold;
-		text-align: center;
-	}
-`
+
 @inject('eventStore')
 @(withRouter as any)
 @observer
@@ -63,9 +54,7 @@ export class Main extends React.Component<Props> {
 		}
 		return (
 			<Container>
-				<Header>
-					<h1>FOM: Fairy Online Manager</h1>
-				</Header>
+				<Header />
 				<Calendar
 					events={[...eventStore.events, ...eventStore.deadlines]}
 					onSelectEvent={onSelectEvent}
