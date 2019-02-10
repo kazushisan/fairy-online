@@ -27,7 +27,7 @@ export class EventDetails extends React.Component<Props> {
 		const { visible, eventStore, onClose, history, userStore } = this.props
 		const event = eventStore.event
 		const calcWidth = (): string =>
-			window.innerWidth < 600 ? '100vw' : '600px'
+			window.innerWidth < 800 ? '100vw' : '800px'
 		const width = calcWidth()
 		const isAdmin = userStore.user === 'admin'
 		return (

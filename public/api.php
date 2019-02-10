@@ -44,7 +44,7 @@ try{
 					$i = array_search($input["event_id"], $id_list);
 					$file_id_list = array_column($events[$i]["files"], 'id');
 					$file_i = array_search($input["file_id"], $file_id_list);
-					array_splice($events[$i]["files"], $files_i, 1);
+					array_splice($events[$i]["files"], $files_i + 1, 1);
 					break;
 				case "add_file":
 					$id_list = array_column($events, 'id');
@@ -52,7 +52,7 @@ try{
 					$data = preg_replace('/^data:(.+?)base64,/', '', $input["file"]["data"]);
 					$data = base64_decode($data);
 
-					if(!file_put_contents('../data/' . $input["file"]["id"], $data)) throw new Exception('failed to file operation');
+					if(!file_put_contents('../data/' . $input["file"]["id"], $data)) throw new Exception('failed file operation');
 					$events[$i]["files"][] = [
 						"name" => $input["file"]["name"],
 						"id" => $input["file"]["id"]
