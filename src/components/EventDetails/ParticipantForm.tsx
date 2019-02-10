@@ -12,24 +12,22 @@ interface Props extends FormComponentProps {
 	visible: boolean
 	title: string
 }
-
+const formItemLayout = {
+	labelCol: {
+		sm: { span: 8 },
+		xs: { span: 24 }
+	},
+	wrapperCol: {
+		sm: { span: 16 },
+		xs: { span: 24 }
+	}
+}
 const label = new Label()
 const Option = Select.Option
 class _ParticipantForm extends React.Component<Props> {
 	public render() {
 		const { visible, onCancel, onCreate, title } = this.props
 		const { getFieldDecorator } = this.props.form
-
-		const formItemLayout = {
-			labelCol: {
-				sm: { span: 8 },
-				xs: { span: 24 }
-			},
-			wrapperCol: {
-				sm: { span: 16 },
-				xs: { span: 24 }
-			}
-		}
 		return (
 			<Modal
 				visible={visible}

@@ -1,13 +1,12 @@
-import { Divider, Drawer, Empty, List } from 'antd'
+import { Divider, Drawer } from 'antd'
 import { observer } from 'mobx-react'
 import * as React from 'react'
 import styled from 'styled-components'
-import { File } from '../../entities/File'
 import { EventStore } from '../../stores/EventStore'
 import { EventParticipants } from './EventParticipants'
 import { Uploader } from './Uploader'
-import { handleError } from '../../services/handleError'
 import { History } from 'history'
+import { EventFiles } from './EventFiles';
 
 interface Props {
 	eventStore: EventStore
@@ -29,15 +28,6 @@ export class EventDetails extends React.Component<Props> {
 			window.innerWidth < 600 ? '100vw' : '600px'
 		const width = calcWidth()
 
-		const handleDeleteFile = async (
-			e: React.MouseEvent<HTMLAnchorElement>,
-			file: File
-		) => {
-			e.stopPropagation()
-			await eventStore
-				.removeFile(file)
-				.catch(err => handleError({ err, history }))
-		}
 		return (
 			<Drawer
 				placement="right"
@@ -54,39 +44,7 @@ export class EventDetails extends React.Component<Props> {
 						<p>{event.description}</p>
 					</div>
 					<Divider />
-					{event.files.length > 0 ? (
-						<List
-							bordered
-							dataSource={event.files}
-							renderItem={(file: File) => (
-								<List.Item
-									onClick={() =>
-										eventStore
-											.downloadFile(file)
-											.catch(err =>
-												handleError({ err, history })
-											)
-									}
-									actions={[
-										<a
-											href="javascript:;"
-											onClick={(
-												e: React.MouseEvent<
-													HTMLAnchorElement
-												>
-											) => handleDeleteFile(e, file)}
-										>
-											削除
-										</a>
-									]}
-								>
-									{file.name}
-								</List.Item>
-							)}
-						/>
-					) : (
-						<Empty description={<span>資料はありません</span>} />
-					)}
+					<EventFiles eventStore={eventStore} history={history} />
 					<Uploader eventStore={eventStore} history={history} />
 					<Divider />
 					<EventParticipants

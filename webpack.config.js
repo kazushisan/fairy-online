@@ -1,6 +1,7 @@
 const path = require("path")
 const autoprefixer = require("autoprefixer")
 const cssnano = require("cssnano")
+const webpack = require("webpack")
 
 module.exports = env => {
 	const isProduction = Boolean(env && env.production)
@@ -18,7 +19,8 @@ module.exports = env => {
 			rules: [
 				{
 					test: /\.tsx?$/,
-					loader: 'ts-loader'
+					loader: 'ts-loader',
+					exclude: /node_modules/
 				},
 				{
 					test: /\.scss$/,
@@ -69,6 +71,9 @@ module.exports = env => {
 			extensions: [
 				'.ts', '.tsx', '.js', '.json'
 			],
-		}
+		},
+		plugins: [
+			new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+		]
 	}
 }
