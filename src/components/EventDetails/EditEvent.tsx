@@ -38,7 +38,7 @@ export class EditEvent extends React.Component<Props> {
 					const editEvent = {
 						start: values.range[0].format('YYYY-MM-DD'),
 						end: values.range[1].format('YYYY-MM-DD'),
-						due: values.due.format('YYYY-MM-DD'),
+						due: values.due ? values.due.format('YYYY-MM-DD') : '',
 						can_apply: values.can_apply,
 						title: values.title,
 						description: values.description
@@ -86,7 +86,7 @@ export class EditEvent extends React.Component<Props> {
 				title: event.title,
 				description: event.description,
 				range: [moment(event.start), moment(event.end)],
-				due: event.due ? moment(event.due) : moment(),
+				due: event.due ? moment(event.due) : '',
 				can_apply: event.can_apply || false
 			})
 			this.setState({ visible: true })

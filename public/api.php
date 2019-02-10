@@ -38,13 +38,15 @@ try{
 					$events[] = $input["data"];
 					break;
 				case "remove_file":
-					if(!unlink('../data/' . $input["file_id"])) throw new Exception('failed file operation');
+					// if(!unlink('../data/' . $input["file_id"])) throw new Exception('failed file operation');
 
 					$id_list = array_column($events, 'id');
 					$i = array_search($input["event_id"], $id_list);
 					$file_id_list = array_column($events[$i]["files"], 'id');
 					$file_i = array_search($input["file_id"], $file_id_list);
-					array_splice($events[$i]["files"], $files_i + 1, 1);
+					unset($events[$i]["files"][$file_i]);
+					$events[$i]["files"]= array_values($events[$i]["files"]);
+					// array_splice($events[$i]["files"], $files_i + 1, 1);
 					break;
 				case "add_file":
 					$id_list = array_column($events, 'id');

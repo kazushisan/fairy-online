@@ -73,7 +73,7 @@ export class EventStore {
 	@action public async removeEvent(event_id: Event['id']) {
 		await EventApi.remove(event_id, userStore.jwt)
 			.then(data => {
-				this.assignEvents(data)
+				this.assignEvents(data, true)
 			})
 			.catch(err => {
 				throw err
@@ -165,14 +165,16 @@ export class EventStore {
 		}
 		return result
 	}
-	private assignEvents(data: Event[]) {
+	private assignEvents(data: Event[], unsetEvent?: boolean) {
 		this.events = []
 		const events = []
 		for (const item of data) {
 			events.push(new Event(item))
 		}
 		this.events = events
-		if (this.event.id) {
+		if (unsetEvent) {
+			this.unsetEvent()
+		} else if (this.event.id) {
 			this.setEvent(this.event.id)
 		}
 	}
