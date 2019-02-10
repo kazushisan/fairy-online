@@ -3,7 +3,8 @@ import * as React from 'react'
 import { EventStore } from '../../stores/EventStore'
 import { File } from '../../entities/File'
 import { handleError } from '../../services/handleError'
-import { History } from 'history';
+import { History } from 'history'
+
 interface Props {
 	eventStore: EventStore,
 	history: History

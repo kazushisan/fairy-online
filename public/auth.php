@@ -52,6 +52,3 @@ try{
 	}
 	echo '{"message":"' . $message . '"}';
 }
-
-?>
-

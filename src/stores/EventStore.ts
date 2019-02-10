@@ -58,6 +58,23 @@ export class EventStore {
 			})
 	}
 
+	@action public async editEvent(event: object) {
+		const mergedEvent = Object.assign(this.event, event) as Event
+
+		await EventApi.edit(mergedEvent, userStore.jwt).then(data => {
+			this.assignEvents(data)
+		}).catch(err => {
+			throw err
+		})
+	}
+	@action public async removeEvent(event_id: Event['id']) {
+		await EventApi.remove(event_id, userStore.jwt).then(data => {
+			this.assignEvents(data)
+		}).catch(err => {
+			throw err
+		})
+	}
+
 	@action public async uploadFile(file: File) {
 		await FileApi.create(file, this.event.id, userStore.jwt)
 			.then(data => {

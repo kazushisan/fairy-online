@@ -96,5 +96,3 @@ try{
 		echo '{"message":"' . $message . '"}';
 	}
 }
-
-?>
