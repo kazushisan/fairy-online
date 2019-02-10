@@ -55,14 +55,16 @@ module.exports = env => {
 					test: /\.svg$/,
 					loader: 'file-loader',
 					options: {
-						outputPath: 'assets/'
+						outputPath: 'assets/',
+						publicPath: 'static/assets/'
 					}
 				},
 				{
 					test:  /\.(png|jpg|gif)$/,
 					loader: 'file-loader',
 					options: {
-						outputPath: 'assets/'
+						outputPath: 'assets/',
+						publicPath: 'static/assets/'
 					}
 				}
 			]

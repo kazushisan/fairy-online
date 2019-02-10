@@ -23,6 +23,18 @@ const formItemLayout = {
 		xs: { span: 24 }
 	}
 }
+const tailFormItemLayout = {
+	wrapperCol: {
+		xs: {
+			span: 24,
+			offset: 0
+		},
+		sm: {
+			span: 16,
+			offset: 8
+		}
+	}
+}
 class _EventForm extends React.Component<Props> {
 	public render() {
 		const {
@@ -104,7 +116,7 @@ class _EventForm extends React.Component<Props> {
 					<Form.Item label="参加申請締切" {...formItemLayout}>
 						{getFieldDecorator('due', {})(<DatePicker />)}
 					</Form.Item>
-					<Form.Item {...formItemLayout}>
+					<Form.Item {...tailFormItemLayout}>
 						{getFieldDecorator('can_apply', {
 							valuePropName: 'checked'
 						})(<Checkbox>参加を受け付ける</Checkbox>)}

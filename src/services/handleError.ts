@@ -17,8 +17,9 @@ export const handleError = (props: Props) => {
 		const redirect = encodeURIComponent(history.location.pathname)
 		history.push(`/login?redirect=${redirect}`)
 	} else {
-		const status = err.status
-		const text = err.data.message || 'Unknown Error'
+		const status = err.status || 'Internal Error'
+		const text =
+			err.data && err.data.message ? err.data.message : 'Unknown Error'
 		console.log(err)
 		message.error(`${status}: ${text}`)
 	}

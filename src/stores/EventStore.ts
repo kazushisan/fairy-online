@@ -120,10 +120,10 @@ export class EventStore {
 	}
 	@action public setEvent(id: string): void {
 		const event = this.events.find((item: Event) => item.id === id)
-		if (event) {
+		if (event !== undefined) {
 			this.event = event
 		} else {
-			throw new Error('Event not found')
+			throw { data: { message: 'Event not Found' } }
 		}
 	}
 	@action public unsetEvent(): void {
@@ -176,7 +176,9 @@ export class EventStore {
 			events.push(new Event(item))
 		}
 		this.events = events
-		this.setEvent(this.event.id)
+		if (this.event.id) {
+			this.setEvent(this.event.id)
+		}
 	}
 }
 

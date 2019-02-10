@@ -32,9 +32,9 @@ export class Main extends React.Component<Props> {
 		const id = this.props.match.params.id
 
 		await eventStore.load().catch(err => handleError({ err, history }))
-		if (id !== undefined) {
+		if (id) {
 			try {
-				eventStore.setEvent(this.props.match.params.id!)
+				eventStore.setEvent(id)
 			} catch (err) {
 				message.error(err)
 				history.push('/main')
@@ -46,9 +46,9 @@ export class Main extends React.Component<Props> {
 			const { eventStore, history } = this.props
 			const id = this.props.match.params.id
 
-			if (id !== undefined) {
+			if (id) {
 				try {
-					eventStore.setEvent(this.props.match.params.id!)
+					eventStore.setEvent(id)
 				} catch (err) {
 					message.error(err)
 					history.push('/main')

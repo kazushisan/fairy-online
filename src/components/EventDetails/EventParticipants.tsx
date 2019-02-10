@@ -38,7 +38,8 @@ export class EventParticipants extends React.Component<Props, State> {
 		const columns: object[] = [
 			{
 				dataIndex: 'name',
-				title: label.name
+				title: label.name,
+				fixed: 'left'
 			},
 			{
 				dataIndex: 'affiliation',
