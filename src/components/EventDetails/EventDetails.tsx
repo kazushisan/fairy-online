@@ -66,6 +66,7 @@ export class EventDetails extends React.Component<Props> {
 						<Uploader eventStore={eventStore} history={history} />
 					)}
 					<Divider />
+					{event.can_apply && <h3>現在参加申請を受け付けています</h3>}
 					<EventParticipants
 						eventStore={eventStore}
 						history={history}

@@ -94,10 +94,10 @@ export class Home extends React.Component {
 									&copy; {year}{' '}
 									筑波大学体育会フェアリースキークラブ
 								</p>
-								<p>
+								<div>
 									<a href="https://www.tsukuba.ac.jp/">
 										筑波大学トップページ
-									</a>{' '}
+									</a>
 									<Divider type="vertical" />
 									<a href="https://www.stb.tsukuba.ac.jp/~taiikukai/">
 										筑波大学体育会
@@ -106,7 +106,7 @@ export class Home extends React.Component {
 									<Link to="/login">
 										FOM: Fairy Online Manager
 									</Link>
-								</p>
+								</div>
 							</div>
 						</div>
 					</footer>

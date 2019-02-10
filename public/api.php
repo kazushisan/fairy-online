@@ -7,7 +7,8 @@ use \Firebase\JWT\JWT;
 header('Content-Type: application/json; charset=utf-8');
 
 try{
-	$key = "example_key1234fairyski";
+	$passwords_file = json_decode(file_get_contents('../data/passwords.json'));
+	$key = $passwords_file->key;
 	$headers = getallheaders();
 	$authorization = $headers['Authorization'];
 	$jwt = explode(' ', $authorization)[1];

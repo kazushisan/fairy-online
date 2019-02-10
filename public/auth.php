@@ -10,15 +10,16 @@ try{
 	if($_SERVER["REQUEST_METHOD"] !== "POST") throw new Exception("bad request");
 
 	$json = json_decode(file_get_contents('php://input'));
-	$password = "fairyskisuki";
-	$password_admin = "fairyski2018";
+	$passwords_file = json_decode(file_get_contents('../data/passwords.json'));
+	$password = $passwords_file->general;
+	$password_admin = $passwords_file->admin;
 	$user = "general";
 	$admin = "admin";
-	$key = "example_key1234fairyski";
+	$key = $passwords_file->key;
 	$current_time = time();
 	$expiry = $current_time + (24 * 60 * 60); 
 
-	if($json->user === $user && $json->password === $password){
+	if($json->user === $user && password_verify($json->password, $password)){
 		$token = array(
 			"iat" => $current_time,
 			"exp" => $expiry,
@@ -29,7 +30,7 @@ try{
 			'message' => 'success',
 			'jwt' => $jwt
 		));
-	} else if($json->user === $admin && $json->password === $password_admin){
+	} else if($json->user === $admin && password_verify($json->password, $password_admin)){
 		$token = array(
 			"iat" => $current_time,
 			"exp" => $expiry,

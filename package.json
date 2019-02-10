@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf ./public/static && webpack --env.production",
-    "watch": "webpack --watch"
+    "build": "rm -rf ./public/static && cp ./misc/.htaccess.production ./public/.htaccess && webpack --env.production",
+    "watch": "rm -rf ./public/static && webpack --watch"
   },
   "author": "Kazushi Konosu",
   "license": "UNLICENSED",
