@@ -3,6 +3,7 @@ import { saveAs } from 'file-saver'
 import { Event } from '../entities/Event'
 import { File } from '../entities/File'
 import { userStore } from '../stores/UserStore'
+import { reject } from 'q';
 
 export const remove = (file: File, event_id: Event['id']): Promise<Event[]> =>
 	new Promise((resolve, reject) => {
@@ -22,7 +23,7 @@ export const remove = (file: File, event_id: Event['id']): Promise<Event[]> =>
 				resolve(response.data)
 			})
 			.catch(err => {
-				reject(err)
+				reject(err.response)
 			})
 	})
 
@@ -44,7 +45,7 @@ export const create = (file: File, event_id: Event['id']): Promise<Event[]> =>
 				resolve(response.data)
 			})
 			.catch(err => {
-				reject(err)
+				reject(err.response)
 			})
 	})
 
@@ -58,6 +59,6 @@ export const download = (file: File): void => {
 			saveAs(response.data, file.name)
 		})
 		.catch(err => {
-			alert('failed to retrive data')
+			reject(err.response)
 		})
 }

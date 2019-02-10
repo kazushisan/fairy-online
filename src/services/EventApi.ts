@@ -14,7 +14,6 @@ export const getEvents = (): Promise<Event[]> =>
 				resolve(response.data)
 			})
 			.catch(err => {
-				window.sessionStorage.removeItem('fairy_jwt')
-				reject(err)
+				reject(err.response)
 			})
 	})

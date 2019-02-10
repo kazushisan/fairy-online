@@ -19,7 +19,7 @@ export class UserStore {
 				.replace(/_/g, '/')
 			this.user = JSON.parse(atob(token_data)).user
 		}).catch(err => {
-			window.alert(err)
+			throw err
 		})
 	}
 }

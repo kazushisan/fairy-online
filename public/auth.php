@@ -46,7 +46,7 @@ try{
 }catch(Exception $e){
 	$message = $e->getMessage();
 	if($message == "bad request"){
-		http_response_code(400);	
+		http_response_code(400);
 	} else {
 		http_response_code(503);
 	}

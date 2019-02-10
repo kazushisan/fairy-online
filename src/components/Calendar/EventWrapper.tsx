@@ -5,12 +5,14 @@ import { EventWrapperProps } from 'react-big-calendar'
 // const Button = styled.div`
 // 	width: 100%;
 // `
+
+
 export class EventWrapper extends React.Component<EventWrapperProps> {
 	public render() {
 		const originalButton = React.Children.only(this.props.children)
 		const title = React.Children.only(originalButton.props.children).props
 			.title as string
-		const classes = originalButton.props.className
+		let classes = originalButton.props.className
 			.split(' ')
 			.filter((item: string) => {
 				return (
@@ -19,14 +21,16 @@ export class EventWrapper extends React.Component<EventWrapperProps> {
 				)
 			})
 			.join(' ')
+		if(title.match(/申請期限$/)) { 
+			classes += ' calendar-due-event'
+		}
 		return (
 			<Button
 				onClick={originalButton.props.onClick}
 				onDoubleClick={originalButton.props.onDoubleClick}
 				className={classes}
-				type={title.match(/申請期限$/) ? 'default' : 'primary'}
+				type='primary'
 				style={{
-					// backgroundColor: '#69c0ff',
 					textAlign: 'left',
 					width: '100%'
 				}}

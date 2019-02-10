@@ -47,34 +47,31 @@ export class EventStore {
 	@action public async load() {
 		await EventApi.getEvents()
 			.then(data => {
-				for(const item of data){
-					this.events.push(new Event(item))
-				}
-				this.setEvent(this.event.id)
+				this.assignEvents(data)
 			})
 			.catch(err => {
-				console.log(err)
+				throw err
 			})
 	}
 
 	@action public async uploadFile(file: File) {
 		await FileApi.create(file, this.event.id)
 			.then(data => {
-				this.events = data
-				this.setEvent(this.event.id)
+				this.assignEvents(data)
+
 			})
 			.catch(err => {
-				console.log(err)
+				throw err
 			})
 	}
 	@action public async removeFile(file: File) {
 		await FileApi.remove(file, this.event.id)
 			.then(data => {
-				this.events = data
-				this.setEvent(this.event.id)
+				this.assignEvents(data)
+
 			})
 			.catch(err => {
-				console.log(err)
+				throw err
 			})
 	}
 	@action public setEvent(id: string): void {
@@ -90,32 +87,28 @@ export class EventStore {
 			this.event = new Event()
 		}
 	}
-	@action public removeParticipant(id: Participant['id']) {
-		// const jwt = window.sessionStorage.getItem('fairy_jwt')
-		ParticipantApi.remove(id, this.event.id)
+	@action public async removeParticipant(id: Participant['id']) {
+		await ParticipantApi.remove(id, this.event.id)
 			.then(data => {
-				this.events = data
-				this.setEvent(this.event.id)
+				this.assignEvents(data)
 			})
 			.catch(err => {
-				window.alert(err)
+				throw err
 			})
 	}
 	@action public initAddParticipant(): void {
 		this.add_participant = new Participant()
 		this.add_participant.id = this.generateID()
 	}
-	@action public addPariticpant() {
-		// const jwt = window.sessionStorage.getItem('fairy_jwt')
+	@action public async addPariticpant() {
 		this.add_participant.id = this.generateID()
-		ParticipantApi.add(this.add_participant, this.event.id)
+		await ParticipantApi.add(this.add_participant, this.event.id)
 			.then(data => {
-				this.events = data
-				this.setEvent(this.event.id)
+				this.assignEvents(data)
 				this.add_participant = new Participant()
 			})
 			.catch(err => {
-				window.alert(err)
+				throw err
 			})
 	}
 	@action public generateID(): string {
@@ -127,6 +120,15 @@ export class EventStore {
 			result += char[Math.floor(Math.random() * char.length)]
 		}
 		return result
+	}
+	private assignEvents(data: Event[]) {
+		this.events = []
+		const events = []
+		for(const item of data){
+			events.push(new Event(item))
+		}
+		this.events = events
+		this.setEvent(this.event.id)		
 	}
 }
 

@@ -11,9 +11,10 @@ const ToolbarWrapper = styled.div`
 	padding: 16px 8px;
 	& > i {
 		flex-basis: auto;
-		flex-grow: 0;
+		flex-grow: 1;
 		flex-shrink: 0;
 		margin: 0;
+		cursor: pointer;
 	}
 	h3 {
 		flex-basis: auto;
@@ -22,6 +23,7 @@ const ToolbarWrapper = styled.div`
 		text-align: center;
 		margin: 0;
 		font-weight: bold;
+		cursor: pointer;
 	}
 `
 const iconStyle = {

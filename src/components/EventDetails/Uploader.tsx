@@ -2,10 +2,12 @@ import { Button, Card, Icon } from 'antd'
 import * as React from 'react'
 import { File } from '../../entities/File'
 import { EventStore } from '../../stores/EventStore'
-// import axios from 'axios'
+import { History } from 'history'
+import { handleError } from '../../services/handleError'
 
 interface Props {
 	eventStore: EventStore
+	history: History
 }
 interface State {
 	file: File
@@ -29,7 +31,7 @@ export class Uploader extends React.Component<Props> {
 		}
 	}
 	public render() {
-		const { eventStore } = this.props
+		const { eventStore, history } = this.props
 		const handleFile = (e: any) => {
 			const file = e.target.files[0]!
 			const reader = new FileReader()
@@ -47,7 +49,7 @@ export class Uploader extends React.Component<Props> {
 		const upload = async (e: React.MouseEvent<HTMLButtonElement>) => {
 			e.stopPropagation()
 			this.setState({ uploading: true })
-			await eventStore.uploadFile(this.state.file)
+			await eventStore.uploadFile(this.state.file).catch(err => handleError({ err, history }))
 			this.setState({ file: new File(), uploading: false })
 		}
 		return (

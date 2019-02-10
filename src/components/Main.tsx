@@ -7,6 +7,7 @@ import { EventStore } from '../stores/EventStore'
 import { Calendar } from './Calendar/Calendar'
 import { EventDetails } from './EventDetails/EventDetails'
 import { Header } from './Header/Header'
+import { handleError } from '../services/handleError'
 
 interface MatchParams {
 	id?: string
@@ -24,22 +25,24 @@ const Container = styled.div`
 @observer
 export class Main extends React.Component<Props> {
 	public async componentDidMount() {
-		const { eventStore } = this.props
+		const { eventStore, history } = this.props
 		const id = this.props.match.params.id
 
-		await eventStore.load()
+		await eventStore.load().catch(err => handleError({err, history }))
 		if (id !== undefined) {
 			eventStore.setEvent(this.props.match.params.id!)
 		}
 	}
-	public componentDidUpdate() {
-		const { eventStore } = this.props
-		const id = this.props.match.params.id
-
-		if (id !== undefined) {
-			eventStore.setEvent(this.props.match.params.id!)
-		} else {
-			eventStore.unsetEvent()
+	public componentDidUpdate(prevProps: Props) {
+		if(this.props.location.pathname !== prevProps.location.pathname) {
+			const { eventStore } = this.props
+			const id = this.props.match.params.id
+	
+			if (id !== undefined) {
+				eventStore.setEvent(this.props.match.params.id!)
+			} else {
+				eventStore.unsetEvent()
+			}
 		}
 	}
 	public render() {
@@ -63,6 +66,7 @@ export class Main extends React.Component<Props> {
 					eventStore={eventStore}
 					visible={eventStore.event.id !== ''}
 					onClose={onClose}
+					history={history}
 				/>
 			</Container>
 		)

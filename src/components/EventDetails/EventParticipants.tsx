@@ -7,9 +7,12 @@ import { Label } from '../../entities/Label'
 import { Participant } from '../../entities/Participant'
 import { EventStore } from '../../stores/EventStore'
 import { ParticipantForm } from './ParticipantForm'
+import { handleError } from '../../services/handleError';
+import { History } from 'history'
 
 interface Props {
 	eventStore: EventStore
+	history: History
 }
 interface State {
 	adding: boolean
@@ -27,7 +30,7 @@ export class EventParticipants extends React.Component<Props, State> {
 	private formRef: any
 
 	public render() {
-		const { eventStore } = this.props
+		const { eventStore, history } = this.props
 		const { participants } = eventStore.event
 		const { add_participant } = eventStore
 		const columns = [
@@ -70,8 +73,8 @@ export class EventParticipants extends React.Component<Props, State> {
 			}
 		]
 
-		const handleDelete = (id: string) => {
-			eventStore.removeParticipant(id)
+		const handleDelete = async (id: string) => {
+			await eventStore.removeParticipant(id).catch(err => handleError({ err, history }))
 		}
 		const handleFormChange = (values: object) => {
 			set(eventStore, {
@@ -82,7 +85,7 @@ export class EventParticipants extends React.Component<Props, State> {
 			const form = this.formRef.props.form
 			form.validateFields((err: any, values: any) => {
 				if (!err) {
-					eventStore.addPariticpant()
+					eventStore.addPariticpant().catch(err => handleError({ err, history }))
 				}
 			})
 		}

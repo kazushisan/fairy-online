@@ -24,7 +24,7 @@ export const remove = (
 				resolve(response.data)
 			})
 			.catch(err => {
-				reject(err)
+				reject(err.response)
 			})
 	})
 
@@ -49,6 +49,6 @@ export const add = (
 				resolve(response.data)
 			})
 			.catch(err => {
-				reject(err)
+				reject(err.response)
 			})
 	})
