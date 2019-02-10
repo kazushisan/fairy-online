@@ -58,7 +58,7 @@ export const create = (
 export const download = (file: File, jwt: string): Promise<void> =>
 	new Promise((resolve, reject) => {
 		axios
-			.get(`api.php?file=` + file.id, {
+			.get(`/api.php?file=` + file.id, {
 				headers: { Authorization: 'Bearer ' + jwt },
 				responseType: 'blob'
 			})

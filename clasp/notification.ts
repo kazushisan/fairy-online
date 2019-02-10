@@ -110,7 +110,9 @@ function notification(): void {
 				}の締め切りが近づいています</h1>
 				<p>${event.title}の締め切りは${
 						event.due
-					}です。参加を希望でまだ申請をされていない方は、<a href="${baseUrl}">FOM</a>より申請を行ってください。</p>
+					}です。参加を希望でまだ申請をされていない方は、<a href="${baseUrl}event/${
+						event.id
+					}">リンク</a>より申請を行ってください。</p>
 				</div>
 				<p style="text-align: center; font-size:12px;">このメールは自動で送信されています</p>
 				</body>
