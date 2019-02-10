@@ -11,6 +11,7 @@ export class Routes extends React.Component {
 				<Route exact path="/" component={Home} />
 				<Route exact path="/login" component={Login} />
 				<Route exact path="/main" component={Main} />
+				<Route exact path="/event" component={Main} />
 				<Route exact path="/event/:id" component={Main} />
 			</Switch>
 		)

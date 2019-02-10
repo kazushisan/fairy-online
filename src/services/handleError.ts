@@ -8,12 +8,11 @@ interface Props {
 
 export const handleError = (props: Props) => {
 	const { err, history } = props
-	console.log(err)
-	if(err.noJwt){
+	if (err.noJwt) {
 		message.warning('ログインしてください。')
 		const redirect = encodeURIComponent(history.location.pathname)
 		history.push(`/login?redirect=${redirect}`)
-	}else if(err.status === 400){
+	} else if (err.status === 400) {
 		message.warning('セッションの有効期限が切れました。')
 		const redirect = encodeURIComponent(history.location.pathname)
 		history.push(`/login?redirect=${redirect}`)

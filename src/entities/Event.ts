@@ -12,7 +12,7 @@ export class Event {
 	public 'files': File[]
 	public 'original_id': string
 	constructor(event?: Event) {
-		if(event){
+		if (event) {
 			this.id = event.id
 			this.title = event.title
 			this.start = event.start
@@ -23,7 +23,7 @@ export class Event {
 			this.participants = event.participants
 			this.files = event.files
 			this.original_id = event.original_id
-		}else{
+		} else {
 			this.id = ''
 			this.title = ''
 			this.start = ''
@@ -35,6 +35,5 @@ export class Event {
 			this.files = []
 			this.original_id = ''
 		}
-
 	}
 }

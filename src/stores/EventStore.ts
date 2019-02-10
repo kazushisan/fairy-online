@@ -46,7 +46,12 @@ export class EventStore {
 		return deadlines
 	}
 	@action public async load() {
-		if(!userStore.jwt) {
+		const jwt = window.sessionStorage.getItem('fairy_jwt')
+		if (!userStore.jwt && jwt) {
+			userStore.jwt = jwt!
+			userStore.setUserFromJwt()
+		}
+		if (!userStore.jwt) {
 			throw { noJwt: true }
 		}
 		await EventApi.getEvents(userStore.jwt)
@@ -61,25 +66,39 @@ export class EventStore {
 	@action public async editEvent(event: object) {
 		const mergedEvent = Object.assign(this.event, event) as Event
 
-		await EventApi.edit(mergedEvent, userStore.jwt).then(data => {
-			this.assignEvents(data)
-		}).catch(err => {
-			throw err
-		})
+		await EventApi.edit(mergedEvent, userStore.jwt)
+			.then(data => {
+				this.assignEvents(data)
+			})
+			.catch(err => {
+				throw err
+			})
 	}
 	@action public async removeEvent(event_id: Event['id']) {
-		await EventApi.remove(event_id, userStore.jwt).then(data => {
-			this.assignEvents(data)
-		}).catch(err => {
-			throw err
-		})
+		await EventApi.remove(event_id, userStore.jwt)
+			.then(data => {
+				this.assignEvents(data)
+			})
+			.catch(err => {
+				throw err
+			})
+	}
+
+	@action public async addEvent(event: Event) {
+		event.id = this.generateID()
+		await EventApi.add(event, userStore.jwt)
+			.then(data => {
+				this.assignEvents(data)
+			})
+			.catch(err => {
+				throw err
+			})
 	}
 
 	@action public async uploadFile(file: File) {
 		await FileApi.create(file, this.event.id, userStore.jwt)
 			.then(data => {
 				this.assignEvents(data)
-
 			})
 			.catch(err => {
 				throw err
@@ -89,7 +108,6 @@ export class EventStore {
 		await FileApi.remove(file, this.event.id, userStore.jwt)
 			.then(data => {
 				this.assignEvents(data)
-
 			})
 			.catch(err => {
 				throw err
@@ -102,10 +120,10 @@ export class EventStore {
 	}
 	@action public setEvent(id: string): void {
 		const event = this.events.find((item: Event) => item.id === id)
-		if (event !== undefined) {
+		if (event) {
 			this.event = event
 		} else {
-			this.event = new Event()
+			throw new Error('Event not found')
 		}
 	}
 	@action public unsetEvent(): void {
@@ -128,7 +146,11 @@ export class EventStore {
 	}
 	@action public async addPariticpant() {
 		this.add_participant.id = this.generateID()
-		await ParticipantApi.add(this.add_participant, this.event.id, userStore.jwt)
+		await ParticipantApi.add(
+			this.add_participant,
+			this.event.id,
+			userStore.jwt
+		)
 			.then(data => {
 				this.assignEvents(data)
 				this.add_participant = new Participant()
@@ -150,11 +172,11 @@ export class EventStore {
 	private assignEvents(data: Event[]) {
 		this.events = []
 		const events = []
-		for(const item of data){
+		for (const item of data) {
 			events.push(new Event(item))
 		}
 		this.events = events
-		this.setEvent(this.event.id)		
+		this.setEvent(this.event.id)
 	}
 }
 

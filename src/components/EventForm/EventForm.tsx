@@ -1,16 +1,16 @@
-import * as React from 'react'
+import { Button, Checkbox, DatePicker, Form, Input, Modal } from 'antd'
 import { FormComponentProps } from 'antd/lib/form'
-import { Button, DatePicker,Form, Input, Modal, Checkbox } from 'antd'
+import * as React from 'react'
 
 interface Props extends FormComponentProps {
 	visible: boolean
-	title?: string,
+	title?: string
 	onOk: () => void
 	onCancel: () => void
-	onDelete: () => void
+	onDelete?: () => void
 	loading: {
 		submit: boolean
-		delete: boolean
+		delete?: boolean
 	}
 }
 const formItemLayout = {
@@ -25,21 +25,50 @@ const formItemLayout = {
 }
 class _EventForm extends React.Component<Props> {
 	public render() {
-		const { visible, title, onOk, onCancel, onDelete, form, loading } = this.props
+		const {
+			visible,
+			title,
+			onOk,
+			onCancel,
+			onDelete,
+			form,
+			loading
+		} = this.props
 		const { getFieldDecorator } = form
+		const footer = [
+			<Button key="back" onClick={onCancel}>
+				キャンセル
+			</Button>,
+			<Button
+				key="submit"
+				type="primary"
+				onClick={onOk}
+				loading={loading.submit}
+			>
+				{title ? '変更する' : '作成する'}
+			</Button>
+		]
+		if (typeof onDelete === 'function') {
+			footer.splice(
+				1,
+				0,
+				<Button
+					key="delete"
+					type="danger"
+					onClick={onDelete}
+					loading={loading.delete}
+				>
+					イベントを削除
+				</Button>
+			)
+		}
 		return (
 			<Modal
 				visible={visible}
 				title={title || 'イベントを作成'}
 				onCancel={onCancel}
 				onOk={onOk}
-				footer={[
-					<Button key="back" onClick={onCancel}>キャンセル</Button>,
-					<Button key="delete" type="danger" onClick={onDelete} loading={loading.delete}>イベントを削除</Button>,	
-					<Button key="submit" type="primary" onClick={onOk} loading={loading.submit}>
-					  変更する
-					</Button>
-				]}
+				footer={footer}
 			>
 				<Form>
 					<Form.Item label="タイトル" {...formItemLayout}>
@@ -47,8 +76,7 @@ class _EventForm extends React.Component<Props> {
 							rules: [
 								{
 									required: true,
-									message:
-										'タイトルを入力してください'
+									message: 'タイトルを入力してください'
 								}
 							]
 						})(<Input />)}
@@ -58,8 +86,7 @@ class _EventForm extends React.Component<Props> {
 							rules: [
 								{
 									required: true,
-									message:
-										'説明を入力してください'
+									message: '説明を入力してください'
 								}
 							]
 						})(<Input.TextArea />)}
@@ -69,15 +96,13 @@ class _EventForm extends React.Component<Props> {
 							rules: [
 								{
 									required: true,
-									message:
-										'日程を入力してください'
+									message: '日程を入力してください'
 								}
 							]
 						})(<DatePicker.RangePicker />)}
 					</Form.Item>
 					<Form.Item label="参加申請締切" {...formItemLayout}>
-						{getFieldDecorator('due', {
-						})(<DatePicker />)}
+						{getFieldDecorator('due', {})(<DatePicker />)}
 					</Form.Item>
 					<Form.Item {...formItemLayout}>
 						{getFieldDecorator('can_apply', {

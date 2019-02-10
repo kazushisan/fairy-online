@@ -40,22 +40,44 @@ export const edit = (event: Event, jwt: string): Promise<Event[]> =>
 			})
 	})
 
-
-export const remove = (event_id: Event['id'], jwt: string): Promise<Event []> =>
+export const remove = (event_id: Event['id'], jwt: string): Promise<Event[]> =>
 	new Promise((resolve, reject) => {
-		axios.post(
-			'/api.php',
-			{
-				type: "remove_event",
-				event_id: event_id
-			}, 
-			{
-				  headers: { Authorization: "Bearer " + jwt }
-			}
-		).then(response => {
-			resolve(response.data)
-		})
-		.catch(err => {
-			reject(err.response)
-		})		
+		axios
+			.post(
+				'/api.php',
+				{
+					type: 'remove_event',
+					event_id
+				},
+				{
+					headers: { Authorization: 'Bearer ' + jwt }
+				}
+			)
+			.then(response => {
+				resolve(response.data)
+			})
+			.catch(err => {
+				reject(err.response)
+			})
+	})
+
+export const add = (event: Event, jwt: string): Promise<Event[]> =>
+	new Promise((resolve, reject) => {
+		axios
+			.post(
+				'/api.php',
+				{
+					type: 'add_event',
+					data: event
+				},
+				{
+					headers: { Authorization: 'Bearer ' + jwt }
+				}
+			)
+			.then(response => {
+				resolve(response.data)
+			})
+			.catch(err => {
+				reject(err.response)
+			})
 	})

@@ -1,9 +1,9 @@
 import { Button, Card, Icon } from 'antd'
+import { History } from 'history'
 import * as React from 'react'
 import { File } from '../../entities/File'
-import { EventStore } from '../../stores/EventStore'
-import { History } from 'history'
 import { handleError } from '../../services/handleError'
+import { EventStore } from '../../stores/EventStore'
 
 interface Props {
 	eventStore: EventStore
@@ -49,7 +49,9 @@ export class Uploader extends React.Component<Props> {
 		const upload = async (e: React.MouseEvent<HTMLButtonElement>) => {
 			e.stopPropagation()
 			this.setState({ uploading: true })
-			await eventStore.uploadFile(this.state.file).catch(err => handleError({ err, history }))
+			await eventStore
+				.uploadFile(this.state.file)
+				.catch(err => handleError({ err, history }))
 			this.setState({ file: new File(), uploading: false })
 		}
 		return (

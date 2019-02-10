@@ -17,7 +17,7 @@ const components = {
 	toolbar: Toolbar
 }
 const CalendarWrapper = styled.div`
-	height: calc(100vh - 56px);
+	height: calc(100vh - 55px);
 	background-color: #fafafa;
 	// border-bottom: 1px #f5f5f5 solid;
 	box-sizing: border-box;

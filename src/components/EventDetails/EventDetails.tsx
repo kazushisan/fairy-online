@@ -1,13 +1,13 @@
 import { Divider, Drawer } from 'antd'
+import { History } from 'history'
 import { observer } from 'mobx-react'
 import * as React from 'react'
 import styled from 'styled-components'
 import { EventStore } from '../../stores/EventStore'
+import { EditEvent } from './EditEvent'
+import { EventFiles } from './EventFiles'
 import { EventParticipants } from './EventParticipants'
 import { Uploader } from './Uploader'
-import { History } from 'history'
-import { EventFiles } from './EventFiles';
-import { EditEventForm } from './EditEventForm'
 
 interface Props {
 	eventStore: EventStore
@@ -43,7 +43,7 @@ export class EventDetails extends React.Component<Props> {
 						<p>終了: {event.end}</p>
 						<p>{event.description}</p>
 					</div>
-					<EditEventForm  eventStore={eventStore} history={history} />
+					<EditEvent eventStore={eventStore} history={history} />
 					<Divider />
 					<EventFiles eventStore={eventStore} history={history} />
 					<Uploader eventStore={eventStore} history={history} />

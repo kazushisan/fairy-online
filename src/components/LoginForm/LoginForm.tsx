@@ -1,9 +1,9 @@
-import { Form, Icon, Input, Button, message } from 'antd'
-import { History } from 'history'
+import { Button, Form, Icon, Input, message } from 'antd'
 import { FormComponentProps } from 'antd/lib/form'
+import { History } from 'history'
+import { parse } from 'query-string'
 import * as React from 'react'
 import { UserStore } from '../../stores/UserStore'
-import { parse } from 'query-string'
 
 const style = {
 	form: {
@@ -29,37 +29,43 @@ class _LoginForm extends React.Component<Props, State> {
 		super(props)
 		this.handleSubmit = this.handleSubmit.bind(this)
 	}
-	async handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+	public async handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
 		const { userStore, history, form } = this.props
-		await new Promise((resolve) => 
-			form.validateFields(async (err, values) => {
-				if (!err) {
+		await new Promise(resolve =>
+			form.validateFields(async (error, values) => {
+				if (!error) {
 					this.setState({ loading: true })
-					await userStore.login(values).then(() => {
-						message.success('ログインしました')
-						const redirect = parse(history.location.search).redirect
-						if(redirect){
-							history.push(decodeURIComponent(redirect as string))
-						} else {
-							history.push('/main')
-						}
-					}).catch(err => {
-						this.setState({ loading: false })
-						if(err.status === 400){
-							message.error('ユーザ情報が正しくありません。')
-						} else {
-							const text = err.data.message || 'Unknown Error'
-							const status = err.status
-							message.error(`${status}: ${text}`)
-						}
-					})
+					await userStore
+						.login(values)
+						.then(() => {
+							message.success('ログインしました')
+							const redirect = parse(history.location.search)
+								.redirect
+							if (redirect) {
+								history.push(
+									decodeURIComponent(redirect as string)
+								)
+							} else {
+								history.push('/main')
+							}
+						})
+						.catch(err => {
+							this.setState({ loading: false })
+							if (err.status === 400) {
+								message.error('ユーザ情報が正しくありません。')
+							} else {
+								const text = err.data.message || 'Unknown Error'
+								const status = err.status
+								message.error(`${status}: ${text}`)
+							}
+						})
 					resolve()
 				}
 			})
 		)
 	}
-	render() {
+	public render() {
 		const { getFieldDecorator } = this.props.form
 		return (
 			<Form onSubmit={this.handleSubmit} style={style.form}>

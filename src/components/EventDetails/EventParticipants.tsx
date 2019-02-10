@@ -1,14 +1,14 @@
 import { Button, Popconfirm, Table } from 'antd'
+import { History } from 'history'
 import { set } from 'mobx'
 import { observer } from 'mobx-react'
 import * as React from 'react'
 import styled from 'styled-components'
 import { Label } from '../../entities/Label'
 import { Participant } from '../../entities/Participant'
+import { handleError } from '../../services/handleError'
 import { EventStore } from '../../stores/EventStore'
 import { ParticipantForm } from './ParticipantForm'
-import { handleError } from '../../services/handleError';
-import { History } from 'history'
 
 interface Props {
 	eventStore: EventStore
@@ -74,7 +74,9 @@ export class EventParticipants extends React.Component<Props, State> {
 		]
 
 		const handleDelete = async (id: string) => {
-			await eventStore.removeParticipant(id).catch(err => handleError({ err, history }))
+			await eventStore
+				.removeParticipant(id)
+				.catch(err => handleError({ err, history }))
 		}
 		const handleFormChange = (values: object) => {
 			set(eventStore, {
@@ -83,9 +85,11 @@ export class EventParticipants extends React.Component<Props, State> {
 		}
 		const handleCreate = () => {
 			const form = this.formRef.props.form
-			form.validateFields((err: any, values: any) => {
-				if (!err) {
-					eventStore.addPariticpant().catch(err => handleError({ err, history }))
+			form.validateFields((error: any, values: any) => {
+				if (!error) {
+					eventStore
+						.addPariticpant()
+						.catch(err => handleError({ err, history }))
 				}
 			})
 		}

@@ -1,17 +1,17 @@
 import { Empty, List } from 'antd'
+import { History } from 'history'
 import * as React from 'react'
-import { EventStore } from '../../stores/EventStore'
 import { File } from '../../entities/File'
 import { handleError } from '../../services/handleError'
-import { History } from 'history'
+import { EventStore } from '../../stores/EventStore'
 
 interface Props {
-	eventStore: EventStore,
+	eventStore: EventStore
 	history: History
 }
 
 export class EventFiles extends React.Component<Props> {
-	render() {
+	public render() {
 		const { eventStore, history } = this.props
 		const { event } = eventStore
 
