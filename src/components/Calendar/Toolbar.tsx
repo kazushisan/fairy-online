@@ -11,7 +11,7 @@ const ToolbarWrapper = styled.div`
 	padding: 16px 8px;
 	& > i {
 		flex-basis: auto;
-		flex-grow: 1;
+		flex-grow: 0;
 		flex-shrink: 0;
 		margin: 0;
 		cursor: pointer;
