@@ -13,6 +13,7 @@ import { ParticipantForm } from './ParticipantForm'
 interface Props {
 	eventStore: EventStore
 	history: History
+	canDelete: boolean
 }
 interface State {
 	adding: boolean
@@ -30,10 +31,11 @@ export class EventParticipants extends React.Component<Props, State> {
 	private formRef: any
 
 	public render() {
-		const { eventStore, history } = this.props
+		const { eventStore, history, canDelete } = this.props
 		const { participants } = eventStore.event
 		const { add_participant } = eventStore
-		const columns = [
+
+		const columns: object[] = [
 			{
 				dataIndex: 'name',
 				title: label.name
@@ -72,6 +74,9 @@ export class EventParticipants extends React.Component<Props, State> {
 				title: '操作'
 			}
 		]
+		if (!canDelete) {
+			columns.pop()
+		}
 
 		const handleDelete = async (id: string) => {
 			await eventStore
@@ -109,25 +114,29 @@ export class EventParticipants extends React.Component<Props, State> {
 					scroll={{ x: true }}
 					bordered
 				/>
-				<ParticipantForm
-					add_participant={add_participant}
-					onChange={handleFormChange}
-					wrappedComponentRef={(formRef: any) =>
-						(this.formRef = formRef)
-					}
-					onCreate={handleCreate}
-					onCancel={handleCancel}
-					visible={this.state.adding}
-					title={eventStore.event.title}
-				/>
-				<ButtonWrap>
-					<Button
-						type="primary"
-						onClick={() => this.setState({ adding: true })}
-					>
-						参加申請
-					</Button>
-				</ButtonWrap>
+				{eventStore.event.can_apply && (
+					<div>
+						<ParticipantForm
+							add_participant={add_participant}
+							onChange={handleFormChange}
+							wrappedComponentRef={(formRef: any) =>
+								(this.formRef = formRef)
+							}
+							onCreate={handleCreate}
+							onCancel={handleCancel}
+							visible={this.state.adding}
+							title={eventStore.event.title}
+						/>
+						<ButtonWrap>
+							<Button
+								type="primary"
+								onClick={() => this.setState({ adding: true })}
+							>
+								参加申請
+							</Button>
+						</ButtonWrap>
+					</div>
+				)}
 			</div>
 		)
 	}

@@ -18,6 +18,7 @@ const components = {
 }
 const CalendarWrapper = styled.div`
 	height: calc(100vh - 55px);
+	min-height: 500px;
 	background-color: #fafafa;
 	// border-bottom: 1px #f5f5f5 solid;
 	box-sizing: border-box;

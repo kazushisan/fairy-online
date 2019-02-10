@@ -81,6 +81,7 @@ export class Main extends React.Component<Props> {
 				/>
 				<EventDetails
 					eventStore={eventStore}
+					userStore={userStore}
 					visible={eventStore.event.id !== ''}
 					onClose={onClose}
 					history={history}

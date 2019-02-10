@@ -7,7 +7,7 @@ import { EventStore } from '../../stores/EventStore'
 import { UserStore } from '../../stores/UserStore'
 
 const HeaderContainer = styled.header`
-	padding: 11px 8px 11px;
+	padding: 11px 16px 11px;
 	border-bottom: 1px #e8e8e8 solid;
 	display: flex;
 	justify-content: space-between;
@@ -16,7 +16,7 @@ const HeaderContainer = styled.header`
 		line-height: 24px;
 		margin: 0;
 		font-weight: bold;
-		text-align: center;
+		text-align: left;
 		flex-basis: auto;
 		padding: 4px 0;
 		flex-grow: 1;
@@ -63,11 +63,6 @@ export class Header extends React.Component<Props> {
 		)
 		return (
 			<HeaderContainer>
-				<MenuWrap>
-					<Button onClick={() => history.goBack()}>
-						<Icon type="left" />
-					</Button>
-				</MenuWrap>
 				<h1>FOM: Fairy Online Manager</h1>
 				{userStore.user && (
 					<MenuWrap>

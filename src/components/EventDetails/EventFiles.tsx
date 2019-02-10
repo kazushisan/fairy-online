@@ -8,11 +8,12 @@ import { EventStore } from '../../stores/EventStore'
 interface Props {
 	eventStore: EventStore
 	history: History
+	canDelete: boolean
 }
 
 export class EventFiles extends React.Component<Props> {
 	public render() {
-		const { eventStore, history } = this.props
+		const { eventStore, history, canDelete } = this.props
 		const { event } = eventStore
 
 		const handleDeleteFile = async (
@@ -39,18 +40,27 @@ export class EventFiles extends React.Component<Props> {
 											handleError({ err, history })
 										)
 								}
-								actions={[
-									<a
-										href="javascript:;"
-										onClick={(
-											e: React.MouseEvent<
-												HTMLAnchorElement
-											>
-										) => handleDeleteFile(e, file)}
-									>
-										削除
-									</a>
-								]}
+								actions={
+									canDelete
+										? [
+												<a
+													href="javascript:;"
+													onClick={(
+														e: React.MouseEvent<
+															HTMLAnchorElement
+														>
+													) =>
+														handleDeleteFile(
+															e,
+															file
+														)
+													}
+												>
+													削除
+												</a>
+										  ]
+										: []
+								}
 							>
 								{file.name}
 							</List.Item>

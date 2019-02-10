@@ -76,7 +76,8 @@ class _LoginForm extends React.Component<Props, State> {
 								required: true,
 								message: 'ユーザ名を入力してください'
 							}
-						]
+						],
+						initialValue: 'general'
 					})(
 						<Input
 							prefix={

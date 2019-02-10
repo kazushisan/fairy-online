@@ -17,6 +17,9 @@ const LoginFormWrapper = styled.div`
 	margin: 64px auto;
 	max-width: 332px;
 `
+const Heading = styled.h2`
+	margin: 16px;
+`
 @inject('userStore', 'eventStore')
 @(withRouter as any)
 @observer
@@ -32,6 +35,11 @@ export class Login extends React.Component<Props> {
 				/>
 				<div className="login">
 					<LoginFormWrapper>
+						<Heading>
+							FOM: Fairy Online Manager
+							<br />
+							にログイン
+						</Heading>
 						<LoginForm userStore={userStore} history={history} />
 					</LoginFormWrapper>
 				</div>
