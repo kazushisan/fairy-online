@@ -16,8 +16,6 @@ export class EventStore {
 	@observable public add_participant: Participant
 	@observable public event: Event
 	@observable public events: Event[]
-	@observable public edit_event: Event
-	@observable public is_admin: boolean
 
 	constructor() {
 		this.file = new File()
@@ -26,8 +24,6 @@ export class EventStore {
 		this.add_participant = new Participant()
 		this.event = new Event()
 		this.events = []
-		this.edit_event = new Event()
-		this.is_admin = false
 	}
 	@computed public get deadlines() {
 		const deadlines: Event[] = []

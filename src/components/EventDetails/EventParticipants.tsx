@@ -95,6 +95,9 @@ export class EventParticipants extends React.Component<Props, State> {
 				if (!error) {
 					eventStore
 						.addPariticpant()
+						.then(() => {
+							this.setState({ adding: false })
+						})
 						.catch(err => handleError({ err, history }))
 				}
 			})
