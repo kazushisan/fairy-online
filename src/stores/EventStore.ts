@@ -7,6 +7,7 @@ import { Participant } from '../entities/Participant'
 import * as EventApi from '../services/EventApi'
 import * as FileApi from '../services/FileApi'
 import * as ParticipantApi from '../services/ParticipantApi'
+import { userStore } from './UserStore'
 
 export class EventStore {
 	@observable public file: File
@@ -45,7 +46,10 @@ export class EventStore {
 		return deadlines
 	}
 	@action public async load() {
-		await EventApi.getEvents()
+		if(!userStore.jwt) {
+			throw { noJwt: true }
+		}
+		await EventApi.getEvents(userStore.jwt)
 			.then(data => {
 				this.assignEvents(data)
 			})
@@ -55,7 +59,7 @@ export class EventStore {
 	}
 
 	@action public async uploadFile(file: File) {
-		await FileApi.create(file, this.event.id)
+		await FileApi.create(file, this.event.id, userStore.jwt)
 			.then(data => {
 				this.assignEvents(data)
 
@@ -65,7 +69,7 @@ export class EventStore {
 			})
 	}
 	@action public async removeFile(file: File) {
-		await FileApi.remove(file, this.event.id)
+		await FileApi.remove(file, this.event.id, userStore.jwt)
 			.then(data => {
 				this.assignEvents(data)
 
@@ -73,6 +77,11 @@ export class EventStore {
 			.catch(err => {
 				throw err
 			})
+	}
+	@action public async downloadFile(file: File) {
+		await FileApi.download(file, userStore.jwt).catch(err => {
+			throw err
+		})
 	}
 	@action public setEvent(id: string): void {
 		const event = this.events.find((item: Event) => item.id === id)
@@ -88,7 +97,7 @@ export class EventStore {
 		}
 	}
 	@action public async removeParticipant(id: Participant['id']) {
-		await ParticipantApi.remove(id, this.event.id)
+		await ParticipantApi.remove(id, this.event.id, userStore.jwt)
 			.then(data => {
 				this.assignEvents(data)
 			})
@@ -102,7 +111,7 @@ export class EventStore {
 	}
 	@action public async addPariticpant() {
 		this.add_participant.id = this.generateID()
-		await ParticipantApi.add(this.add_participant, this.event.id)
+		await ParticipantApi.add(this.add_participant, this.event.id, userStore.jwt)
 			.then(data => {
 				this.assignEvents(data)
 				this.add_participant = new Participant()

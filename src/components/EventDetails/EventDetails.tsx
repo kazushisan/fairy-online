@@ -3,13 +3,12 @@ import { observer } from 'mobx-react'
 import * as React from 'react'
 import styled from 'styled-components'
 import { File } from '../../entities/File'
-import * as FileApi from '../../services/FileApi'
 import { EventStore } from '../../stores/EventStore'
 import { EventParticipants } from './EventParticipants'
 import { Uploader } from './Uploader'
 import { handleError } from '../../services/handleError'
 import { History } from 'history'
- 
+
 interface Props {
 	eventStore: EventStore
 	history: History
@@ -35,7 +34,9 @@ export class EventDetails extends React.Component<Props> {
 			file: File
 		) => {
 			e.stopPropagation()
-			await eventStore.removeFile(file).catch(err => handleError({ err, history }))
+			await eventStore
+				.removeFile(file)
+				.catch(err => handleError({ err, history }))
 		}
 		return (
 			<Drawer
@@ -59,7 +60,13 @@ export class EventDetails extends React.Component<Props> {
 							dataSource={event.files}
 							renderItem={(file: File) => (
 								<List.Item
-									onClick={() => FileApi.download(file)}
+									onClick={() =>
+										eventStore
+											.downloadFile(file)
+											.catch(err =>
+												handleError({ err, history })
+											)
+									}
 									actions={[
 										<a
 											href="javascript:;"
@@ -82,7 +89,10 @@ export class EventDetails extends React.Component<Props> {
 					)}
 					<Uploader eventStore={eventStore} history={history} />
 					<Divider />
-					<EventParticipants eventStore={eventStore} history={history} />
+					<EventParticipants
+						eventStore={eventStore}
+						history={history}
+					/>
 				</DrawerContents>
 			</Drawer>
 		)

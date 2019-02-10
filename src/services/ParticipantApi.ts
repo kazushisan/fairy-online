@@ -1,11 +1,11 @@
 import axios from 'axios'
 import { Event } from '../entities/Event'
 import { Participant } from '../entities/Participant'
-import { userStore } from '../stores/UserStore'
 
 export const remove = (
 	id: Participant['id'],
-	event_id: Event['id']
+	event_id: Event['id'],
+	jwt: string
 ): Promise<Event[]> =>
 	new Promise((resolve, reject) => {
 		axios
@@ -17,7 +17,7 @@ export const remove = (
 					type: 'remove_participant'
 				},
 				{
-					headers: { Authorization: 'Bearer ' + userStore.jwt }
+					headers: { Authorization: 'Bearer ' + jwt }
 				}
 			)
 			.then(response => {
@@ -30,7 +30,8 @@ export const remove = (
 
 export const add = (
 	participant: Participant,
-	event_id: Event['id']
+	event_id: Event['id'],
+	jwt: string
 ): Promise<Event[]> =>
 	new Promise((resolve, reject) => {
 		axios
@@ -42,7 +43,7 @@ export const add = (
 					type: 'add_participant'
 				},
 				{
-					headers: { Authorization: 'Bearer ' + userStore.jwt }
+					headers: { Authorization: 'Bearer ' + jwt }
 				}
 			)
 			.then(response => {
