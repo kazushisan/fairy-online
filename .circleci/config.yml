@@ -6,7 +6,7 @@ executors:
     working_directory: ~/project
   php:
     docker:
-      -image: circleci/php:7.2
+      - image: circleci/php:7.2
     working_directory: ~/project
 jobs:
   test:
