@@ -86,7 +86,7 @@ export class EditEvent extends React.Component<Props> {
 				title: event.title,
 				description: event.description,
 				range: [moment(event.start), moment(event.end)],
-				due: event.due ? moment(event.due) : '',
+				due: event.due ? moment(event.due) : {},
 				can_apply: event.can_apply || false
 			})
 			this.setState({ visible: true })
