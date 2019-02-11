@@ -86,9 +86,13 @@ export class EditEvent extends React.Component<Props> {
 				title: event.title,
 				description: event.description,
 				range: [moment(event.start), moment(event.end)],
-				due: event.due ? moment(event.due) : {},
 				can_apply: event.can_apply || false
 			})
+			if (event.due) {
+				this.formRef.props.form.setFieldsValue({
+					due: moment(event.due)
+				})
+			}
 			this.setState({ visible: true })
 		}
 

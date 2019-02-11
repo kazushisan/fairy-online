@@ -1,0 +1,84 @@
+version: 2.1
+executors:
+  nodejs:
+    docker:
+      - image: circleci/node:10.15.0
+    working_directory: ~/project
+  php:
+    docker:
+      -image: circleci/php:7.2
+    working_directory: ~/project
+jobs:
+  test:
+    executor: nodejs
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install Yarn Packges
+          command: yarn
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+      - run:
+          name: Test files using eslint
+          command: yarn test
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  php_build:
+    executor: php
+    steps:
+      - attach_workspace:
+          at: .   
+      - run: sudo composer self-update
+      - restore_cache: 
+          keys:
+            - composer-v1-{{ checksum "composer.lock" }}
+            - composer-v1-
+      - run: composer install -n --prefer-dist
+      - save_cache:
+          key: composer-v1-{{ checksum "composer.lock" }}
+          paths:
+            - vendor
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  deploy:
+    executor: nodejs
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: build
+          command: yarn build
+      - run:
+          name: copy public directory to stb server
+          command: lftp -u $STB_USER,$STB_PASSWORD -e "mirror -Rev public/. public_html/." sftp://www.stb.tsukuba.ac.jp
+      - run:
+          name: copy vendor directory to stb server
+          command: lftp -u $STB_USER,$STB_PASSWORD -e "mirror -Rev vendor/. vendor/." sftp://www.stb.tsukuba.ac.jp
+workflows:
+  version: 2.1
+  main_workflow:
+    jobs:
+      - test
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
+      - deploy:
+          requires:
+            - php_build
+          filters:
+            branches:
+              only: master
