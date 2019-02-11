@@ -2,14 +2,25 @@ const path = require("path")
 const autoprefixer = require("autoprefixer")
 const cssnano = require("cssnano")
 const webpack = require("webpack")
+const CompressionPlugin = require('compression-webpack-plugin')
+
+
+
 
 module.exports = env => {
 	const isProduction = Boolean(env && env.production)
 	console.log('Production: ', isProduction)
 
+	const plugins = [
+		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+	]
+	if(isProduction){
+		plugins.push(new CompressionPlugin())
+	}
+
 	return {
 		mode: isProduction ? 'production' : 'development',
-		devtool: isProduction ? 'source-map' : 'inline-source-map',
+		devtool: isProduction ? false : 'inline-source-map',
 		entry: path.resolve(__dirname, "src/index.tsx"),
 		output: {
 			path: path.resolve(__dirname, "public/static"),
@@ -74,8 +85,6 @@ module.exports = env => {
 				'.ts', '.tsx', '.js', '.json'
 			],
 		},
-		plugins: [
-			new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
-		]
+		plugins: plugins
 	}
 }
