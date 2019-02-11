@@ -46,6 +46,7 @@ https://www.stb.tsukuba.ac.jp/~fairyski/
 ## 開発環境の構築
 ```
 $ docker-compose run node yarn
+$ docker-compose run web composer install
 $ php ./misc/generate_password.php # ./data/passwords.json がない場合
 $ echo [] > ./data/events.json #データを保存する`data/events.json`の初期化
 ```
@@ -55,7 +56,7 @@ $ echo [] > ./data/events.json #データを保存する`data/events.json`の初
 ```
 $ docker-compose up
 ```
-`http://localhost:8000/~fairyski`にサーバが立ち上がります。
+`http://localhost:8000/~fairyski`にサーバが立ち上がります。実際の管理画面は`http://localhost:8000/~fairyski/login`よりログインできます。
 
 
 ## TODO
