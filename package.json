@@ -4,7 +4,7 @@
   "description": "Online Management System for Fairy Ski Club, University of Tsukuba",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "tslint --project .",
     "build": "rm -rf ./public/static && cp ./misc/.htaccess.production ./public/.htaccess && webpack --env.production",
     "watch": "rm -rf ./public/static && webpack --watch"
   },
