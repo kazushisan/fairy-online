@@ -58,3 +58,7 @@ $ docker-compose up
 `http://localhost:8000/~fairyski`にサーバが立ち上がります。
 
 
+## TODO
+
+- バックエンドが微妙なのでLaravel Lumenあたりを使ってリファクタする。
+- 404ページの作成
