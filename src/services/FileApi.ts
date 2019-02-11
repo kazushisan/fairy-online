@@ -3,6 +3,9 @@ import { saveAs } from 'file-saver'
 import { Event } from '../entities/Event'
 import { File } from '../entities/File'
 
+declare const IS_PRODUCTION: boolean
+const endPoint = IS_PRODUCTION ? '/~fairyski/api.php' : '/api.php'
+
 export const remove = (
 	file: File,
 	event_id: Event['id'],
@@ -11,7 +14,7 @@ export const remove = (
 	new Promise((resolve, reject) => {
 		axios
 			.post(
-				'/api.php',
+				endPoint,
 				{
 					type: 'remove_file',
 					file_id: file.id,
@@ -37,7 +40,7 @@ export const create = (
 	new Promise((resolve, reject) => {
 		axios
 			.post(
-				'/api.php',
+				endPoint,
 				{
 					type: 'add_file',
 					file,
@@ -58,7 +61,7 @@ export const create = (
 export const download = (file: File, jwt: string): Promise<void> =>
 	new Promise((resolve, reject) => {
 		axios
-			.get(`/api.php?file=` + file.id, {
+			.get(endPoint + `?file=` + file.id, {
 				headers: { Authorization: 'Bearer ' + jwt },
 				responseType: 'blob'
 			})

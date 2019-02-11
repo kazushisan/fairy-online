@@ -2,10 +2,13 @@ import axios from 'axios'
 import { Event } from '../entities/Event'
 import { userStore } from '../stores/UserStore'
 
+declare const IS_PRODUCTION: boolean
+const endPoint = IS_PRODUCTION ? '/~fairyski/api.php' : '/api.php'
+
 export const getEvents = (jwt: string): Promise<Event[]> =>
 	new Promise((resolve, reject) => {
 		axios
-			.get('/api.php', {
+			.get(endPoint, {
 				headers: {
 					Authorization: 'Bearer ' + userStore.jwt
 				}
@@ -22,7 +25,7 @@ export const edit = (event: Event, jwt: string): Promise<Event[]> =>
 	new Promise((resolve, reject) => {
 		axios
 			.post(
-				'/api.php',
+				endPoint,
 				{
 					type: 'edit_event',
 					data: event,
@@ -44,7 +47,7 @@ export const remove = (event_id: Event['id'], jwt: string): Promise<Event[]> =>
 	new Promise((resolve, reject) => {
 		axios
 			.post(
-				'/api.php',
+				endPoint,
 				{
 					type: 'remove_event',
 					event_id
@@ -65,7 +68,7 @@ export const add = (event: Event, jwt: string): Promise<Event[]> =>
 	new Promise((resolve, reject) => {
 		axios
 			.post(
-				'/api.php',
+				endPoint,
 				{
 					type: 'add_event',
 					data: event

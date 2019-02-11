@@ -12,7 +12,10 @@ module.exports = env => {
 	console.log('Production: ', isProduction)
 
 	const plugins = [
-		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+		new webpack.DefinePlugin({
+			IS_PRODUCTION: isProduction,
+		})
 	]
 	if(isProduction){
 		plugins.push(new CompressionPlugin())
@@ -75,7 +78,7 @@ module.exports = env => {
 					loader: 'file-loader',
 					options: {
 						outputPath: 'assets/',
-						publicPath: 'static/assets/'
+						publicPath: isProduction ? '~fairyski/static/assets/' : 'static/assets/'
 					}
 				}
 			]

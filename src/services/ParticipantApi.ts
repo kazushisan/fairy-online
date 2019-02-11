@@ -2,6 +2,9 @@ import axios from 'axios'
 import { Event } from '../entities/Event'
 import { Participant } from '../entities/Participant'
 
+declare const IS_PRODUCTION: boolean
+const endPoint = IS_PRODUCTION ? '/~fairyski/api.php' : '/api.php'
+
 export const remove = (
 	id: Participant['id'],
 	event_id: Event['id'],
@@ -10,7 +13,7 @@ export const remove = (
 	new Promise((resolve, reject) => {
 		axios
 			.post(
-				'/api.php',
+				endPoint,
 				{
 					event_id,
 					participant_id: id,
@@ -36,7 +39,7 @@ export const add = (
 	new Promise((resolve, reject) => {
 		axios
 			.post(
-				'/api.php',
+				endPoint,
 				{
 					data: participant,
 					event_id,
