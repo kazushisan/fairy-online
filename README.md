@@ -12,7 +12,9 @@
 
 このような作業をなるべく楽にこなしたかった・またメールでの管理には限界があるので、合宿のスケジュールおよび参加者を管理するシステムを開発しました。また、ついでに古くなってたウェブサイトも更新しておきました。
 
-当初はVue.jsとES6で適当に作ったものを利用していましたが、勉強も兼ねてReact, Typescriptなどでリファクタしました。開発方針としては、なるべくDependencyを減らして、管理者がいなくても（しばらくは）とりあえず動くものを目指しました。本当はFirebaseあたりを使ってバックエンドを作るといい感じだと思いますが、そのような方針もあって今回は大学が提供するApache + PHPサーバを利用しました(http://www.stb.tsukuba.ac.jp/)。しかもMySQLも使わずにjsonファイルに書き込むようにしました（）
+当初はVue.jsとES6で適当に作ったものを利用していましたが、勉強も兼ねてReact, Typescriptなどでリファクタしました。維持できなければ意味がないので、なるべくDependencyを減らして、管理者がいなくても（しばらくは）とりあえず動くものを目指しました。本当はFirebaseあたりを使ってバックエンドを作るといい感じだと思いますが、そのような方針もあって今回は大学が提供するApache + PHPサーバを利用しました。[（こちら）](http://www.stb.tsukuba.ac.jp/)
+
+MySQLも使わずにjsonファイルに書き込むようにしました。
 
 ## 使ったもの
 
@@ -42,8 +44,9 @@
 ```
 $ docker-compose run node yarn
 $ php ./misc/generate_password.php # ./data/passwords.json がない場合
-
+$ echo [] > ./data/events.json #データを保存する`data/events.json`の初期化
 ```
+
 
 ## Development Server
 ```
