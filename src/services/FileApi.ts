@@ -3,8 +3,7 @@ import { saveAs } from 'file-saver'
 import { Event } from '../entities/Event'
 import { File } from '../entities/File'
 
-declare const IS_PRODUCTION: boolean
-const endPoint = IS_PRODUCTION ? '/~fairyski/api.php' : '/api.php'
+const endPoint = '/~fairyski/api.php'
 
 export const remove = (
 	file: File,

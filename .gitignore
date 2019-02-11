@@ -4,3 +4,4 @@ public/static/
 vendor/
 data/
 public/.htaccess
+public/*.gz

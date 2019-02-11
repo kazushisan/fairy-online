@@ -47,7 +47,7 @@ class _LoginForm extends React.Component<Props, State> {
 									decodeURIComponent(redirect as string)
 								)
 							} else {
-								history.push('/main')
+								history.push('/~fairyski/main')
 							}
 						})
 						.catch(err => {

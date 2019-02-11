@@ -103,7 +103,7 @@ export class Home extends React.Component {
 										筑波大学体育会
 									</a>
 									<Divider type="vertical" />
-									<Link to="/login">
+									<Link to="/~fairyski/login">
 										FOM: Fairy Online Manager
 									</Link>
 								</div>

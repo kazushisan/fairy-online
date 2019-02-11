@@ -2,8 +2,7 @@ import axios from 'axios'
 import { Event } from '../entities/Event'
 import { userStore } from '../stores/UserStore'
 
-declare const IS_PRODUCTION: boolean
-const endPoint = IS_PRODUCTION ? '/~fairyski/api.php' : '/api.php'
+const endPoint = '/~fairyski/api.php'
 
 export const getEvents = (jwt: string): Promise<Event[]> =>
 	new Promise((resolve, reject) => {

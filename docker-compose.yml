@@ -4,11 +4,10 @@ services:
     build: ./docker
     command: sh -c "httpd && echo Sever listening on localhost\:8000 && tail -f /var/www/logs/access.log"
     volumes:
-      - ./node_modules:/var/www/node_modules
-      - ./vendor:/var/www/vendor
-      - ./data:/var/www/data
-      - ./public:/var/www/html
-    working_dir: /var/www/html
+      - ./vendor:/home/fairyski/vendor
+      - ./data:/home/fairyski/data
+      - ./public:/home/fairyski/public_html
+    working_dir: /home/fairyski
     ports:
       - "8000:80"
   node:

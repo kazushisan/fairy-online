@@ -39,7 +39,7 @@ export class Header extends React.Component<Props> {
 		const { userStore, eventStore, history } = this.props
 		const handleLogout = () => {
 			userStore.logout()
-			history.push('/login')
+			history.push('/~fairyski/login')
 			message.success('ログアウトしました')
 		}
 		const menu = (

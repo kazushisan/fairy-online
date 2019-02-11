@@ -37,7 +37,7 @@ export class Main extends React.Component<Props> {
 				eventStore.setEvent(id)
 			} catch (err) {
 				message.error(err)
-				history.push('/main')
+				history.push('/~fairyski/main')
 			}
 		}
 	}
@@ -51,7 +51,7 @@ export class Main extends React.Component<Props> {
 					eventStore.setEvent(id)
 				} catch (err) {
 					message.error(err)
-					history.push('/main')
+					history.push('/~fairyski/main')
 				}
 			} else {
 				eventStore.unsetEvent()

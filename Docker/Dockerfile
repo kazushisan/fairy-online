@@ -15,12 +15,13 @@ RUN apk --no-cache add apache2 php@php \
 	php-zlib@php
 
 ADD ./apache2.conf /etc/apache2/httpd.conf
+ADD ./userdir.conf /etc/apache2/conf.d/userdir.conf
 ADD ./installcomposer.sh /installcomposer.sh
 
 RUN ln -s /usr/bin/php7 /usr/bin/php && \
 	sh /installcomposer.sh && \
+	adduser -D fairyski && \
 	mkdir /run/apache2 && \
-	mkdir /var/www/html && \
 	touch /var/www/logs/access.log
 
 EXPOSE 80
