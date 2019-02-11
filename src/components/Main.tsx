@@ -63,10 +63,10 @@ export class Main extends React.Component<Props> {
 
 		const onSelectEvent = (event: Event) => {
 			const id = event.original_id ? event.original_id : event.id
-			history.push(`/event/${id}`)
+			history.push(`/~fairyski/event/${id}`)
 		}
 		const onClose = () => {
-			history.push(`/main`)
+			history.push(`/~fairyski/main`)
 		}
 		return (
 			<Container>

@@ -52,6 +52,6 @@ $ echo [] > ./data/events.json #データを保存する`data/events.json`の初
 ```
 $ docker-compose up
 ```
-`http://localhost:8000`にサーバが立ち上がります。
+`http://localhost:8000/~fairyski`にサーバが立ち上がります。
 
 

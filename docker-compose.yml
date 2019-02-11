@@ -2,7 +2,7 @@ version: "3"
 services:
   web:
     build: ./docker
-    command: sh -c "httpd && echo Sever listening on localhost\:8000 && tail -f /var/www/logs/access.log"
+    command: sh -c "httpd && echo Sever listening on localhost\:8000/~fairyski && tail -f /var/www/logs/access.log"
     volumes:
       - ./vendor:/home/fairyski/vendor
       - ./data:/home/fairyski/data
