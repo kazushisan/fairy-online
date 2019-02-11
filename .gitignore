@@ -5,3 +5,5 @@ vendor/
 data/
 public/.htaccess
 public/*.gz
+
+yarrn-error.log
