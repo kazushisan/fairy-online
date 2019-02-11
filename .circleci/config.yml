@@ -64,7 +64,7 @@ jobs:
           command: sudo apt install -y lftp
       - run:
           name: add host key to known_hosts
-          command: echo www.stb.tsukuba.ac.jp,130.158.69.105 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBKl0n5HLyPwY8yCKujl8K1zKnMRLA7rQMtcbsOIn/Sv/uKjkUfSlLOMeXb7OwIjQQotFSps1dP2K27hOaDdPUSM= > ~/.ssh/known_hosts
+          command: mkdir ~/.ssh && echo www.stb.tsukuba.ac.jp,130.158.69.105 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBKl0n5HLyPwY8yCKujl8K1zKnMRLA7rQMtcbsOIn/Sv/uKjkUfSlLOMeXb7OwIjQQotFSps1dP2K27hOaDdPUSM= > ~/.ssh/known_hosts
       - run:
           name: copy public directory to stb server
           command: lftp -u $STB_USER,$STB_PASSWORD -e "mirror -Rev public/. public_html/." sftp://www.stb.tsukuba.ac.jp
