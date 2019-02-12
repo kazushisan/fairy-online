@@ -6,6 +6,7 @@ services:
     volumes:
       - ./vendor:/home/fairyski/vendor
       - ./public:/home/fairyski/public_html
+      - ./data:/home/fairyski/data
       - ./composer.json:/home/fairyski/composer.json
       - ./composer.lock:/home/fairyski/composer.lock
     working_dir: /home/fairyski
