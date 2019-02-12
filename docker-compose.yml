@@ -4,7 +4,10 @@ services:
     build: ./docker
     command: sh -c "httpd && echo Sever listening on localhost\:8000/~fairyski && tail -f /var/www/logs/access.log"
     volumes:
-      - ./:/home/fairyski/
+      - ./vendor:/home/fairyski/vendor
+      - ./public:/home/fairyski/public_html
+      - ./composer.json:/home/fairyski/composer.json
+      - ./composer.lock:/home/fairyski/composer.lock
     working_dir: /home/fairyski
     ports:
       - "8000:80"
