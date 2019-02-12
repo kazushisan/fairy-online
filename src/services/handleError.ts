@@ -11,6 +11,7 @@ export const handleError = (props: Props) => {
 	if (err.noJwt) {
 		message.warning('ログインしてください。')
 		const redirect = encodeURIComponent(history.location.pathname)
+		console.log(history.location.pathname)
 		history.push(`/~fairyski/login?redirect=${redirect}`)
 	} else if (err.status === 400) {
 		message.warning('セッションの有効期限が切れました。')

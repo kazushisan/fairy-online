@@ -31,15 +31,19 @@ export class Main extends React.Component<Props> {
 		const { eventStore, history } = this.props
 		const id = this.props.match.params.id
 
-		await eventStore.load().catch(err => handleError({ err, history }))
-		if (id) {
-			try {
-				eventStore.setEvent(id)
-			} catch (err) {
-				message.error(err)
-				history.push('/~fairyski/main')
-			}
-		}
+		await eventStore
+			.load()
+			.then(() => {
+				if (id) {
+					try {
+						eventStore.setEvent(id)
+					} catch (err) {
+						message.error(err)
+						history.push('/~fairyski/main')
+					}
+				}
+			})
+			.catch(err => handleError({ err, history }))
 	}
 	public componentDidUpdate(prevProps: Props) {
 		if (this.props.location.pathname !== prevProps.location.pathname) {
