@@ -6,4 +6,4 @@ data/
 public/.htaccess
 public/*.gz
 
-yarrn-error.log
+yarn-error.log
