@@ -58,7 +58,7 @@ export class Home extends React.Component {
 										<a href="http://twitter.com/fairyskiclub">
 											Twitter
 										</a>
-										またはfairy.info[at]gmail.comまで。
+										またはfairy.event[at]gmail.comまで。
 									</p>
 									<p>部室は体育系サークル館2Fにあります。</p>
 								</div>
