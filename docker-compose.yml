@@ -12,10 +12,5 @@ services:
     working_dir: /home/fairyski
     ports:
       - "8000:80"
-  node:
-    image: node:10.15-alpine
-    command: sh -c "yarn watch"
-    volumes:
-      - ./:/app
-    working_dir: /app
+
 
