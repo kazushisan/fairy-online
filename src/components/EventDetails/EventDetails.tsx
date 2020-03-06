@@ -23,7 +23,7 @@ const DrawerContents = styled.div`
 `
 @observer
 export class EventDetails extends React.Component<Props> {
-	public render() {
+	public render(): React.ReactNode {
 		const { visible, eventStore, onClose, history, userStore } = this.props
 		const { event } = eventStore
 		const calcWidth = (): string =>
