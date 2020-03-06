@@ -18,18 +18,27 @@ interface State {
 	}
 }
 export class CreateEvent extends React.Component<Props> {
-	public state: State = {
-		visible: false,
-		loading: {
-			submit: false,
-		},
-	}
+	public state: State
 
 	private formRef: any
 
-	public render() {
+	constructor(props: Props) {
+		super(props)
+		this.state = {
+			visible: false,
+			loading: {
+				submit: false,
+			},
+		}
+
+		this.formRef = null
+	}
+
+	public render(): React.ReactNode {
 		const { eventStore, history } = this.props
-		const handleOk = async () => {
+		const { visible, loading } = this.state
+
+		const handleOk = async (): Promise<void> => {
 			const { form } = this.formRef.props
 			await form.validateFields(async (err: any, values: any) => {
 				if (!err) {
@@ -64,21 +73,20 @@ export class CreateEvent extends React.Component<Props> {
 		const saveFormRef = (formRef: any) => {
 			this.formRef = formRef
 		}
-		const handleClick = () => {
+		const handleClick = (e: any) => {
+			e.stopImmediatePropagation()
 			this.setState({ visible: true })
 		}
 
 		return (
 			<div>
-				<a href="javascript:;" onClick={handleClick}>
-					新規イベント
-				</a>
+				<a onClick={handleClick}>新規イベント</a>
 				<EventForm
-					visible={this.state.visible}
+					visible={visible}
 					onCancel={handleCancel}
 					onOk={handleOk}
 					wrappedComponentRef={saveFormRef}
-					loading={this.state.loading}
+					loading={loading}
 				/>
 			</div>
 		)
