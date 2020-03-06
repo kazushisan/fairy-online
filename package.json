@@ -51,7 +51,7 @@
     "@google/clasp": "^2.0.1",
     "@types/node": "^13.7.7",
     "antd": "^3.12.4",
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "file-saver": "^2.0.0",
     "history": "^4.10.1",
     "mobx": "^5.9.0",
