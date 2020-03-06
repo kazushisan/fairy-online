@@ -121,4 +121,4 @@ class _LoginForm extends React.Component<Props, State> {
 	}
 }
 
-export const LoginForm = Form.create()(_LoginForm)
+export const LoginForm = Form.create()(_LoginForm) as any

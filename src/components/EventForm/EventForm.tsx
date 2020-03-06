@@ -114,4 +114,4 @@ const _EventForm = (props: Props): React.ReactElement<any> => {
 	)
 }
 
-export const EventForm = Form.create()(_EventForm)
+export const EventForm = Form.create()(_EventForm) as any
