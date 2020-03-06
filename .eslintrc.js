@@ -1,4 +1,8 @@
-{
+const a11yOff = Object.keys(require('eslint-plugin-jsx-a11y').rules)
+	.reduce((acc, rule) => { acc[`jsx-a11y/${rule}`] = 'off'; return acc }, {})
+
+
+module.exports = {
 	"parser": "@typescript-eslint/parser",
 	"extends": [
 		"airbnb",
@@ -15,6 +19,7 @@
 	"rules": {
 		"import/prefer-default-export": 0,
 		"import/extensions": 0,
-		"react/jsx-filename-extension": [1, { "extensions": ["tsx"] }]
+		"react/jsx-filename-extension": [1, { "extensions": ["tsx"] }],
+		...a11yOff
 	}
 }
