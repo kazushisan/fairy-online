@@ -13,6 +13,7 @@
 		"lib": ["es2019", "DOM"],
 		"moduleResolution": "node",
 		"esModuleInterop": false,
-		"experimentalDecorators": true
+		"experimentalDecorators": true,
+		"skipLibCheck": true
 	}
 }
