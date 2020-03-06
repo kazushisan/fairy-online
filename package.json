@@ -6,7 +6,8 @@
   "scripts": {
     "test": "tslint --project .",
     "build": "cp ./misc/.htaccess.production ./public/.htaccess && gzip -c ./public/index.html > ./public/index.html.gz && webpack --env.production",
-    "watch": "rm -rf ./public/.htaccess && webpack --watch"
+    "watch": "rm -rf ./public/.htaccess && webpack --watch",
+    "lint": "eslint --ext .ts,.tsx ./src"
   },
   "author": "Kazushi Konosu",
   "license": "UNLICENSED",
