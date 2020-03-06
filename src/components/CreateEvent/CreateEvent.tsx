@@ -74,7 +74,7 @@ export class CreateEvent extends React.Component<Props> {
 			this.formRef = formRef
 		}
 		const handleClick = (e: any) => {
-			e.stopImmediatePropagation()
+			e.stopPropagation()
 			this.setState({ visible: true })
 		}
 
