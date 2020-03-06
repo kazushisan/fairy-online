@@ -24,7 +24,7 @@ const Heading = styled.h2`
 @(withRouter as any)
 @observer
 export class Login extends React.Component<Props> {
-	public render() {
+	public render(): React.ReactElement<any> {
 		const { userStore, eventStore, history } = this.props
 		return (
 			<div id="login">
