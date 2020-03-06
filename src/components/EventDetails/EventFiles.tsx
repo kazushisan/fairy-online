@@ -11,7 +11,7 @@ interface Props {
 	canDelete: boolean
 }
 
-export const EventFiles = (props: Props): React.ReactNode => {
+export const EventFiles = (props: Props): React.ReactElement<any> => {
 	const { eventStore, history, canDelete } = props
 	const { event } = eventStore
 
