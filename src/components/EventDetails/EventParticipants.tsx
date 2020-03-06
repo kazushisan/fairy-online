@@ -70,7 +70,7 @@ export class EventParticipants extends React.Component<Props, State> {
     onConfirm={() => handleDelete(record.id)}
   >
 						<a href="javascript:;">削除</a>
-					</Popconfirm>
+  </Popconfirm>
 				),
 				title: '操作',
 			},
@@ -116,7 +116,7 @@ export class EventParticipants extends React.Component<Props, State> {
   rowKey={(row: Participant) => row.id}
   pagination={false}
   scroll={{ x: true }}
-  bordered
+					bordered
 				/>
     {eventStore.event.can_apply && (
 					<div>

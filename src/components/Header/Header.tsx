@@ -45,13 +45,13 @@ export class Header extends React.Component<Props> {
 		const menu = (
 			<Menu>
     {userStore.user === 'admin' && (
-<Menu.Item key="create">
-      <CreateEvent eventStore={eventStore} history={history} />
-    </Menu.Item>
+					<Menu.Item key="create">
+						<CreateEvent eventStore={eventStore} history={history} />
+					</Menu.Item>
 				)}
 				{userStore.user && (
   <Menu.Item>
-  <a href="javasript:;" onClick={handleLogout}>
+						<a href="javasript:;" onClick={handleLogout}>
       ログアウト
 						</a>
 					</Menu.Item>
@@ -60,7 +60,7 @@ export class Header extends React.Component<Props> {
 		)
 		return (
 			<HeaderContainer>
-    <h1>FOM: Fairy Online Manager</h1>
+				<h1>FOM: Fairy Online Manager</h1>
 				{userStore.user && (
   <MenuWrap>
   <Dropdown overlay={menu} trigger={['click']}>

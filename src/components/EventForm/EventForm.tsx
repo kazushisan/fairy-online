@@ -58,7 +58,7 @@ class _EventForm extends React.Component<Props> {
 				loading={loading.submit}
   >
     {title ? '変更する' : '作成する'}
-  </Button>,
+			</Button>,
 		]
 		if (typeof onDelete === 'function') {
 			footer.splice(
@@ -94,7 +94,7 @@ class _EventForm extends React.Component<Props> {
 						})(<Input />)}
 					</Form.Item>
     <Form.Item label="説明" {...formItemLayout}>
-  {getFieldDecorator('description', {
+    {getFieldDecorator('description', {
 							rules: [
 								{
 									required: true,
@@ -102,7 +102,7 @@ class _EventForm extends React.Component<Props> {
 								},
 							],
 						})(<Input.TextArea />)}
-     </Form.Item>
+  </Form.Item>
 					<Form.Item label="日程" {...formItemLayout}>
 						{getFieldDecorator('range', {
 							rules: [

@@ -52,13 +52,13 @@ export class EventDetails extends React.Component<Props> {
     申請締切: 
 {' '}
     <span style={{ color: '#ff4d4f' }}>{event.due}</span>
-  </p>
+							</p>
 						)}
 						<p>{event.description}</p>
 					</div>
   {isAdmin && <EditEvent eventStore={eventStore} history={history} />}
-					<Divider />
-					<EventFiles
+  <Divider />
+  <EventFiles
         eventStore={eventStore}
         history={history}
         canDelete={isAdmin}

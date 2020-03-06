@@ -35,7 +35,7 @@ export class Toolbar extends React.Component<ToolbarProps> {
 		const { label } = this.props
 		return (
 			<ToolbarWrapper>
-    <Icon
+				<Icon
     type="left"
 					onClick={this.navigate.bind(null, 'PREV')}
     style={iconStyle}
