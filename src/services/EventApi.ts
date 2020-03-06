@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { Event } from '../entities/Event'
-import { userStore } from '../stores/UserStore'
 
 const endPoint = '/~fairyski/api.php'
 
@@ -9,7 +8,7 @@ export const getEvents = (jwt: string): Promise<Event[]> =>
 		axios
 			.get(endPoint, {
 				headers: {
-					Authorization: `Bearer ${userStore.jwt}`,
+					Authorization: `Bearer ${jwt}`,
 				},
 			})
 			.then(response => {

@@ -70,7 +70,7 @@ export class EventParticipants extends React.Component<Props, State> {
 			},
 			{
 				dataIndex: 'operation',
-				render: (text: any, record: Participant) => (
+				render: (_: any, record: Participant) => (
 					<Popconfirm
 						title="本当に削除しますか？"
 						onConfirm={() => handleDelete(record.id)}
@@ -92,7 +92,7 @@ export class EventParticipants extends React.Component<Props, State> {
 		}
 		const handleCreate = () => {
 			const { form } = this.formRef.props
-			form.validateFields((error: any, values: any) => {
+			form.validateFields((error: any) => {
 				if (!error) {
 					eventStore
 						.addPariticpant()
