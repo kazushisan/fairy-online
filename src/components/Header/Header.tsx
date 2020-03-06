@@ -34,43 +34,41 @@ interface Props {
 	history: History
 }
 
-export class Header extends React.Component<Props> {
-	public render() {
-		const { userStore, eventStore, history } = this.props
-		const handleLogout = () => {
-			userStore.logout()
-			history.push('/~fairyski/login')
-			message.success('ログアウトしました')
-		}
-		const menu = (
-			<Menu>
-				{userStore.user === 'admin' && (
-					<Menu.Item key="create">
-						<CreateEvent eventStore={eventStore} history={history} />
-					</Menu.Item>
-				)}
-				{userStore.user && (
-					<Menu.Item>
-						<a href="javasript:;" onClick={handleLogout}>
-							ログアウト
-						</a>
-					</Menu.Item>
-				)}
-			</Menu>
-		)
-		return (
-			<HeaderContainer>
-				<h1>FOM: Fairy Online Manager</h1>
-				{userStore.user && (
-					<MenuWrap>
-						<Dropdown overlay={menu} trigger={['click']}>
-							<Button>
-								<Icon type="bars" />
-							</Button>
-						</Dropdown>
-					</MenuWrap>
-				)}
-			</HeaderContainer>
-		)
+export const Header = (props: Props): React.ReactElement<any> => {
+	const { userStore, eventStore, history } = props
+	const handleLogout = () => {
+		userStore.logout()
+		history.push('/~fairyski/login')
+		message.success('ログアウトしました')
 	}
+	const menu = (
+		<Menu>
+			{userStore.user === 'admin' && (
+				<Menu.Item key="create">
+					<CreateEvent eventStore={eventStore} history={history} />
+				</Menu.Item>
+			)}
+			{userStore.user && (
+				<Menu.Item>
+					<a href="javasript:;" onClick={handleLogout}>
+						ログアウト
+					</a>
+				</Menu.Item>
+			)}
+		</Menu>
+	)
+	return (
+		<HeaderContainer>
+			<h1>FOM: Fairy Online Manager</h1>
+			{userStore.user && (
+				<MenuWrap>
+					<Dropdown overlay={menu} trigger={['click']}>
+						<Button>
+							<Icon type="bars" />
+						</Button>
+					</Dropdown>
+				</MenuWrap>
+			)}
+		</HeaderContainer>
+	)
 }
