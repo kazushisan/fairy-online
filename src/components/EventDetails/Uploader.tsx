@@ -34,31 +34,35 @@ export class Uploader extends React.Component<Props> {
 
 	public render() {
 		const { eventStore, history } = this.props
+		const { file, uploading } = this.state
+
 		const handleFile = (e: any) => {
-			const file = e.target.files[0]!
+			const f = e.target.files[0]!
 			const reader = new FileReader()
 			reader.onload = (event: any) => {
 				this.setState({
 					file: {
-						name: file.name,
-						data: event.target.result!,
+						name: f.name,
+						data: event.target.result,
 						id: eventStore.generateID(),
 					},
 				})
 			}
-			reader.readAsDataURL(file)
+			reader.readAsDataURL(f)
 		}
-		const upload = async (e: React.MouseEvent<HTMLButtonElement>) => {
+		const upload = async (
+			e: React.MouseEvent<HTMLButtonElement>
+		): Promise<void> => {
 			e.stopPropagation()
 			this.setState({ uploading: true })
 			await eventStore
-				.uploadFile(this.state.file)
+				.uploadFile(file)
 				.catch(err => handleError({ err, history }))
 			this.setState({ file: new File(), uploading: false })
 		}
 		return (
 			<Card style={cardStyle}>
-				{this.state.file.id === '' ? (
+				{file.id === '' ? (
 					<div
 						style={{
 							display: 'inline-block',
@@ -77,16 +81,16 @@ export class Uploader extends React.Component<Props> {
 					</div>
 				) : (
 					<div>
-						<span>{this.state.file.name}</span>
+						<span>{file.name}</span>
 						<Button
 							type="primary"
 							onClick={upload}
-							disabled={this.state.uploading || this.state.file.id === ''}
+							disabled={uploading || file.id === ''}
 							icon="upload"
-							loading={this.state.uploading}
+							loading={uploading}
 							style={style}
 						>
-							{this.state.uploading ? 'アップロード中...' : 'アップロード'}
+							{uploading ? 'アップロード中...' : 'アップロード'}
 						</Button>
 						<Button
 							onClick={() => this.setState({ file: new File() })}
