@@ -6,18 +6,14 @@ import { Routes } from './Routes'
 import { eventStore } from './stores/EventStore'
 import { userStore } from './stores/UserStore'
 
-const stores = { eventStore, userStore }
-
-export class App extends React.Component {
-	public render() {
-		return (
-			<div>
-				<Provider {...stores}>
-					<Router>
-						<Routes />
-					</Router>
-				</Provider>
-			</div>
-		)
-	}
+export const App = (): React.ReactElement<any> => {
+	return (
+		<div>
+			<Provider eventStore={eventStore} userStore={userStore}>
+				<Router>
+					<Routes />
+				</Router>
+			</Provider>
+		</div>
+	)
 }

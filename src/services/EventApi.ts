@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { Event } from '../entities/Event'
-import { userStore } from '../stores/UserStore'
 
 const endPoint = '/~fairyski/api.php'
 
@@ -9,8 +8,8 @@ export const getEvents = (jwt: string): Promise<Event[]> =>
 		axios
 			.get(endPoint, {
 				headers: {
-					Authorization: 'Bearer ' + userStore.jwt
-				}
+					Authorization: `Bearer ${jwt}`,
+				},
 			})
 			.then(response => {
 				resolve(response.data)
@@ -28,10 +27,10 @@ export const edit = (event: Event, jwt: string): Promise<Event[]> =>
 				{
 					type: 'edit_event',
 					data: event,
-					event_id: event.id
+					event_id: event.id,
 				},
 				{
-					headers: { Authorization: 'Bearer ' + jwt }
+					headers: { Authorization: `Bearer ${jwt}` },
 				}
 			)
 			.then(response => {
@@ -49,10 +48,10 @@ export const remove = (event_id: Event['id'], jwt: string): Promise<Event[]> =>
 				endPoint,
 				{
 					type: 'remove_event',
-					event_id
+					event_id,
 				},
 				{
-					headers: { Authorization: 'Bearer ' + jwt }
+					headers: { Authorization: `Bearer ${jwt}` },
 				}
 			)
 			.then(response => {
@@ -70,10 +69,10 @@ export const add = (event: Event, jwt: string): Promise<Event[]> =>
 				endPoint,
 				{
 					type: 'add_event',
-					data: event
+					data: event,
 				},
 				{
-					headers: { Authorization: 'Bearer ' + jwt }
+					headers: { Authorization: `Bearer ${jwt}` },
 				}
 			)
 			.then(response => {

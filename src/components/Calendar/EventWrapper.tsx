@@ -7,8 +7,9 @@ import { EventWrapperProps } from 'react-big-calendar'
 // `
 
 export class EventWrapper extends React.Component<EventWrapperProps> {
-	public render() {
-		const originalButton = React.Children.only(this.props.children)
+	public render(): React.ReactNode {
+		const { children } = this.props
+		const originalButton = React.Children.only(children)
 		const title = React.Children.only(originalButton.props.children).props
 			.title as string
 		let classes = originalButton.props.className
@@ -31,7 +32,7 @@ export class EventWrapper extends React.Component<EventWrapperProps> {
 				type="primary"
 				style={{
 					textAlign: 'left',
-					width: '100%'
+					width: '100%',
 				}}
 				size="small"
 			>

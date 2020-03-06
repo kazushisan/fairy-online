@@ -22,16 +22,17 @@ export class EditEvent extends React.Component<Props> {
 		visible: false,
 		loading: {
 			submit: false,
-			delete: false
-		}
+			delete: false,
+		},
 	}
+
 	private formRef: any
 
 	public render() {
 		const { eventStore, history } = this.props
 		const { event } = eventStore
 		const handleOk = async () => {
-			const form = this.formRef.props.form
+			const { form } = this.formRef.props
 			await form.validateFields(async (err: any, values: any) => {
 				if (!err) {
 					this.setState({ loading: { submit: true } })
@@ -41,14 +42,14 @@ export class EditEvent extends React.Component<Props> {
 						due: values.due ? values.due.format('YYYY-MM-DD') : '',
 						can_apply: values.can_apply,
 						title: values.title,
-						description: values.description
+						description: values.description,
 					}
 					await eventStore
 						.editEvent(editEvent)
 						.then(() => {
 							this.setState({
 								loading: { submit: false },
-								visible: false
+								visible: false,
 							})
 							message.success('変更しました')
 						})
@@ -70,7 +71,7 @@ export class EditEvent extends React.Component<Props> {
 					message.success('削除しました')
 					this.setState({
 						loading: { delete: false },
-						visible: false
+						visible: false,
 					})
 				})
 				.catch(err => {
@@ -86,15 +87,17 @@ export class EditEvent extends React.Component<Props> {
 				title: event.title,
 				description: event.description,
 				range: [moment(event.start), moment(event.end)],
-				can_apply: event.can_apply || false
+				can_apply: event.can_apply || false,
 			})
 			if (event.due) {
 				this.formRef.props.form.setFieldsValue({
-					due: moment(event.due)
+					due: moment(event.due),
 				})
 			}
 			this.setState({ visible: true })
 		}
+
+		const { visible, loading } = this.state
 
 		return (
 			<div>
@@ -102,12 +105,12 @@ export class EditEvent extends React.Component<Props> {
 					編集する
 				</Button>
 				<EventForm
-					visible={this.state.visible}
+					visible={visible}
 					onCancel={handleCancel}
 					onOk={handleOk}
 					onDelete={handleDelete}
 					wrappedComponentRef={saveFormRef}
-					loading={this.state.loading}
+					loading={loading}
 					title={event.title}
 				/>
 			</div>

@@ -8,11 +8,11 @@ import { UserStore } from '../../stores/UserStore'
 const style = {
 	form: {
 		maxWidth: '300px',
-		margin: '16px'
+		margin: '16px',
 	},
 	loginButton: {
-		width: '100%'
-	}
+		width: '100%',
+	},
 }
 interface State {
 	loading: boolean
@@ -21,15 +21,20 @@ interface Props extends FormComponentProps {
 	userStore: UserStore
 	history: History
 }
+// eslint-disable-next-line @typescript-eslint/class-name-casing
 class _LoginForm extends React.Component<Props, State> {
 	public state: State = {
-		loading: false
+		loading: false,
 	}
+
 	constructor(props: Props) {
 		super(props)
 		this.handleSubmit = this.handleSubmit.bind(this)
 	}
-	public async handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+
+	public async handleSubmit(
+		e: React.FormEvent<HTMLFormElement>
+	): Promise<void> {
 		e.preventDefault()
 		const { userStore, history, form } = this.props
 		await new Promise(resolve =>
@@ -40,12 +45,9 @@ class _LoginForm extends React.Component<Props, State> {
 						.login(values)
 						.then(() => {
 							message.success('ログインしました')
-							const redirect = parse(history.location.search)
-								.redirect
+							const { redirect } = parse(history.location.search)
 							if (redirect) {
-								history.push(
-									decodeURIComponent(redirect as string)
-								)
+								history.push(decodeURIComponent(redirect as string))
 							} else {
 								history.push('/~fairyski/main')
 							}
@@ -56,7 +58,7 @@ class _LoginForm extends React.Component<Props, State> {
 								message.error('ユーザ情報が正しくありません。')
 							} else {
 								const text = err.data.message || 'Unknown Error'
-								const status = err.status
+								const { status } = err
 								message.error(`${status}: ${text}`)
 							}
 						})
@@ -65,8 +67,13 @@ class _LoginForm extends React.Component<Props, State> {
 			})
 		)
 	}
-	public render() {
-		const { getFieldDecorator } = this.props.form
+
+	public render(): React.ReactElement<any> {
+		const {
+			form: { getFieldDecorator },
+		} = this.props
+
+		const { loading } = this.state
 		return (
 			<Form onSubmit={this.handleSubmit} style={style.form}>
 				<Form.Item>
@@ -74,18 +81,13 @@ class _LoginForm extends React.Component<Props, State> {
 						rules: [
 							{
 								required: true,
-								message: 'ユーザ名を入力してください'
-							}
+								message: 'ユーザ名を入力してください',
+							},
 						],
-						initialValue: 'general'
+						initialValue: 'general',
 					})(
 						<Input
-							prefix={
-								<Icon
-									type="user"
-									style={{ color: 'rgba(0,0,0,.25)' }}
-								/>
-							}
+							prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
 							placeholder="ユーザ名"
 						/>
 					)}
@@ -95,19 +97,13 @@ class _LoginForm extends React.Component<Props, State> {
 						rules: [
 							{
 								required: true,
-								message: 'パスワードを入力してください'
-							}
-						]
+								message: 'パスワードを入力してください',
+							},
+						],
 					})(
 						<Input
-							prefix={
-								<Icon
-									type="lock"
-									style={{ color: 'rgba(0,0,0,.25)' }}
-								/>
-							}
+							prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
 							type="password"
-							placeholder="パスワード"
 						/>
 					)}
 				</Form.Item>
@@ -115,8 +111,8 @@ class _LoginForm extends React.Component<Props, State> {
 					type="primary"
 					htmlType="submit"
 					style={style.loginButton}
-					loading={this.state.loading}
-					disabled={this.state.loading}
+					loading={loading}
+					disabled={loading}
 				>
 					ログイン
 				</Button>
@@ -125,4 +121,4 @@ class _LoginForm extends React.Component<Props, State> {
 	}
 }
 
-export const LoginForm = Form.create()(_LoginForm)
+export const LoginForm = Form.create()(_LoginForm) as any

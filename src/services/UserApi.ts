@@ -8,7 +8,7 @@ export const login = (credentials: UserCredentails): Promise<string> =>
 		axios
 			.post(endPoint, credentials)
 			.then(response => {
-				const jwt = response.data.jwt
+				const { jwt } = response.data
 				resolve(jwt)
 			})
 			.catch(err => {

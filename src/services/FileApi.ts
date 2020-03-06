@@ -17,10 +17,10 @@ export const remove = (
 				{
 					type: 'remove_file',
 					file_id: file.id,
-					event_id
+					event_id,
 				},
 				{
-					headers: { Authorization: 'Bearer ' + jwt }
+					headers: { Authorization: `Bearer ${jwt}` },
 				}
 			)
 			.then(response => {
@@ -43,10 +43,10 @@ export const create = (
 				{
 					type: 'add_file',
 					file,
-					event_id
+					event_id,
 				},
 				{
-					headers: { Authorization: 'Bearer ' + jwt }
+					headers: { Authorization: `Bearer ${jwt}` },
 				}
 			)
 			.then(response => {
@@ -60,9 +60,9 @@ export const create = (
 export const download = (file: File, jwt: string): Promise<void> =>
 	new Promise((resolve, reject) => {
 		axios
-			.get(endPoint + `?file=` + file.id, {
-				headers: { Authorization: 'Bearer ' + jwt },
-				responseType: 'blob'
+			.get(`${endPoint}?file=${file.id}`, {
+				headers: { Authorization: `Bearer ${jwt}` },
+				responseType: 'blob',
 			})
 			.then(response => {
 				saveAs(response.data, file.name)

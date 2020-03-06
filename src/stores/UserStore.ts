@@ -4,12 +4,14 @@ import * as UserApi from '../services/UserApi'
 
 export class UserStore {
 	@observable public user: string
+
 	@observable public jwt: string
 
 	constructor() {
 		this.user = ''
 		this.jwt = ''
 	}
+
 	@action public async login(userCredentials: UserCredentails) {
 		await UserApi.login(userCredentials)
 			.then(jwt => {
@@ -21,11 +23,13 @@ export class UserStore {
 				throw err
 			})
 	}
+
 	@action public logout() {
 		window.sessionStorage.removeItem('fairy_jwt')
 		this.user = ''
 		this.jwt = ''
 	}
+
 	@action public setUserFromJwt() {
 		const token_data = this.jwt
 			.split('.')[1]

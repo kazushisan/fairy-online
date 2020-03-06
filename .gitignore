@@ -7,3 +7,4 @@ public/.htaccess
 public/*.gz
 
 yarn-error.log
+.vscode/

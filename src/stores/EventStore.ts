@@ -11,10 +11,15 @@ import { userStore } from './UserStore'
 
 export class EventStore {
 	@observable public file: File
+
 	@observable public buttons: Buttons
+
 	@observable public label: Label
+
 	@observable public add_participant: Participant
+
 	@observable public event: Event
+
 	@observable public events: Event[]
 
 	constructor() {
@@ -25,13 +30,14 @@ export class EventStore {
 		this.event = new Event()
 		this.events = []
 	}
+
 	@computed public get deadlines() {
 		const deadlines: Event[] = []
 		if (this.events && this.events.length > 0) {
 			for (const event of this.events) {
 				if (event.due) {
 					const deadline = new Event()
-					deadline.title = event.title + '参加申請期限'
+					deadline.title = `${event.title}参加申請期限`
 					deadline.start = event.due
 					deadline.end = event.due
 					deadline.original_id = event.id
@@ -41,6 +47,7 @@ export class EventStore {
 		}
 		return deadlines
 	}
+
 	@action public async load() {
 		const jwt = window.sessionStorage.getItem('fairy_jwt')
 		if (!userStore.jwt && jwt) {
@@ -70,6 +77,7 @@ export class EventStore {
 				throw err
 			})
 	}
+
 	@action public async removeEvent(event_id: Event['id']) {
 		await EventApi.remove(event_id, userStore.jwt)
 			.then(data => {
@@ -100,6 +108,7 @@ export class EventStore {
 				throw err
 			})
 	}
+
 	@action public async removeFile(file: File) {
 		await FileApi.remove(file, this.event.id, userStore.jwt)
 			.then(data => {
@@ -109,11 +118,13 @@ export class EventStore {
 				throw err
 			})
 	}
+
 	@action public async downloadFile(file: File) {
 		await FileApi.download(file, userStore.jwt).catch(err => {
 			throw err
 		})
 	}
+
 	@action public setEvent(id: string): void {
 		const event = this.events.find((item: Event) => item.id === id)
 		if (event !== undefined) {
@@ -122,11 +133,13 @@ export class EventStore {
 			throw { data: { message: 'Event not Found' } }
 		}
 	}
+
 	@action public unsetEvent(): void {
 		if (this.event.id !== '') {
 			this.event = new Event()
 		}
 	}
+
 	@action public async removeParticipant(id: Participant['id']) {
 		await ParticipantApi.remove(id, this.event.id, userStore.jwt)
 			.then(data => {
@@ -136,17 +149,15 @@ export class EventStore {
 				throw err
 			})
 	}
+
 	@action public initAddParticipant(): void {
 		this.add_participant = new Participant()
 		this.add_participant.id = this.generateID()
 	}
+
 	@action public async addPariticpant() {
 		this.add_participant.id = this.generateID()
-		await ParticipantApi.add(
-			this.add_participant,
-			this.event.id,
-			userStore.jwt
-		)
+		await ParticipantApi.add(this.add_participant, this.event.id, userStore.jwt)
 			.then(data => {
 				this.assignEvents(data)
 				this.add_participant = new Participant()
@@ -155,6 +166,7 @@ export class EventStore {
 				throw err
 			})
 	}
+
 	@action public generateID(): string {
 		const len = 20
 		// 生成する文字列に含める文字セット
@@ -165,6 +177,7 @@ export class EventStore {
 		}
 		return result
 	}
+
 	private assignEvents(data: Event[], unsetEvent?: boolean) {
 		this.events = []
 		const events = []

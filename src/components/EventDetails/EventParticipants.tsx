@@ -26,8 +26,9 @@ const ButtonWrap = styled.div`
 @observer
 export class EventParticipants extends React.Component<Props, State> {
 	public state: State = {
-		adding: false
+		adding: false,
 	}
+
 	private formRef: any
 
 	public render() {
@@ -35,62 +36,63 @@ export class EventParticipants extends React.Component<Props, State> {
 		const { participants } = eventStore.event
 		const { add_participant } = eventStore
 
-		const columns: object[] = [
-			{
-				dataIndex: 'name',
-				title: label.name
-			},
-			{
-				dataIndex: 'affiliation',
-				title: label.affiliation
-			},
-			{
-				dataIndex: 'age',
-				title: label.age
-			},
-			{
-				dataIndex: 'sex',
-				title: label.sex
-			},
-			{
-				dataIndex: 'can_drive',
-				render: (can_drive: boolean) => (can_drive ? 'はい' : 'いいえ'),
-				title: label.can_drive
-			},
-			{
-				dataIndex: 'note',
-				title: label.note
-			},
-			{
-				dataIndex: 'operation',
-				render: (text: any, record: Participant) => (
-					<Popconfirm
-						title="本当に削除しますか？"
-						onConfirm={() => handleDelete(record.id)}
-					>
-						<a href="javascript:;">削除</a>
-					</Popconfirm>
-				),
-				title: '操作'
-			}
-		]
-		if (!canDelete) {
-			columns.pop()
-		}
-
 		const handleDelete = async (id: string) => {
 			await eventStore
 				.removeParticipant(id)
 				.catch(err => handleError({ err, history }))
 		}
+
+		const columns: object[] = [
+			{
+				dataIndex: 'name',
+				title: label.name,
+			},
+			{
+				dataIndex: 'affiliation',
+				title: label.affiliation,
+			},
+			{
+				dataIndex: 'age',
+				title: label.age,
+			},
+			{
+				dataIndex: 'sex',
+				title: label.sex,
+			},
+			{
+				dataIndex: 'can_drive',
+				render: (can_drive: boolean) => (can_drive ? 'はい' : 'いいえ'),
+				title: label.can_drive,
+			},
+			{
+				dataIndex: 'note',
+				title: label.note,
+			},
+			{
+				dataIndex: 'operation',
+				render: (_: any, record: Participant) => (
+					<Popconfirm
+						title="本当に削除しますか？"
+						onConfirm={() => handleDelete(record.id)}
+					>
+						<span>削除</span>
+					</Popconfirm>
+				),
+				title: '操作',
+			},
+		]
+		if (!canDelete) {
+			columns.pop()
+		}
+
 		const handleFormChange = (values: object) => {
 			set(eventStore, {
-				add_participant: Object.assign(add_participant, values)
+				add_participant: Object.assign(add_participant, values),
 			})
 		}
 		const handleCreate = () => {
-			const form = this.formRef.props.form
-			form.validateFields((error: any, values: any) => {
+			const { form } = this.formRef.props
+			form.validateFields((error: any) => {
 				if (!error) {
 					eventStore
 						.addPariticpant()
@@ -103,10 +105,12 @@ export class EventParticipants extends React.Component<Props, State> {
 		}
 		const handleCancel = () => {
 			set(eventStore, {
-				add_participant: new Participant()
+				add_participant: new Participant(),
 			})
 			this.setState({ adding: false })
 		}
+
+		const { adding } = this.state
 		return (
 			<div>
 				<Table
@@ -122,18 +126,18 @@ export class EventParticipants extends React.Component<Props, State> {
 						<ParticipantForm
 							add_participant={add_participant}
 							onChange={handleFormChange}
-							wrappedComponentRef={(formRef: any) =>
-								(this.formRef = formRef)
-							}
+							wrappedComponentRef={(formRef: any) => {
+								this.formRef = formRef
+							}}
 							onCreate={handleCreate}
 							onCancel={handleCancel}
-							visible={this.state.adding}
+							visible={adding}
 							title={eventStore.event.title}
 						/>
 						<ButtonWrap>
 							<Button
 								type="primary"
-								onClick={() => this.setState({ adding: true })}
+								onClick={(): void => this.setState({ adding: true })}
 							>
 								参加申請
 							</Button>

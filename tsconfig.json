@@ -1,17 +1,19 @@
 {
 	"compilerOptions": {
-		"strict": true,
-		"sourceMap": true,
-		"noImplicitReturns": true,
-		"noUnusedLocals": true,
-		"target": "es5",
-		"module": "es2015",
 		"jsx": "react",
+		"strict": true,
+		"strictNullChecks": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"target": "es5",
+		"module": "commonjs",
+		"allowSyntheticDefaultImports": true,
+		"lib": ["es2019", "DOM"],
 		"moduleResolution": "node",
+		"esModuleInterop": false,
 		"experimentalDecorators": true,
-		"lib": ["dom", "es6"]
-	},
-	"exclude": [
-		"clasp"
-	]
+		"skipLibCheck": true
+	}
 }

@@ -1,11 +1,12 @@
 import { observer } from 'mobx-react'
 import * as moment from 'moment'
 import * as React from 'react'
-import BigCalendar from 'react-big-calendar'
+import * as BigCalendar from 'react-big-calendar'
 import styled from 'styled-components'
 import { Event } from '../../entities/Event'
 import { EventWrapper } from './EventWrapper'
 import { Toolbar } from './Toolbar'
+
 const localizer = BigCalendar.momentLocalizer(moment)
 
 interface Props {
@@ -14,7 +15,7 @@ interface Props {
 }
 const components = {
 	eventWrapper: EventWrapper,
-	toolbar: Toolbar
+	toolbar: Toolbar,
 }
 const CalendarWrapper = styled.div`
 	height: calc(100vh - 55px);
@@ -26,7 +27,8 @@ const CalendarWrapper = styled.div`
 
 @observer
 export class Calendar extends React.Component<Props> {
-	public render() {
+	public render(): React.ReactNode {
+		const { events, onSelectEvent } = this.props
 		return (
 			<CalendarWrapper>
 				<BigCalendar
@@ -35,7 +37,8 @@ export class Calendar extends React.Component<Props> {
 					views={['month']}
 					step={60}
 					showMultiDayTimes
-					{...this.props}
+					events={events}
+					onSelectEvent={onSelectEvent}
 				/>
 			</CalendarWrapper>
 		)
