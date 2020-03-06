@@ -36,6 +36,12 @@ export class EventParticipants extends React.Component<Props, State> {
 		const { participants } = eventStore.event
 		const { add_participant } = eventStore
 
+		const handleDelete = async (id: string) => {
+			await eventStore
+				.removeParticipant(id)
+				.catch(err => handleError({ err, history }))
+		}
+
 		const columns: object[] = [
 			{
 				dataIndex: 'name',
@@ -69,7 +75,7 @@ export class EventParticipants extends React.Component<Props, State> {
 						title="本当に削除しますか？"
 						onConfirm={() => handleDelete(record.id)}
 					>
-						<a href="javascript:;">削除</a>
+						<span>削除</span>
 					</Popconfirm>
 				),
 				title: '操作',
@@ -79,11 +85,6 @@ export class EventParticipants extends React.Component<Props, State> {
 			columns.pop()
 		}
 
-		const handleDelete = async (id: string) => {
-			await eventStore
-				.removeParticipant(id)
-				.catch(err => handleError({ err, history }))
-		}
 		const handleFormChange = (values: object) => {
 			set(eventStore, {
 				add_participant: Object.assign(add_participant, values),
@@ -108,6 +109,8 @@ export class EventParticipants extends React.Component<Props, State> {
 			})
 			this.setState({ adding: false })
 		}
+
+		const { adding } = this.state
 		return (
 			<div>
 				<Table
@@ -123,16 +126,18 @@ export class EventParticipants extends React.Component<Props, State> {
 						<ParticipantForm
 							add_participant={add_participant}
 							onChange={handleFormChange}
-							wrappedComponentRef={(formRef: any) => (this.formRef = formRef)}
+							wrappedComponentRef={(formRef: any) => {
+								this.formRef = formRef
+							}}
 							onCreate={handleCreate}
 							onCancel={handleCancel}
-							visible={this.state.adding}
+							visible={adding}
 							title={eventStore.event.title}
 						/>
 						<ButtonWrap>
 							<Button
 								type="primary"
-								onClick={() => this.setState({ adding: true })}
+								onClick={(): void => this.setState({ adding: true })}
 							>
 								参加申請
 							</Button>
