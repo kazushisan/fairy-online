@@ -28,6 +28,7 @@ const CalendarWrapper = styled.div`
 @observer
 export class Calendar extends React.Component<Props> {
 	public render() {
+		const { events, onSelectEvent } = this.props
 		return (
 			<CalendarWrapper>
 				<BigCalendar
@@ -36,7 +37,8 @@ export class Calendar extends React.Component<Props> {
 					views={['month']}
 					step={60}
 					showMultiDayTimes
-					{...this.props}
+					events={events}
+					onSelectEvent={onSelectEvent}
 				/>
 			</CalendarWrapper>
 		)
