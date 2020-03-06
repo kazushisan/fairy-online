@@ -97,18 +97,20 @@ export class EditEvent extends React.Component<Props> {
 			this.setState({ visible: true })
 		}
 
+		const { visible, loading } = this.state
+
 		return (
 			<div>
 				<Button type="primary" onClick={handleClick}>
 					編集する
 				</Button>
 				<EventForm
-					visible={this.state.visible}
+					visible={visible}
 					onCancel={handleCancel}
 					onOk={handleOk}
 					onDelete={handleDelete}
 					wrappedComponentRef={saveFormRef}
-					loading={this.state.loading}
+					loading={loading}
 					title={event.title}
 				/>
 			</div>
