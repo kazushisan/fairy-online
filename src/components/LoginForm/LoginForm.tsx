@@ -21,6 +21,7 @@ interface Props extends FormComponentProps {
 	userStore: UserStore
 	history: History
 }
+// eslint-disable-next-line @typescript-eslint/class-name-casing
 class _LoginForm extends React.Component<Props, State> {
 	public state: State = {
 		loading: false,
@@ -31,7 +32,9 @@ class _LoginForm extends React.Component<Props, State> {
 		this.handleSubmit = this.handleSubmit.bind(this)
 	}
 
-	public async handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+	public async handleSubmit(
+		e: React.FormEvent<HTMLFormElement>
+	): Promise<void> {
 		e.preventDefault()
 		const { userStore, history, form } = this.props
 		await new Promise(resolve =>
@@ -65,8 +68,12 @@ class _LoginForm extends React.Component<Props, State> {
 		)
 	}
 
-	public render() {
-		const { getFieldDecorator } = this.props.form
+	public render(): React.ReactElement<any> {
+		const {
+			form: { getFieldDecorator },
+		} = this.props
+
+		const { loading } = this.state
 		return (
 			<Form onSubmit={this.handleSubmit} style={style.form}>
 				<Form.Item>
@@ -80,15 +87,12 @@ class _LoginForm extends React.Component<Props, State> {
 						initialValue: 'general',
 					})(
 						<Input
-    prefix={(
-    <Icon
-          type="user"
-          style={{ color: 'rgba(0,0,0,.25)' }}
+							prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
 							placeholder="ユーザ名"
-  />
+						/>
 					)}
-  </Form.Item>
-    <Form.Item>
+				</Form.Item>
+				<Form.Item>
 					{getFieldDecorator('password', {
 						rules: [
 							{
@@ -98,25 +102,21 @@ class _LoginForm extends React.Component<Props, State> {
 						],
 					})(
 						<Input
-    prefix={(
-    <Icon
-          type="lock"
-          style={{ color: 'rgba(0,0,0,.25)' }}
+							prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
 							type="password"
-    placeholder="パスワード"
-  />
+						/>
 					)}
-  </Form.Item>
+				</Form.Item>
 				<Button
 					type="primary"
 					htmlType="submit"
 					style={style.loginButton}
-					loading={this.state.loading}
-					disabled={this.state.loading}
-  >
+					loading={loading}
+					disabled={loading}
+				>
 					ログイン
-  </Button>
-  </Form>
+				</Button>
+			</Form>
 		)
 	}
 }
