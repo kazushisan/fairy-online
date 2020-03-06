@@ -30,7 +30,7 @@ export const EventFiles = (props: Props): React.ReactElement<any> => {
 			{event.files.length > 0 ? (
 				<List
 					bordered
-					dataSource={event.files}
+					dataSource={event.files as any}
 					renderItem={(file: File): React.ReactNode => (
 						<List.Item
 							onClick={(): Promise<void> =>
