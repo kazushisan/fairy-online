@@ -31,26 +31,19 @@ const iconStyle = {
 }
 
 export class Toolbar extends React.Component<ToolbarProps> {
-	public render() {
+	private navigate = (action: Navigate): (() => void) => (): void => {
+		const { onNavigate } = this.props
+		onNavigate(action)
+	}
+
+	public render(): React.ReactNode {
 		const { label } = this.props
 		return (
 			<ToolbarWrapper>
-				<Icon
-					type="left"
-					onClick={this.navigate.bind(null, 'PREV')}
-					style={iconStyle}
-				/>
-				<h3 onClick={this.navigate.bind(null, 'TODAY')}>{label}</h3>
-				<Icon
-					type="right"
-					onClick={this.navigate.bind(null, 'NEXT')}
-					style={iconStyle}
-				/>
+				<Icon type="left" onClick={this.navigate('PREV')} style={iconStyle} />
+				<h3 onClick={this.navigate('TODAY')}>{label}</h3>
+				<Icon type="right" onClick={this.navigate('NEXT')} style={iconStyle} />
 			</ToolbarWrapper>
 		)
-	}
-
-	private navigate = (action: Navigate): void => {
-		this.props.onNavigate(action)
 	}
 }
