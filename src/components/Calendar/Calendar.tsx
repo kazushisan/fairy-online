@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react'
 import * as moment from 'moment'
 import * as React from 'react'
-import BigCalendar from 'react-big-calendar'
+import * as BigCalendar from 'react-big-calendar'
 import styled from 'styled-components'
 import { Event } from '../../entities/Event'
 import { EventWrapper } from './EventWrapper'
