@@ -100,9 +100,9 @@ export class EditEvent extends React.Component<Props> {
 		return (
 			<div>
 				<Button type="primary" onClick={handleClick}>
-    編集する
+					編集する
 				</Button>
-    <EventForm
+				<EventForm
 					visible={this.state.visible}
 					onCancel={handleCancel}
 					onOk={handleOk}
@@ -111,7 +111,7 @@ export class EditEvent extends React.Component<Props> {
 					loading={this.state.loading}
 					title={event.title}
 				/>
-  </div>
+			</div>
 		)
 	}
 }

@@ -30,16 +30,16 @@ class _ParticipantForm extends React.Component<Props> {
 		const { getFieldDecorator } = this.props.form
 		return (
 			<Modal
-    visible={visible}
-    title={`${title  } – 参加申請`}
-    okText="申請する"
+				visible={visible}
+				title={`${title} – 参加申請`}
+				okText="申請する"
 				cancelText="キャンセル"
 				onCancel={onCancel}
 				onOk={onCreate}
-  >
+			>
 				<Form layout="horizontal">
-    <Form.Item label={label.name} {...formItemLayout}>
-  {getFieldDecorator('name', {
+					<Form.Item label={label.name} {...formItemLayout}>
+						{getFieldDecorator('name', {
 							rules: [
 								{
 									required: true,
@@ -57,9 +57,9 @@ class _ParticipantForm extends React.Component<Props> {
 								},
 							],
 						})(<Input />)}
-  </Form.Item>
+					</Form.Item>
 					<Form.Item label={label.year} {...formItemLayout}>
-    {getFieldDecorator('year', {
+						{getFieldDecorator('year', {
 							rules: [
 								{
 									required: true,
@@ -70,14 +70,14 @@ class _ParticipantForm extends React.Component<Props> {
 							<Select>
 								{label.year_list.map((item: string) => (
 									<Option value={item} key={item}>
-    {item}
-  </Option>
+										{item}
+									</Option>
 								))}
-  </Select>
+							</Select>
 						)}
-  </Form.Item>
-    <Form.Item label={label.age} {...formItemLayout}>
-    {getFieldDecorator('age', {
+					</Form.Item>
+					<Form.Item label={label.age} {...formItemLayout}>
+						{getFieldDecorator('age', {
 							rules: [
 								{
 									required: true,
@@ -99,19 +99,19 @@ class _ParticipantForm extends React.Component<Props> {
 							],
 						})(
 							<Radio.Group>
-    <Radio value="M">M</Radio>
+								<Radio value="M">M</Radio>
 								<Radio value="F">F</Radio>
-  </Radio.Group>
+							</Radio.Group>
 						)}
-  </Form.Item>
+					</Form.Item>
 					<Form.Item label={label.can_drive} {...formItemLayout}>
 						{getFieldDecorator('can_drive')(<Checkbox>可能</Checkbox>)}
-  </Form.Item>
+					</Form.Item>
 					<Form.Item label={label.note} {...formItemLayout}>
 						{getFieldDecorator('note')(<Input.TextArea />)}
-  </Form.Item>
-  </Form>
-  </Modal>
+					</Form.Item>
+				</Form>
+			</Modal>
 		)
 	}
 }

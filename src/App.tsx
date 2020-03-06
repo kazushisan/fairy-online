@@ -12,12 +12,12 @@ export class App extends React.Component {
 	public render() {
 		return (
 			<div>
-    <Provider {...stores}>
+				<Provider {...stores}>
 					<Router>
 						<Routes />
-      </Router>
-  </Provider>
-  </div>
+					</Router>
+				</Provider>
+			</div>
 		)
 	}
 }

@@ -49,15 +49,15 @@ class _EventForm extends React.Component<Props> {
 		const { getFieldDecorator } = form
 		const footer = [
 			<Button key="back" onClick={onCancel}>
-    キャンセル
+				キャンセル
 			</Button>,
 			<Button
-    key="submit"
+				key="submit"
 				type="primary"
 				onClick={onOk}
 				loading={loading.submit}
-  >
-    {title ? '変更する' : '作成する'}
+			>
+				{title ? '変更する' : '作成する'}
 			</Button>,
 		]
 		if (typeof onDelete === 'function') {
@@ -65,25 +65,25 @@ class _EventForm extends React.Component<Props> {
 				1,
 				0,
 				<Button
-    key="delete"
-    type="danger"
-    onClick={onDelete}
-    loading={loading.delete}
-  >
+					key="delete"
+					type="danger"
+					onClick={onDelete}
+					loading={loading.delete}
+				>
 					イベントを削除
-  </Button>
+				</Button>
 			)
 		}
 		return (
 			<Modal
-    visible={visible}
+				visible={visible}
 				title={title || 'イベントを作成'}
 				onCancel={onCancel}
 				onOk={onOk}
 				footer={footer}
-  >
+			>
 				<Form>
-    <Form.Item label="タイトル" {...formItemLayout}>
+					<Form.Item label="タイトル" {...formItemLayout}>
 						{getFieldDecorator('title', {
 							rules: [
 								{
@@ -93,8 +93,8 @@ class _EventForm extends React.Component<Props> {
 							],
 						})(<Input />)}
 					</Form.Item>
-    <Form.Item label="説明" {...formItemLayout}>
-    {getFieldDecorator('description', {
+					<Form.Item label="説明" {...formItemLayout}>
+						{getFieldDecorator('description', {
 							rules: [
 								{
 									required: true,
@@ -102,7 +102,7 @@ class _EventForm extends React.Component<Props> {
 								},
 							],
 						})(<Input.TextArea />)}
-  </Form.Item>
+					</Form.Item>
 					<Form.Item label="日程" {...formItemLayout}>
 						{getFieldDecorator('range', {
 							rules: [
@@ -112,17 +112,17 @@ class _EventForm extends React.Component<Props> {
 								},
 							],
 						})(<DatePicker.RangePicker />)}
-  </Form.Item>
+					</Form.Item>
 					<Form.Item label="参加申請締切" {...formItemLayout}>
 						{getFieldDecorator('due', {})(<DatePicker />)}
-  </Form.Item>
+					</Form.Item>
 					<Form.Item {...tailFormItemLayout}>
 						{getFieldDecorator('can_apply', {
 							valuePropName: 'checked',
 						})(<Checkbox>参加を受け付ける</Checkbox>)}
-  </Form.Item>
-  </Form>
-  </Modal>
+					</Form.Item>
+				</Form>
+			</Modal>
 		)
 	}
 }

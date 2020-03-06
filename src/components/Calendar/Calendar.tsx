@@ -30,15 +30,15 @@ export class Calendar extends React.Component<Props> {
 	public render() {
 		return (
 			<CalendarWrapper>
-    <BigCalendar
+				<BigCalendar
 					components={components}
 					localizer={localizer}
 					views={['month']}
 					step={60}
 					showMultiDayTimes
 					{...this.props}
-  />
-  </CalendarWrapper>
+				/>
+			</CalendarWrapper>
 		)
 	}
 }

@@ -36,17 +36,17 @@ export class Toolbar extends React.Component<ToolbarProps> {
 		return (
 			<ToolbarWrapper>
 				<Icon
-    type="left"
+					type="left"
 					onClick={this.navigate.bind(null, 'PREV')}
-    style={iconStyle}
-  />
+					style={iconStyle}
+				/>
 				<h3 onClick={this.navigate.bind(null, 'TODAY')}>{label}</h3>
 				<Icon
 					type="right"
 					onClick={this.navigate.bind(null, 'NEXT')}
 					style={iconStyle}
-  />
-  </ToolbarWrapper>
+				/>
+			</ToolbarWrapper>
 		)
 	}
 

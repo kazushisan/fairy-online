@@ -71,7 +71,7 @@ export class CreateEvent extends React.Component<Props> {
 		return (
 			<div>
 				<a href="javascript:;" onClick={handleClick}>
-    新規イベント
+					新規イベント
 				</a>
 				<EventForm
 					visible={this.state.visible}
@@ -79,8 +79,8 @@ export class CreateEvent extends React.Component<Props> {
 					onOk={handleOk}
 					wrappedComponentRef={saveFormRef}
 					loading={this.state.loading}
-  />
-  </div>
+				/>
+			</div>
 		)
 	}
 }

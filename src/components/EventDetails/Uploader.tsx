@@ -59,20 +59,20 @@ export class Uploader extends React.Component<Props> {
 		return (
 			<Card style={cardStyle}>
 				{this.state.file.id === '' ? (
-    <div
+					<div
 						style={{
 							display: 'inline-block',
 						}}
-  >
-    <label htmlFor="select-file">
+					>
+						<label htmlFor="select-file">
 							<Icon type="upload" />
-  ファイルを選択
+							ファイルを選択
 						</label>
-    <input
-  type="file"
-  id="select-file"
+						<input
+							type="file"
+							id="select-file"
 							onChange={handleFile}
-  style={{ display: 'none' }}
+							style={{ display: 'none' }}
 						/>
 					</div>
 				) : (
@@ -80,23 +80,23 @@ export class Uploader extends React.Component<Props> {
 						<span>{this.state.file.name}</span>
 						<Button
 							type="primary"
-    onClick={upload}
+							onClick={upload}
 							disabled={this.state.uploading || this.state.file.id === ''}
-    icon="upload"
-    loading={this.state.uploading}
-    style={style}
-  >
+							icon="upload"
+							loading={this.state.uploading}
+							style={style}
+						>
 							{this.state.uploading ? 'アップロード中...' : 'アップロード'}
-  </Button>
+						</Button>
 						<Button
 							onClick={() => this.setState({ file: new File() })}
 							style={style}
-  >
+						>
 							キャンセル
-  </Button>
-  </div>
+						</Button>
+					</div>
 				)}
-  </Card>
+			</Card>
 		)
 	}
 }

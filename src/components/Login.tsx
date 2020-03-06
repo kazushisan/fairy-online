@@ -29,21 +29,21 @@ export class Login extends React.Component<Props> {
 		return (
 			<div id="login">
 				<Header
-    history={history}
-    eventStore={eventStore}
-    userStore={userStore}
-  />
+					history={history}
+					eventStore={eventStore}
+					userStore={userStore}
+				/>
 				<div className="login">
 					<LoginFormWrapper>
 						<Heading>
-    FOM: Fairy Online Manager
+							FOM: Fairy Online Manager
 							<br />
-    にログイン
+							にログイン
 						</Heading>
 						<LoginForm userStore={userStore} history={history} />
-  </LoginFormWrapper>
-  </div>
-  </div>
+					</LoginFormWrapper>
+				</div>
+			</div>
 		)
 	}
 }

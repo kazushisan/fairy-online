@@ -67,10 +67,10 @@ export class EventParticipants extends React.Component<Props, State> {
 				render: (text: any, record: Participant) => (
 					<Popconfirm
 						title="本当に削除しますか？"
-    onConfirm={() => handleDelete(record.id)}
-  >
+						onConfirm={() => handleDelete(record.id)}
+					>
 						<a href="javascript:;">削除</a>
-  </Popconfirm>
+					</Popconfirm>
 				),
 				title: '操作',
 			},
@@ -110,36 +110,36 @@ export class EventParticipants extends React.Component<Props, State> {
 		}
 		return (
 			<div>
-    <Table
+				<Table
 					dataSource={participants}
-  columns={columns}
-  rowKey={(row: Participant) => row.id}
-  pagination={false}
-  scroll={{ x: true }}
+					columns={columns}
+					rowKey={(row: Participant) => row.id}
+					pagination={false}
+					scroll={{ x: true }}
 					bordered
 				/>
-    {eventStore.event.can_apply && (
+				{eventStore.event.can_apply && (
 					<div>
 						<ParticipantForm
 							add_participant={add_participant}
-    onChange={handleFormChange}
+							onChange={handleFormChange}
 							wrappedComponentRef={(formRef: any) => (this.formRef = formRef)}
-    onCreate={handleCreate}
+							onCreate={handleCreate}
 							onCancel={handleCancel}
 							visible={this.state.adding}
-    title={eventStore.event.title}
-  />
+							title={eventStore.event.title}
+						/>
 						<ButtonWrap>
 							<Button
 								type="primary"
 								onClick={() => this.setState({ adding: true })}
-  >
+							>
 								参加申請
-  </Button>
-  </ButtonWrap>
-    </div>
+							</Button>
+						</ButtonWrap>
+					</div>
 				)}
-  </div>
+			</div>
 		)
 	}
 }

@@ -44,33 +44,33 @@ export class Header extends React.Component<Props> {
 		}
 		const menu = (
 			<Menu>
-    {userStore.user === 'admin' && (
+				{userStore.user === 'admin' && (
 					<Menu.Item key="create">
 						<CreateEvent eventStore={eventStore} history={history} />
 					</Menu.Item>
 				)}
 				{userStore.user && (
-  <Menu.Item>
+					<Menu.Item>
 						<a href="javasript:;" onClick={handleLogout}>
-      ログアウト
+							ログアウト
 						</a>
 					</Menu.Item>
 				)}
-  </Menu>
+			</Menu>
 		)
 		return (
 			<HeaderContainer>
 				<h1>FOM: Fairy Online Manager</h1>
 				{userStore.user && (
-  <MenuWrap>
-  <Dropdown overlay={menu} trigger={['click']}>
+					<MenuWrap>
+						<Dropdown overlay={menu} trigger={['click']}>
 							<Button>
 								<Icon type="bars" />
-    </Button>
+							</Button>
 						</Dropdown>
 					</MenuWrap>
 				)}
-  </HeaderContainer>
+			</HeaderContainer>
 		)
 	}
 }

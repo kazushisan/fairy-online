@@ -25,7 +25,7 @@ export class EventWrapper extends React.Component<EventWrapperProps> {
 		}
 		return (
 			<Button
-    onClick={originalButton.props.onClick}
+				onClick={originalButton.props.onClick}
 				onDoubleClick={originalButton.props.onDoubleClick}
 				className={classes}
 				type="primary"
@@ -34,9 +34,9 @@ export class EventWrapper extends React.Component<EventWrapperProps> {
 					width: '100%',
 				}}
 				size="small"
-  >
+			>
 				{originalButton.props.children}
-  </Button>
+			</Button>
 		)
 	}
 }

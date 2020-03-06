@@ -8,12 +8,12 @@ export class Routes extends React.Component {
 	public render() {
 		return (
 			<Switch>
-    <Route exact path="/~fairyski" component={Home} />
+				<Route exact path="/~fairyski" component={Home} />
 				<Route exact path="/~fairyski/login" component={Login} />
 				<Route exact path="/~fairyski/main" component={Main} />
 				<Route exact path="/~fairyski/event" component={Main} />
 				<Route exact path="/~fairyski/event/:id" component={Main} />
-  </Switch>
+			</Switch>
 		)
 	}
 }

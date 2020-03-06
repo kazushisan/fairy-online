@@ -77,22 +77,22 @@ export class Main extends React.Component<Props> {
 		return (
 			<Container>
 				<Header
-    history={history}
-    eventStore={eventStore}
-    userStore={userStore}
-  />
+					history={history}
+					eventStore={eventStore}
+					userStore={userStore}
+				/>
 				<Calendar
 					events={[...eventStore.events, ...eventStore.deadlines]}
 					onSelectEvent={onSelectEvent}
-  />
-    <EventDetails
-  eventStore={eventStore}
+				/>
+				<EventDetails
+					eventStore={eventStore}
 					userStore={userStore}
 					visible={eventStore.event.id !== ''}
 					onClose={onClose}
 					history={history}
 				/>
-  </Container>
+			</Container>
 		)
 	}
 }
