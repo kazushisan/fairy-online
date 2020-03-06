@@ -27,7 +27,7 @@ const CalendarWrapper = styled.div`
 
 @observer
 export class Calendar extends React.Component<Props> {
-	public render() {
+	public render(): React.ReactNode {
 		const { events, onSelectEvent } = this.props
 		return (
 			<CalendarWrapper>
