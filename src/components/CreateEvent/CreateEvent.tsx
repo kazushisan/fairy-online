@@ -21,15 +21,16 @@ export class CreateEvent extends React.Component<Props> {
 	public state: State = {
 		visible: false,
 		loading: {
-			submit: false
-		}
+			submit: false,
+		},
 	}
+
 	private formRef: any
 
 	public render() {
 		const { eventStore, history } = this.props
 		const handleOk = async () => {
-			const form = this.formRef.props.form
+			const { form } = this.formRef.props
 			await form.validateFields(async (err: any, values: any) => {
 				if (!err) {
 					this.setState({ loading: { submit: true } })
@@ -39,14 +40,14 @@ export class CreateEvent extends React.Component<Props> {
 						due: values.due ? values.due.format('YYYY-MM-DD') : '',
 						can_apply: values.can_apply,
 						title: values.title,
-						description: values.description
+						description: values.description,
 					})
 					await eventStore
 						.addEvent(newEvent)
 						.then(() => {
 							this.setState({
 								loading: { submit: false },
-								visible: false
+								visible: false,
 							})
 							message.success('作成しました')
 						})
@@ -70,7 +71,7 @@ export class CreateEvent extends React.Component<Props> {
 		return (
 			<div>
 				<a href="javascript:;" onClick={handleClick}>
-					新規イベント
+    新規イベント
 				</a>
 				<EventForm
 					visible={this.state.visible}
@@ -78,8 +79,8 @@ export class CreateEvent extends React.Component<Props> {
 					onOk={handleOk}
 					wrappedComponentRef={saveFormRef}
 					loading={this.state.loading}
-				/>
-			</div>
+  />
+  </div>
 		)
 	}
 }

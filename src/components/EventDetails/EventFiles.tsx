@@ -28,36 +28,27 @@ export class EventFiles extends React.Component<Props> {
 		return (
 			<div>
 				{event.files.length > 0 ? (
-					<List
-						bordered
+    <List
+    bordered
 						dataSource={event.files}
-						renderItem={(file: File) => (
-							<List.Item
-								onClick={() =>
+    renderItem={(file: File) => (
+  <List.Item
+  onClick={() =>
 									eventStore
 										.downloadFile(file)
-										.catch(err =>
-											handleError({ err, history })
-										)
+										.catch(err => handleError({ err, history }))
 								}
 								actions={
 									canDelete
 										? [
 												<a
 													href="javascript:;"
-													onClick={(
-														e: React.MouseEvent<
-															HTMLAnchorElement
-														>
-													) =>
-														handleDeleteFile(
-															e,
-															file
-														)
+													onClick={(e: React.MouseEvent<HTMLAnchorElement>) =>
+														handleDeleteFile(e, file)
 													}
-												>
+  >
 													削除
-												</a>
+  </a>,
 										  ]
 										: []
 								}
@@ -65,11 +56,11 @@ export class EventFiles extends React.Component<Props> {
 								{file.name}
 							</List.Item>
 						)}
-					/>
+  />
 				) : (
 					<Empty description={<span>資料はありません</span>} />
 				)}
-			</div>
+  </div>
 		)
 	}
 }

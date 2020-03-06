@@ -26,8 +26,9 @@ const ButtonWrap = styled.div`
 @observer
 export class EventParticipants extends React.Component<Props, State> {
 	public state: State = {
-		adding: false
+		adding: false,
 	}
+
 	private formRef: any
 
 	public render() {
@@ -38,41 +39,41 @@ export class EventParticipants extends React.Component<Props, State> {
 		const columns: object[] = [
 			{
 				dataIndex: 'name',
-				title: label.name
+				title: label.name,
 			},
 			{
 				dataIndex: 'affiliation',
-				title: label.affiliation
+				title: label.affiliation,
 			},
 			{
 				dataIndex: 'age',
-				title: label.age
+				title: label.age,
 			},
 			{
 				dataIndex: 'sex',
-				title: label.sex
+				title: label.sex,
 			},
 			{
 				dataIndex: 'can_drive',
 				render: (can_drive: boolean) => (can_drive ? 'はい' : 'いいえ'),
-				title: label.can_drive
+				title: label.can_drive,
 			},
 			{
 				dataIndex: 'note',
-				title: label.note
+				title: label.note,
 			},
 			{
 				dataIndex: 'operation',
 				render: (text: any, record: Participant) => (
 					<Popconfirm
 						title="本当に削除しますか？"
-						onConfirm={() => handleDelete(record.id)}
-					>
+    onConfirm={() => handleDelete(record.id)}
+  >
 						<a href="javascript:;">削除</a>
 					</Popconfirm>
 				),
-				title: '操作'
-			}
+				title: '操作',
+			},
 		]
 		if (!canDelete) {
 			columns.pop()
@@ -85,11 +86,11 @@ export class EventParticipants extends React.Component<Props, State> {
 		}
 		const handleFormChange = (values: object) => {
 			set(eventStore, {
-				add_participant: Object.assign(add_participant, values)
+				add_participant: Object.assign(add_participant, values),
 			})
 		}
 		const handleCreate = () => {
-			const form = this.formRef.props.form
+			const { form } = this.formRef.props
 			form.validateFields((error: any, values: any) => {
 				if (!error) {
 					eventStore
@@ -103,44 +104,42 @@ export class EventParticipants extends React.Component<Props, State> {
 		}
 		const handleCancel = () => {
 			set(eventStore, {
-				add_participant: new Participant()
+				add_participant: new Participant(),
 			})
 			this.setState({ adding: false })
 		}
 		return (
 			<div>
-				<Table
+    <Table
 					dataSource={participants}
-					columns={columns}
-					rowKey={(row: Participant) => row.id}
-					pagination={false}
-					scroll={{ x: true }}
-					bordered
+  columns={columns}
+  rowKey={(row: Participant) => row.id}
+  pagination={false}
+  scroll={{ x: true }}
+  bordered
 				/>
-				{eventStore.event.can_apply && (
+    {eventStore.event.can_apply && (
 					<div>
 						<ParticipantForm
 							add_participant={add_participant}
-							onChange={handleFormChange}
-							wrappedComponentRef={(formRef: any) =>
-								(this.formRef = formRef)
-							}
-							onCreate={handleCreate}
+    onChange={handleFormChange}
+							wrappedComponentRef={(formRef: any) => (this.formRef = formRef)}
+    onCreate={handleCreate}
 							onCancel={handleCancel}
 							visible={this.state.adding}
-							title={eventStore.event.title}
-						/>
+    title={eventStore.event.title}
+  />
 						<ButtonWrap>
 							<Button
 								type="primary"
 								onClick={() => this.setState({ adding: true })}
-							>
+  >
 								参加申請
-							</Button>
-						</ButtonWrap>
-					</div>
+  </Button>
+  </ButtonWrap>
+    </div>
 				)}
-			</div>
+  </div>
 		)
 	}
 }

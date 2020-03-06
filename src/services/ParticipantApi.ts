@@ -16,10 +16,10 @@ export const remove = (
 				{
 					event_id,
 					participant_id: id,
-					type: 'remove_participant'
+					type: 'remove_participant',
 				},
 				{
-					headers: { Authorization: 'Bearer ' + jwt }
+					headers: { Authorization: `Bearer ${jwt}` },
 				}
 			)
 			.then(response => {
@@ -42,10 +42,10 @@ export const add = (
 				{
 					data: participant,
 					event_id,
-					type: 'add_participant'
+					type: 'add_participant',
 				},
 				{
-					headers: { Authorization: 'Bearer ' + jwt }
+					headers: { Authorization: `Bearer ${jwt}` },
 				}
 			)
 			.then(response => {

@@ -25,18 +25,18 @@ export class EventWrapper extends React.Component<EventWrapperProps> {
 		}
 		return (
 			<Button
-				onClick={originalButton.props.onClick}
+    onClick={originalButton.props.onClick}
 				onDoubleClick={originalButton.props.onDoubleClick}
 				className={classes}
 				type="primary"
 				style={{
 					textAlign: 'left',
-					width: '100%'
+					width: '100%',
 				}}
 				size="small"
-			>
+  >
 				{originalButton.props.children}
-			</Button>
+  </Button>
 		)
 	}
 }

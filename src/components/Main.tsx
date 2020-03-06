@@ -29,7 +29,7 @@ const Container = styled.div`
 export class Main extends React.Component<Props> {
 	public async componentDidMount() {
 		const { eventStore, history } = this.props
-		const id = this.props.match.params.id
+		const { id } = this.props.match.params
 
 		await eventStore
 			.load()
@@ -45,10 +45,11 @@ export class Main extends React.Component<Props> {
 			})
 			.catch(err => handleError({ err, history }))
 	}
+
 	public componentDidUpdate(prevProps: Props) {
 		if (this.props.location.pathname !== prevProps.location.pathname) {
 			const { eventStore, history } = this.props
-			const id = this.props.match.params.id
+			const { id } = this.props.match.params
 
 			if (id) {
 				try {
@@ -62,6 +63,7 @@ export class Main extends React.Component<Props> {
 			}
 		}
 	}
+
 	public render() {
 		const { eventStore, history, userStore } = this.props
 
@@ -75,22 +77,22 @@ export class Main extends React.Component<Props> {
 		return (
 			<Container>
 				<Header
-					history={history}
-					eventStore={eventStore}
-					userStore={userStore}
-				/>
+    history={history}
+    eventStore={eventStore}
+    userStore={userStore}
+  />
 				<Calendar
 					events={[...eventStore.events, ...eventStore.deadlines]}
 					onSelectEvent={onSelectEvent}
-				/>
-				<EventDetails
-					eventStore={eventStore}
+  />
+    <EventDetails
+  eventStore={eventStore}
 					userStore={userStore}
 					visible={eventStore.event.id !== ''}
 					onClose={onClose}
 					history={history}
 				/>
-			</Container>
+  </Container>
 		)
 	}
 }

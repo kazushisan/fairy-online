@@ -27,7 +27,7 @@ const ToolbarWrapper = styled.div`
 	}
 `
 const iconStyle = {
-	color: 'rgba(0, 0, 0, 0.45)'
+	color: 'rgba(0, 0, 0, 0.45)',
 }
 
 export class Toolbar extends React.Component<ToolbarProps> {
@@ -35,20 +35,21 @@ export class Toolbar extends React.Component<ToolbarProps> {
 		const { label } = this.props
 		return (
 			<ToolbarWrapper>
-				<Icon
-					type="left"
+    <Icon
+    type="left"
 					onClick={this.navigate.bind(null, 'PREV')}
-					style={iconStyle}
-				/>
+    style={iconStyle}
+  />
 				<h3 onClick={this.navigate.bind(null, 'TODAY')}>{label}</h3>
 				<Icon
 					type="right"
 					onClick={this.navigate.bind(null, 'NEXT')}
 					style={iconStyle}
-				/>
-			</ToolbarWrapper>
+  />
+  </ToolbarWrapper>
 		)
 	}
+
 	private navigate = (action: Navigate): void => {
 		this.props.onNavigate(action)
 	}

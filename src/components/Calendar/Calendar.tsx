@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { Event } from '../../entities/Event'
 import { EventWrapper } from './EventWrapper'
 import { Toolbar } from './Toolbar'
+
 const localizer = BigCalendar.momentLocalizer(moment)
 
 interface Props {
@@ -14,7 +15,7 @@ interface Props {
 }
 const components = {
 	eventWrapper: EventWrapper,
-	toolbar: Toolbar
+	toolbar: Toolbar,
 }
 const CalendarWrapper = styled.div`
 	height: calc(100vh - 55px);
@@ -29,15 +30,15 @@ export class Calendar extends React.Component<Props> {
 	public render() {
 		return (
 			<CalendarWrapper>
-				<BigCalendar
+    <BigCalendar
 					components={components}
 					localizer={localizer}
 					views={['month']}
 					step={60}
 					showMultiDayTimes
 					{...this.props}
-				/>
-			</CalendarWrapper>
+  />
+  </CalendarWrapper>
 		)
 	}
 }

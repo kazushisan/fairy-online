@@ -1,8 +1,12 @@
 export class Buttons {
 	public add_event: string
+
 	public edit_event: string
+
 	public upload_file: string
+
 	public remove_event: string
+
 	public add_participant: string
 
 	constructor() {
