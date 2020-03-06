@@ -27,8 +27,9 @@ const Container = styled.div`
 @(withRouter as any)
 @observer
 export class Main extends React.Component<Props> {
-	public async componentDidMount() {
+	public async componentDidMount(): Promise<void> {
 		const { eventStore, history } = this.props
+		// eslint-disable-next-line react/destructuring-assignment
 		const { id } = this.props.match.params
 
 		await eventStore
@@ -46,9 +47,11 @@ export class Main extends React.Component<Props> {
 			.catch(err => handleError({ err, history }))
 	}
 
-	public componentDidUpdate(prevProps: Props) {
+	public componentDidUpdate(prevProps: Props): void {
+		// eslint-disable-next-line react/destructuring-assignment
 		if (this.props.location.pathname !== prevProps.location.pathname) {
 			const { eventStore, history } = this.props
+			// eslint-disable-next-line react/destructuring-assignment
 			const { id } = this.props.match.params
 
 			if (id) {
