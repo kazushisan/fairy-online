@@ -1,5 +1,5 @@
+import React, { useCallback } from 'react'
 import { Icon } from 'antd'
-import * as React from 'react'
 import { ToolbarProps, NavigateAction } from 'react-big-calendar'
 import styled from 'styled-components'
 
@@ -30,20 +30,20 @@ const iconStyle = {
 	color: 'rgba(0, 0, 0, 0.45)',
 }
 
-export class Toolbar extends React.Component<ToolbarProps> {
-	private navigate = (action: NavigateAction): (() => void) => (): void => {
-		const { onNavigate } = this.props
-		onNavigate(action)
-	}
+export const Toolbar = ({
+	onNavigate,
+	label,
+}: ToolbarProps): React.ReactElement<{}> => {
+	const onClick = useCallback(
+		(action: NavigateAction) => (): void => onNavigate(action),
+		[]
+	)
 
-	public render(): React.ReactNode {
-		const { label } = this.props
-		return (
-			<ToolbarWrapper>
-				<Icon type="left" onClick={this.navigate('PREV')} style={iconStyle} />
-				<h3 onClick={this.navigate('TODAY')}>{label}</h3>
-				<Icon type="right" onClick={this.navigate('NEXT')} style={iconStyle} />
-			</ToolbarWrapper>
-		)
-	}
+	return (
+		<ToolbarWrapper>
+			<Icon type="left" onClick={onClick('PREV')} style={iconStyle} />
+			<h3 onClick={onClick('TODAY')}>{label}</h3>
+			<Icon type="right" onClick={onClick('NEXT')} style={iconStyle} />
+		</ToolbarWrapper>
+	)
 }
