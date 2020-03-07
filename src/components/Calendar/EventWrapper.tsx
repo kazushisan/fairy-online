@@ -8,7 +8,9 @@ type Props = EventWrapperProps<Event> & {
 }
 
 export const EventWrapper = ({ children }: Props): React.ReactElement<{}> => {
-	const originalButton = React.Children.only(children)
+	const originalButton = React.Children.only(children) as React.ReactElement<
+		any
+	>
 	const title = React.Children.only(originalButton.props.children).props
 		.title as string
 
