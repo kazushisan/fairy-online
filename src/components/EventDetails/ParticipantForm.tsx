@@ -1,11 +1,10 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable no-underscore-dangle */
+import React, { forwardRef, useImperativeHandle } from 'react'
 import { Checkbox, Form, Input, InputNumber, Modal, Radio, Select } from 'antd'
 import { FormComponentProps } from 'antd/lib/form'
 import { WrappedFormUtils } from 'antd/lib/form/Form'
-import React, { forwardRef, useImperativeHandle } from 'react'
 import { Label } from '../../entities/Label'
 import { Participant } from '../../entities/Participant'
+import { ParticipantFormItem } from './ParticipantFormItem'
 
 type Props = FormComponentProps & {
 	add_participant: Participant
@@ -14,16 +13,6 @@ type Props = FormComponentProps & {
 	onCancel: () => void
 	visible: boolean
 	title: string
-}
-const formItemLayout = {
-	labelCol: {
-		sm: { span: 8 },
-		xs: { span: 24 },
-	},
-	wrapperCol: {
-		sm: { span: 16 },
-		xs: { span: 24 },
-	},
 }
 
 export type ParticipantFormRef = {
@@ -58,7 +47,7 @@ const ParticipantFormContent = forwardRef<ParticipantFormRef, Props>(
 				onOk={onCreate}
 			>
 				<Form layout="horizontal">
-					<Form.Item label={label.name} {...formItemLayout}>
+					<ParticipantFormItem label={label.name}>
 						{getFieldDecorator('name', {
 							rules: [
 								{
@@ -67,8 +56,8 @@ const ParticipantFormContent = forwardRef<ParticipantFormRef, Props>(
 								},
 							],
 						})(<Input />)}
-					</Form.Item>
-					<Form.Item label={label.affiliation} {...formItemLayout}>
+					</ParticipantFormItem>
+					<ParticipantFormItem label={label.affiliation}>
 						{getFieldDecorator('affiliation', {
 							rules: [
 								{
@@ -77,8 +66,8 @@ const ParticipantFormContent = forwardRef<ParticipantFormRef, Props>(
 								},
 							],
 						})(<Input />)}
-					</Form.Item>
-					<Form.Item label={label.year} {...formItemLayout}>
+					</ParticipantFormItem>
+					<ParticipantFormItem label={label.year}>
 						{getFieldDecorator('year', {
 							rules: [
 								{
@@ -95,8 +84,8 @@ const ParticipantFormContent = forwardRef<ParticipantFormRef, Props>(
 								))}
 							</Select>
 						)}
-					</Form.Item>
-					<Form.Item label={label.age} {...formItemLayout}>
+					</ParticipantFormItem>
+					<ParticipantFormItem label={label.age}>
 						{getFieldDecorator('age', {
 							rules: [
 								{
@@ -108,8 +97,8 @@ const ParticipantFormContent = forwardRef<ParticipantFormRef, Props>(
 								},
 							],
 						})(<InputNumber />)}
-					</Form.Item>
-					<Form.Item label={label.sex} {...formItemLayout}>
+					</ParticipantFormItem>
+					<ParticipantFormItem label={label.sex}>
 						{getFieldDecorator('sex', {
 							rules: [
 								{
@@ -123,13 +112,13 @@ const ParticipantFormContent = forwardRef<ParticipantFormRef, Props>(
 								<Radio value="F">F</Radio>
 							</Radio.Group>
 						)}
-					</Form.Item>
-					<Form.Item label={label.can_drive} {...formItemLayout}>
+					</ParticipantFormItem>
+					<ParticipantFormItem label={label.can_drive}>
 						{getFieldDecorator('can_drive')(<Checkbox>可能</Checkbox>)}
-					</Form.Item>
-					<Form.Item label={label.note} {...formItemLayout}>
+					</ParticipantFormItem>
+					<ParticipantFormItem label={label.note}>
 						{getFieldDecorator('note')(<Input.TextArea />)}
-					</Form.Item>
+					</ParticipantFormItem>
 				</Form>
 			</Modal>
 		)
