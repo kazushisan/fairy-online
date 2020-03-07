@@ -4,7 +4,7 @@ import React, { useState, useCallback, useRef } from 'react'
 import { Event } from '../../entities/Event'
 import { handleError } from '../../services/handleError'
 import { EventStore } from '../../stores/EventStore'
-import { EventForm } from '../EventForm/EventForm'
+import { EventForm, EventFormRef } from '../EventForm/EventForm'
 
 type Props = {
 	history: History
@@ -23,14 +23,14 @@ export const CreateEvent = ({
 		submit: false,
 	})
 
-	const formRef = useRef<any>(null)
+	const formRef = useRef<EventFormRef>(null)
 
 	const handleOk = useCallback(async (): Promise<void> => {
 		if (!formRef.current) {
 			return
 		}
 
-		const { form } = formRef.current.props
+		const { form } = formRef.current
 		await form.validateFields(async (err: any, values: any) => {
 			if (!err) {
 				setLoading({ submit: true })
@@ -58,10 +58,6 @@ export const CreateEvent = ({
 	}, [])
 	const handleCancel = useCallback(() => setVisible(false), [])
 
-	const saveFormRef = useCallback((ref: any) => {
-		formRef.current = ref
-	}, [])
-
 	const handleClick = useCallback((e: any) => {
 		e.stopPropagation()
 		setVisible(true)
@@ -74,7 +70,7 @@ export const CreateEvent = ({
 				visible={visible}
 				onCancel={handleCancel}
 				onOk={handleOk}
-				wrappedComponentRef={saveFormRef}
+				wrappedComponentRef={formRef}
 				loading={loading}
 			/>
 		</div>
