@@ -114,7 +114,9 @@ const ParticipantFormContent = forwardRef<ParticipantFormRef, Props>(
 						)}
 					</ParticipantFormItem>
 					<ParticipantFormItem label={label.can_drive}>
-						{getFieldDecorator('can_drive')(<Checkbox>可能</Checkbox>)}
+						{getFieldDecorator('can_drive', {
+							valuePropName: 'checked',
+						})(<Checkbox>可能</Checkbox>)}
 					</ParticipantFormItem>
 					<ParticipantFormItem label={label.note}>
 						{getFieldDecorator('note')(<Input.TextArea />)}
