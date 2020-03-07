@@ -7,7 +7,6 @@ import { EventStore } from '../../stores/EventStore'
 import { UserStore } from '../../stores/UserStore'
 import { EditEvent } from './EditEvent'
 import { EventParticipants } from './EventParticipants'
-import { Uploader } from './Uploader'
 
 interface Props {
 	eventStore: EventStore
@@ -50,8 +49,6 @@ export class EventDetails extends React.Component<Props> {
 						<p>{event.description}</p>
 					</div>
 					{isAdmin && <EditEvent eventStore={eventStore} history={history} />}
-					<Divider />
-					{isAdmin && <Uploader eventStore={eventStore} history={history} />}
 					<Divider />
 					{event.can_apply && <h3>現在参加申請を受け付けています</h3>}
 					<EventParticipants
