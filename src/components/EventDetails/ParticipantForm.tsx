@@ -26,7 +26,7 @@ const formItemLayout = {
 }
 const label = new Label()
 const { Option } = Select
-const _ParticipantForm = (props: Props): React.ReactElement<any> => {
+const ParticipantFormContent = (props: Props): React.ReactElement<any> => {
 	const {
 		visible,
 		onCancel,
@@ -132,4 +132,4 @@ export const ParticipantForm = Form.create({
 			}),
 		}
 	},
-})(_ParticipantForm)
+})(ParticipantFormContent)
