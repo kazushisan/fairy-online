@@ -4,7 +4,7 @@ import { EventWrapperProps } from 'react-big-calendar'
 import { Event } from '../../entities/Event'
 
 type Props = EventWrapperProps<Event> & {
-	children: React.ReactNode
+	children?: React.ReactNode
 }
 
 export const EventWrapper = ({ children }: Props): React.ReactElement<{}> => {
