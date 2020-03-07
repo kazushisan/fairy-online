@@ -2,7 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 import { Button, Checkbox, DatePicker, Form, Input, Modal } from 'antd'
 import { FormComponentProps } from 'antd/lib/form'
-import React, { forwardRef, useImperativeHandle, Ref } from 'react'
+import React, { forwardRef, useImperativeHandle, Ref, useMemo } from 'react'
 import { WrappedFormUtils } from 'antd/lib/form/Form'
 
 interface Props extends FormComponentProps {
@@ -56,33 +56,39 @@ export const EventForm = Form.create<Props>()(
 
 			const { getFieldDecorator } = form
 
-			const footer = [
-				<Button key="back" onClick={onCancel}>
-					キャンセル
-				</Button>,
-				<Button
-					key="submit"
-					type="primary"
-					onClick={onOk}
-					loading={loading.submit}
-				>
-					{title ? '変更する' : '作成する'}
-				</Button>,
-			]
-			if (typeof onDelete === 'function') {
-				footer.splice(
-					1,
-					0,
+			const footer = useMemo(() => {
+				const buttons = [
+					<Button key="back" onClick={onCancel}>
+						キャンセル
+					</Button>,
 					<Button
-						key="delete"
-						type="danger"
-						onClick={onDelete}
-						loading={loading.delete}
+						key="submit"
+						type="primary"
+						onClick={onOk}
+						loading={loading.submit}
 					>
-						イベントを削除
-					</Button>
-				)
-			}
+						{title ? '変更する' : '作成する'}
+					</Button>,
+				]
+
+				if (typeof onDelete === 'function') {
+					buttons.splice(
+						1,
+						0,
+						<Button
+							key="delete"
+							type="danger"
+							onClick={onDelete}
+							loading={loading.delete}
+						>
+							イベントを削除
+						</Button>
+					)
+				}
+
+				return buttons
+			}, [onDelete])
+
 			return (
 				<Modal
 					visible={visible}
