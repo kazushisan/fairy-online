@@ -19,10 +19,15 @@ const DrawerContents = styled.div`
 	overflow: scroll;
 	position: relative;
 `
-@observer
-export class EventDetails extends React.Component<Props> {
-	public render(): React.ReactNode {
-		const { visible, eventStore, onClose, history, userStore } = this.props
+
+export const EventDetails = observer(
+	({
+		visible,
+		eventStore,
+		onClose,
+		history,
+		userStore,
+	}: Props): React.ReactElement<{}> => {
 		const { event } = eventStore
 		const calcWidth = (): string =>
 			window.innerWidth < 800 ? '100vw' : '800px'
@@ -60,4 +65,4 @@ export class EventDetails extends React.Component<Props> {
 			</Drawer>
 		)
 	}
-}
+)
