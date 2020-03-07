@@ -1,6 +1,6 @@
 import { Icon } from 'antd'
 import * as React from 'react'
-import { Navigate, ToolbarProps } from 'react-big-calendar'
+import { ToolbarProps, NavigateAction } from 'react-big-calendar'
 import styled from 'styled-components'
 
 const ToolbarWrapper = styled.div`
@@ -31,7 +31,7 @@ const iconStyle = {
 }
 
 export class Toolbar extends React.Component<ToolbarProps> {
-	private navigate = (action: Navigate): (() => void) => (): void => {
+	private navigate = (action: NavigateAction): (() => void) => (): void => {
 		const { onNavigate } = this.props
 		onNavigate(action)
 	}
