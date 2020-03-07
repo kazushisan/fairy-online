@@ -1,13 +1,13 @@
 import { observer } from 'mobx-react'
 import * as moment from 'moment'
 import * as React from 'react'
-import * as BigCalendar from 'react-big-calendar'
+import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar'
 import styled from 'styled-components'
 import { Event } from '../../entities/Event'
 import { EventWrapper } from './EventWrapper'
 import { Toolbar } from './Toolbar'
 
-const localizer = BigCalendar.momentLocalizer(moment)
+const localizer = momentLocalizer(moment)
 
 interface Props {
 	events: Event[]
@@ -17,6 +17,7 @@ const components = {
 	eventWrapper: EventWrapper,
 	toolbar: Toolbar,
 }
+
 const CalendarWrapper = styled.div`
 	height: calc(100vh - 55px);
 	min-height: 500px;
