@@ -15,15 +15,9 @@
     "@types/file-saver": "^2.0.0",
     "@types/node": "^13.7.7",
     "@types/query-string": "^6.2.0",
-<<<<<<< HEAD
     "@types/react": "^16.9.23",
-    "@types/react-big-calendar": "^0.20.2",
-    "@types/react-dom": "^16.9.5",
-=======
-    "@types/react": "^16.7.20",
     "@types/react-big-calendar": "^0.24.0",
-    "@types/react-dom": "^16.0.11",
->>>>>>> upgrade react-big-calendar
+    "@types/react-dom": "^16.9.5",
     "@types/react-router-dom": "^4.3.1",
     "@types/styled-components": "^4.1.6",
     "@typescript-eslint/eslint-plugin": "^2.22.0",
@@ -64,7 +58,7 @@
     "moment": "^2.24.0",
     "query-string": "^6.2.0",
     "react": "^16.13.0",
-    "react-big-calendar": "^0.20.3",
+    "react-big-calendar": "^0.24.0",
     "react-dom": "^16.13.0",
     "react-router-dom": "^4.3.1",
     "styled-components": "^4.1.3"
