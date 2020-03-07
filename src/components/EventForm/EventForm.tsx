@@ -1,9 +1,8 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable no-underscore-dangle */
+import React, { forwardRef, useImperativeHandle, useMemo } from 'react'
 import { Button, Checkbox, DatePicker, Form, Input, Modal } from 'antd'
 import { FormComponentProps } from 'antd/lib/form'
-import React, { forwardRef, useImperativeHandle, Ref, useMemo } from 'react'
 import { WrappedFormUtils } from 'antd/lib/form/Form'
+import { FormItem } from './FormItem'
 
 interface Props extends FormComponentProps {
 	visible: boolean
@@ -15,29 +14,6 @@ interface Props extends FormComponentProps {
 		submit: boolean
 		delete?: boolean
 	}
-}
-const formItemLayout = {
-	labelCol: {
-		sm: { span: 8 },
-		xs: { span: 24 },
-	},
-	wrapperCol: {
-		sm: { span: 16 },
-		xs: { span: 24 },
-	},
-}
-
-const tailFormItemLayout = {
-	wrapperCol: {
-		xs: {
-			span: 24,
-			offset: 0,
-		},
-		sm: {
-			span: 16,
-			offset: 8,
-		},
-	},
 }
 
 export type EventFormRef = {
@@ -89,6 +65,58 @@ export const EventForm = Form.create<Props>()(
 				return buttons
 			}, [onDelete])
 
+			const titleInput = useMemo(
+				() =>
+					getFieldDecorator('title', {
+						rules: [
+							{
+								required: true,
+								message: 'タイトルを入力してください',
+							},
+						],
+					})(<Input />),
+				[]
+			)
+
+			const descriptionInput = useMemo(
+				() =>
+					getFieldDecorator('description', {
+						rules: [
+							{
+								required: true,
+								message: '説明を入力してください',
+							},
+						],
+					})(<Input.TextArea />),
+				[]
+			)
+
+			const rangeInput = useMemo(
+				() =>
+					getFieldDecorator('range', {
+						rules: [
+							{
+								required: true,
+								message: '日程を入力してください',
+							},
+						],
+					})(<DatePicker.RangePicker />),
+				[]
+			)
+
+			const dueInput = useMemo(
+				() => getFieldDecorator('due', {})(<DatePicker />),
+				[]
+			)
+
+			const canApplyInput = useMemo(
+				() =>
+					getFieldDecorator('can_apply', {
+						valuePropName: 'checked',
+					})(<Checkbox>参加を受け付ける</Checkbox>),
+				[]
+			)
+
 			return (
 				<Modal
 					visible={visible}
@@ -98,44 +126,11 @@ export const EventForm = Form.create<Props>()(
 					footer={footer}
 				>
 					<Form>
-						<Form.Item label="タイトル" {...formItemLayout}>
-							{getFieldDecorator('title', {
-								rules: [
-									{
-										required: true,
-										message: 'タイトルを入力してください',
-									},
-								],
-							})(<Input />)}
-						</Form.Item>
-						<Form.Item label="説明" {...formItemLayout}>
-							{getFieldDecorator('description', {
-								rules: [
-									{
-										required: true,
-										message: '説明を入力してください',
-									},
-								],
-							})(<Input.TextArea />)}
-						</Form.Item>
-						<Form.Item label="日程" {...formItemLayout}>
-							{getFieldDecorator('range', {
-								rules: [
-									{
-										required: true,
-										message: '日程を入力してください',
-									},
-								],
-							})(<DatePicker.RangePicker />)}
-						</Form.Item>
-						<Form.Item label="参加申請締切" {...formItemLayout}>
-							{getFieldDecorator('due', {})(<DatePicker />)}
-						</Form.Item>
-						<Form.Item {...tailFormItemLayout}>
-							{getFieldDecorator('can_apply', {
-								valuePropName: 'checked',
-							})(<Checkbox>参加を受け付ける</Checkbox>)}
-						</Form.Item>
+						<FormItem label="タイトル">{titleInput}</FormItem>
+						<FormItem label="説明">{descriptionInput}</FormItem>
+						<FormItem label="日程">{rangeInput}</FormItem>
+						<FormItem label="参加申請締切">{dueInput}</FormItem>
+						<FormItem tail>{canApplyInput}</FormItem>
 					</Form>
 				</Modal>
 			)
