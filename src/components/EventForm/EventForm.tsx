@@ -75,7 +75,7 @@ export const EventForm = Form.create<Props>()(
 							},
 						],
 					})(<Input />),
-				[]
+				[getFieldDecorator]
 			)
 
 			const descriptionInput = useMemo(
@@ -88,7 +88,7 @@ export const EventForm = Form.create<Props>()(
 							},
 						],
 					})(<Input.TextArea />),
-				[]
+				[getFieldDecorator]
 			)
 
 			const rangeInput = useMemo(
@@ -101,12 +101,12 @@ export const EventForm = Form.create<Props>()(
 							},
 						],
 					})(<DatePicker.RangePicker />),
-				[]
+				[getFieldDecorator]
 			)
 
 			const dueInput = useMemo(
 				() => getFieldDecorator('due', {})(<DatePicker />),
-				[]
+				[getFieldDecorator]
 			)
 
 			const canApplyInput = useMemo(
@@ -114,7 +114,7 @@ export const EventForm = Form.create<Props>()(
 					getFieldDecorator('can_apply', {
 						valuePropName: 'checked',
 					})(<Checkbox>参加を受け付ける</Checkbox>),
-				[]
+				[getFieldDecorator]
 			)
 
 			return (
