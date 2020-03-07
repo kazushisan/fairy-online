@@ -1,12 +1,13 @@
 import { Button } from 'antd'
 import * as React from 'react'
 import { EventWrapperProps } from 'react-big-calendar'
+import { Event } from '../../entities/Event'
 
 // const Button = styled.div`
 // 	width: 100%;
 // `
 
-export class EventWrapper extends React.Component<EventWrapperProps> {
+export class EventWrapper extends React.Component<EventWrapperProps<Event>> {
 	public render(): React.ReactNode {
 		const { children } = this.props
 		const originalButton = React.Children.only(children)

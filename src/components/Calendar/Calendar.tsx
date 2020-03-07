@@ -1,7 +1,11 @@
 import { observer } from 'mobx-react'
 import * as moment from 'moment'
 import * as React from 'react'
-import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar'
+import {
+	Calendar as BigCalendar,
+	momentLocalizer,
+	Components,
+} from 'react-big-calendar'
 import styled from 'styled-components'
 import { Event } from '../../entities/Event'
 import { EventWrapper } from './EventWrapper'
@@ -13,7 +17,7 @@ interface Props {
 	events: Event[]
 	onSelectEvent: (event: Event) => void
 }
-const components = {
+const components: Components<Event> = {
 	eventWrapper: EventWrapper,
 	toolbar: Toolbar,
 }
