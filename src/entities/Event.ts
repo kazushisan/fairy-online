@@ -17,8 +17,6 @@ export class Event {
 
 	public 'participants': Participant[]
 
-	public 'files': File[]
-
 	public 'original_id': string
 
 	constructor(event?: Event) {
@@ -31,7 +29,6 @@ export class Event {
 			this.can_apply = event.can_apply
 			this.due = event.due
 			this.participants = event.participants
-			this.files = event.files
 			this.original_id = event.original_id
 		} else {
 			this.id = ''
@@ -42,7 +39,6 @@ export class Event {
 			this.can_apply = false
 			this.due = ''
 			this.participants = []
-			this.files = []
 			this.original_id = ''
 		}
 	}

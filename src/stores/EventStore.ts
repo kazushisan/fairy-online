@@ -5,7 +5,6 @@ import { File } from '../entities/File'
 import { Label } from '../entities/Label'
 import { Participant } from '../entities/Participant'
 import * as EventApi from '../services/EventApi'
-import * as FileApi from '../services/FileApi'
 import * as ParticipantApi from '../services/ParticipantApi'
 import { userStore } from './UserStore'
 
@@ -97,32 +96,6 @@ export class EventStore {
 			.catch(err => {
 				throw err
 			})
-	}
-
-	@action public async uploadFile(file: File) {
-		await FileApi.create(file, this.event.id, userStore.jwt)
-			.then(data => {
-				this.assignEvents(data)
-			})
-			.catch(err => {
-				throw err
-			})
-	}
-
-	@action public async removeFile(file: File) {
-		await FileApi.remove(file, this.event.id, userStore.jwt)
-			.then(data => {
-				this.assignEvents(data)
-			})
-			.catch(err => {
-				throw err
-			})
-	}
-
-	@action public async downloadFile(file: File) {
-		await FileApi.download(file, userStore.jwt).catch(err => {
-			throw err
-		})
 	}
 
 	@action public setEvent(id: string): void {
