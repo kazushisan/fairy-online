@@ -2,7 +2,7 @@ import { Button, Form, Icon, Input, message } from 'antd'
 import { FormComponentProps } from 'antd/lib/form'
 import { History } from 'history'
 import { parse } from 'query-string'
-import * as React from 'react'
+import React, { useState, useCallback } from 'react'
 import { UserStore } from '../../stores/UserStore'
 
 const style = {
@@ -14,68 +14,56 @@ const style = {
 		width: '100%',
 	},
 }
-interface State {
-	loading: boolean
-}
-interface Props extends FormComponentProps {
+
+type Props = FormComponentProps & {
 	userStore: UserStore
 	history: History
 }
-// eslint-disable-next-line @typescript-eslint/class-name-casing
-class _LoginForm extends React.Component<Props, State> {
-	public state: State = {
-		loading: false,
-	}
 
-	constructor(props: Props) {
-		super(props)
-		this.handleSubmit = this.handleSubmit.bind(this)
-	}
+export const LoginForm = Form.create<Props>()(
+	({ userStore, history, form }: Props): React.ReactElement<{}> => {
+		const [loading, setLoading] = useState<boolean>(false)
 
-	public async handleSubmit(
-		e: React.FormEvent<HTMLFormElement>
-	): Promise<void> {
-		e.preventDefault()
-		const { userStore, history, form } = this.props
-		await new Promise(resolve =>
-			form.validateFields(async (error, values) => {
-				if (!error) {
-					this.setState({ loading: true })
-					await userStore
-						.login(values)
-						.then(() => {
-							message.success('ログインしました')
-							const { redirect } = parse(history.location.search)
-							if (redirect) {
-								history.push(decodeURIComponent(redirect as string))
-							} else {
-								history.push('/~fairyski/main')
-							}
-						})
-						.catch(err => {
-							this.setState({ loading: false })
-							if (err.status === 400) {
-								message.error('ユーザ情報が正しくありません。')
-							} else {
-								const text = err.data.message || 'Unknown Error'
-								const { status } = err
-								message.error(`${status}: ${text}`)
-							}
-						})
-					resolve()
-				}
-			})
+		const handleSubmit = useCallback(
+			async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+				e.preventDefault()
+				await new Promise(resolve =>
+					form.validateFields(async (error, values) => {
+						if (!error) {
+							setLoading(true)
+							await userStore
+								.login(values)
+								.then(() => {
+									message.success('ログインしました')
+									const { redirect } = parse(history.location.search)
+									if (redirect) {
+										history.push(decodeURIComponent(redirect as string))
+									} else {
+										history.push('/~fairyski/main')
+									}
+								})
+								.catch(err => {
+									setLoading(false)
+									if (err.status === 400) {
+										message.error('ユーザ情報が正しくありません。')
+									} else {
+										const text = err.data.message || 'Unknown Error'
+										const { status } = err
+										message.error(`${status}: ${text}`)
+									}
+								})
+							resolve()
+						}
+					})
+				)
+			},
+			[userStore, history, form]
 		)
-	}
 
-	public render(): React.ReactElement<any> {
-		const {
-			form: { getFieldDecorator },
-		} = this.props
+		const { getFieldDecorator } = form
 
-		const { loading } = this.state
 		return (
-			<Form onSubmit={this.handleSubmit} style={style.form}>
+			<Form onSubmit={handleSubmit} style={style.form}>
 				<Form.Item>
 					{getFieldDecorator('user', {
 						rules: [
@@ -119,6 +107,4 @@ class _LoginForm extends React.Component<Props, State> {
 			</Form>
 		)
 	}
-}
-
-export const LoginForm = Form.create()(_LoginForm) as any
+)
