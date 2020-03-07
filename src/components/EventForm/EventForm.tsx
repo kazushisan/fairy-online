@@ -63,59 +63,40 @@ export const EventForm = Form.create<Props>()(
 				}
 
 				return buttons
-			}, [onDelete])
+			}, [onOk, onCancel, onDelete, loading])
 
-			const titleInput = useMemo(
-				() =>
-					getFieldDecorator('title', {
-						rules: [
-							{
-								required: true,
-								message: 'タイトルを入力してください',
-							},
-						],
-					})(<Input />),
-				[getFieldDecorator]
-			)
+			const titleInput = getFieldDecorator('title', {
+				rules: [
+					{
+						required: true,
+						message: 'タイトルを入力してください',
+					},
+				],
+			})(<Input />)
 
-			const descriptionInput = useMemo(
-				() =>
-					getFieldDecorator('description', {
-						rules: [
-							{
-								required: true,
-								message: '説明を入力してください',
-							},
-						],
-					})(<Input.TextArea />),
-				[getFieldDecorator]
-			)
+			const descriptionInput = getFieldDecorator('description', {
+				rules: [
+					{
+						required: true,
+						message: '説明を入力してください',
+					},
+				],
+			})(<Input.TextArea />)
 
-			const rangeInput = useMemo(
-				() =>
-					getFieldDecorator('range', {
-						rules: [
-							{
-								required: true,
-								message: '日程を入力してください',
-							},
-						],
-					})(<DatePicker.RangePicker />),
-				[getFieldDecorator]
-			)
+			const rangeInput = getFieldDecorator('range', {
+				rules: [
+					{
+						required: true,
+						message: '日程を入力してください',
+					},
+				],
+			})(<DatePicker.RangePicker />)
 
-			const dueInput = useMemo(
-				() => getFieldDecorator('due', {})(<DatePicker />),
-				[getFieldDecorator]
-			)
+			const dueInput = getFieldDecorator('due', {})(<DatePicker />)
 
-			const canApplyInput = useMemo(
-				() =>
-					getFieldDecorator('can_apply', {
-						valuePropName: 'checked',
-					})(<Checkbox>参加を受け付ける</Checkbox>),
-				[getFieldDecorator]
-			)
+			const canApplyInput = getFieldDecorator('can_apply', {
+				valuePropName: 'checked',
+			})(<Checkbox>参加を受け付ける</Checkbox>)
 
 			return (
 				<Modal
