@@ -37,29 +37,6 @@ try{
 					if($token->user !== "admin") throw new Exception("bad request");
 					$events[] = $input["data"];
 					break;
-				case "remove_file":
-					// if(!unlink('../data/' . $input["file_id"])) throw new Exception('failed file operation');
-
-					$id_list = array_column($events, 'id');
-					$i = array_search($input["event_id"], $id_list);
-					$file_id_list = array_column($events[$i]["files"], 'id');
-					$file_i = array_search($input["file_id"], $file_id_list);
-					unset($events[$i]["files"][$file_i]);
-					$events[$i]["files"]= array_values($events[$i]["files"]);
-					// array_splice($events[$i]["files"], $files_i + 1, 1);
-					break;
-				case "add_file":
-					$id_list = array_column($events, 'id');
-					$i = array_search($input["event_id"], $id_list);
-					$data = preg_replace('/^data:(.+?)base64,/', '', $input["file"]["data"]);
-					$data = base64_decode($data);
-
-					if(!file_put_contents('../data/' . $input["file"]["id"], $data)) throw new Exception('failed file operation');
-					$events[$i]["files"][] = [
-						"name" => $input["file"]["name"],
-						"id" => $input["file"]["id"]
-					];
-					break;
 				case "add_participant":
 					$id_list = array_column($events, 'id');
 					$i = array_search($input["event_id"], $id_list);
