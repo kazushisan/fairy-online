@@ -1,18 +1,21 @@
+import React, { useMemo } from 'react'
 import { Button } from 'antd'
-import * as React from 'react'
 import { EventWrapperProps } from 'react-big-calendar'
+import { Event } from '../../entities/Event'
 
-// const Button = styled.div`
-// 	width: 100%;
-// `
+type Props = EventWrapperProps<Event> & {
+	children?: React.ReactNode
+}
 
-export class EventWrapper extends React.Component<EventWrapperProps> {
-	public render(): React.ReactNode {
-		const { children } = this.props
-		const originalButton = React.Children.only(children)
-		const title = React.Children.only(originalButton.props.children).props
-			.title as string
-		let classes = originalButton.props.className
+export const EventWrapper = ({ children }: Props): React.ReactElement<{}> => {
+	const originalButton = React.Children.only(children) as React.ReactElement<
+		any
+	>
+	const title = React.Children.only(originalButton.props.children).props
+		.title as string
+
+	const className = useMemo(() => {
+		const list = originalButton.props.className
 			.split(' ')
 			.filter((item: string) => {
 				return (
@@ -20,24 +23,27 @@ export class EventWrapper extends React.Component<EventWrapperProps> {
 					item === 'rbc-event-continues-after'
 				)
 			})
-			.join(' ')
+
 		if (title.match(/申請期限$/)) {
-			classes += ' calendar-due-event'
+			list.push('calendar-due-event')
 		}
-		return (
-			<Button
-				onClick={originalButton.props.onClick}
-				onDoubleClick={originalButton.props.onDoubleClick}
-				className={classes}
-				type="primary"
-				style={{
-					textAlign: 'left',
-					width: '100%',
-				}}
-				size="small"
-			>
-				{originalButton.props.children}
-			</Button>
-		)
-	}
+
+		return list.join(' ')
+	}, [originalButton, title])
+
+	return (
+		<Button
+			onClick={originalButton.props.onClick}
+			onDoubleClick={originalButton.props.onDoubleClick}
+			className={className}
+			type="primary"
+			style={{
+				textAlign: 'left',
+				width: '100%',
+			}}
+			size="small"
+		>
+			{originalButton.props.children}
+		</Button>
+	)
 }
