@@ -30,10 +30,8 @@ const CalendarWrapper = styled.div`
 	box-sizing: border-box;
 `
 
-@observer
-export class Calendar extends React.Component<Props> {
-	public render(): React.ReactNode {
-		const { events, onSelectEvent } = this.props
+export const Calendar = observer(
+	({ events, onSelectEvent }: Props): React.ReactElement<{}> => {
 		return (
 			<CalendarWrapper>
 				<BigCalendar
@@ -48,4 +46,4 @@ export class Calendar extends React.Component<Props> {
 			</CalendarWrapper>
 		)
 	}
-}
+)
