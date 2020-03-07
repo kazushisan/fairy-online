@@ -20,6 +20,18 @@ const DrawerContents = styled.div`
 	position: relative;
 `
 
+const DueInfo = ({ due }: { due: string }): React.ReactElement<{}> | null => {
+	if (!due) {
+		return null
+	}
+
+	return (
+		<p>
+			申請締切: <span style={{ color: '#ff4d4f' }}>{due}</span>
+		</p>
+	)
+}
+
 export const EventDetails = observer(
 	({
 		visible,
@@ -46,11 +58,7 @@ export const EventDetails = observer(
 						<h1>{event.title}</h1>
 						<p>開始:{event.start}</p>
 						<p>終了:{event.end}</p>
-						{event.due && (
-							<p>
-								申請締切: <span style={{ color: '#ff4d4f' }}>{event.due}</span>
-							</p>
-						)}
+						<DueInfo due={event.due} />
 						<p>{event.description}</p>
 					</div>
 					{isAdmin && <EditEvent eventStore={eventStore} history={history} />}
