@@ -19,10 +19,27 @@ const DrawerContents = styled.div`
 	overflow: scroll;
 	position: relative;
 `
-@observer
-export class EventDetails extends React.Component<Props> {
-	public render(): React.ReactNode {
-		const { visible, eventStore, onClose, history, userStore } = this.props
+
+const DueInfo = ({ due }: { due: string }): React.ReactElement<{}> | null => {
+	if (!due) {
+		return null
+	}
+
+	return (
+		<p>
+			申請締切: <span style={{ color: '#ff4d4f' }}>{due}</span>
+		</p>
+	)
+}
+
+export const EventDetails = observer(
+	({
+		visible,
+		eventStore,
+		onClose,
+		history,
+		userStore,
+	}: Props): React.ReactElement<{}> => {
 		const { event } = eventStore
 		const calcWidth = (): string =>
 			window.innerWidth < 800 ? '100vw' : '800px'
@@ -41,11 +58,7 @@ export class EventDetails extends React.Component<Props> {
 						<h1>{event.title}</h1>
 						<p>開始:{event.start}</p>
 						<p>終了:{event.end}</p>
-						{event.due && (
-							<p>
-								申請締切: <span style={{ color: '#ff4d4f' }}>{event.due}</span>
-							</p>
-						)}
+						<DueInfo due={event.due} />
 						<p>{event.description}</p>
 					</div>
 					{isAdmin && <EditEvent eventStore={eventStore} history={history} />}
@@ -60,4 +73,4 @@ export class EventDetails extends React.Component<Props> {
 			</Drawer>
 		)
 	}
-}
+)

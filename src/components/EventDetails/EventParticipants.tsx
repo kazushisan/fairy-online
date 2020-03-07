@@ -2,37 +2,32 @@ import { Button, Popconfirm, Table } from 'antd'
 import { History } from 'history'
 import { set } from 'mobx'
 import { observer } from 'mobx-react'
-import * as React from 'react'
+import React, { useState, useRef } from 'react'
 import styled from 'styled-components'
 import { Label } from '../../entities/Label'
 import { Participant } from '../../entities/Participant'
 import { handleError } from '../../services/handleError'
 import { EventStore } from '../../stores/EventStore'
-import { ParticipantForm } from './ParticipantForm'
+import { ParticipantForm, ParticipantFormRef } from './ParticipantForm'
 
-interface Props {
+type Props = {
 	eventStore: EventStore
 	history: History
 	canDelete: boolean
 }
-interface State {
-	adding: boolean
-}
+
 const label = new Label()
 
 const ButtonWrap = styled.div`
 	margin: 16px 0 0 0;
 `
-@observer
-export class EventParticipants extends React.Component<Props, State> {
-	public state: State = {
-		adding: false,
-	}
 
-	private formRef: any
+export const EventParticipants = observer(
+	({ eventStore, history, canDelete }: Props): React.ReactElement<{}> => {
+		const [adding, setAdding] = useState<boolean>(false)
 
-	public render() {
-		const { eventStore, history, canDelete } = this.props
+		const formRef = useRef<ParticipantFormRef>(null)
+
 		const { participants } = eventStore.event
 		const { add_participant } = eventStore
 
@@ -91,13 +86,17 @@ export class EventParticipants extends React.Component<Props, State> {
 			})
 		}
 		const handleCreate = () => {
-			const { form } = this.formRef.props
+			if (!formRef.current) {
+				return
+			}
+
+			const { form } = formRef.current
 			form.validateFields((error: any) => {
 				if (!error) {
 					eventStore
 						.addPariticpant()
 						.then(() => {
-							this.setState({ adding: false })
+							setAdding(false)
 						})
 						.catch(err => handleError({ err, history }))
 				}
@@ -107,10 +106,9 @@ export class EventParticipants extends React.Component<Props, State> {
 			set(eventStore, {
 				add_participant: new Participant(),
 			})
-			this.setState({ adding: false })
+			setAdding(false)
 		}
 
-		const { adding } = this.state
 		return (
 			<div>
 				<Table
@@ -126,19 +124,14 @@ export class EventParticipants extends React.Component<Props, State> {
 						<ParticipantForm
 							add_participant={add_participant}
 							onChange={handleFormChange}
-							wrappedComponentRef={(formRef: any) => {
-								this.formRef = formRef
-							}}
+							wrappedComponentRef={formRef}
 							onCreate={handleCreate}
 							onCancel={handleCancel}
 							visible={adding}
 							title={eventStore.event.title}
 						/>
 						<ButtonWrap>
-							<Button
-								type="primary"
-								onClick={(): void => this.setState({ adding: true })}
-							>
+							<Button type="primary" onClick={(): void => setAdding(true)}>
 								参加申請
 							</Button>
 						</ButtonWrap>
@@ -147,4 +140,4 @@ export class EventParticipants extends React.Component<Props, State> {
 			</div>
 		)
 	}
-}
+)
