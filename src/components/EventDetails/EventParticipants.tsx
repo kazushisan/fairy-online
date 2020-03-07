@@ -8,7 +8,7 @@ import { Label } from '../../entities/Label'
 import { Participant } from '../../entities/Participant'
 import { handleError } from '../../services/handleError'
 import { EventStore } from '../../stores/EventStore'
-import { ParticipantForm } from './ParticipantForm'
+import { ParticipantForm, ParticipantFormRef } from './ParticipantForm'
 
 type Props = {
 	eventStore: EventStore
@@ -26,7 +26,7 @@ export const EventParticipants = observer(
 	({ eventStore, history, canDelete }: Props): React.ReactElement<{}> => {
 		const [adding, setAdding] = useState<boolean>(false)
 
-		const formRef = useRef(null)
+		const formRef = useRef<ParticipantFormRef>(null)
 
 		const { participants } = eventStore.event
 		const { add_participant } = eventStore
@@ -86,6 +86,10 @@ export const EventParticipants = observer(
 			})
 		}
 		const handleCreate = () => {
+			if (!formRef.current) {
+				return
+			}
+
 			const { form } = formRef.current
 			form.validateFields((error: any) => {
 				if (!error) {
@@ -127,10 +131,7 @@ export const EventParticipants = observer(
 							title={eventStore.event.title}
 						/>
 						<ButtonWrap>
-							<Button
-								type="primary"
-								onClick={(): void => this.setState({ adding: true })}
-							>
+							<Button type="primary" onClick={(): void => setAdding(true)}>
 								参加申請
 							</Button>
 						</ButtonWrap>
