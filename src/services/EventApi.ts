@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Event } from '../entities/Event'
+import { Event } from '../types/Event'
 
 const endPoint = '/~fairyski/api.php'
 
@@ -41,14 +41,14 @@ export const edit = (event: Event, jwt: string): Promise<Event[]> =>
 			})
 	})
 
-export const remove = (event_id: Event['id'], jwt: string): Promise<Event[]> =>
+export const remove = (eventId: Event['id'], jwt: string): Promise<Event[]> =>
 	new Promise((resolve, reject) => {
 		axios
 			.post(
 				endPoint,
 				{
 					type: 'remove_event',
-					event_id,
+					event_id: eventId,
 				},
 				{
 					headers: { Authorization: `Bearer ${jwt}` },
