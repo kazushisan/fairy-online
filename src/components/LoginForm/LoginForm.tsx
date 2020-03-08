@@ -1,8 +1,9 @@
-import { Button, Form, Icon, Input, message } from 'antd'
+import React, { useState, useCallback } from 'react'
+import { Button, Form, Input, message } from 'antd'
+import { LockOutlined } from '@ant-design/icons'
 import { FormComponentProps } from 'antd/lib/form'
 import { History } from 'history'
 import { parse } from 'query-string'
-import React, { useState, useCallback } from 'react'
 import { UserStore } from '../../stores/UserStore'
 
 const style = {
@@ -75,7 +76,7 @@ export const LoginForm = Form.create<Props>()(
 						initialValue: 'general',
 					})(
 						<Input
-							prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+							prefix={<UserOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
 							placeholder="ユーザ名"
 						/>
 					)}
@@ -90,7 +91,7 @@ export const LoginForm = Form.create<Props>()(
 						],
 					})(
 						<Input
-							prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+							prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
 							type="password"
 						/>
 					)}
