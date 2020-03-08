@@ -1,12 +1,12 @@
 import axios from 'axios'
-import { Event } from '../entities/Event'
-import { Participant } from '../entities/Participant'
+import { Event } from '../types/Event'
+import { Participant } from '../types/Participant'
 
 const endPoint = '/~fairyski/api.php'
 
 export const remove = (
 	id: Participant['id'],
-	event_id: Event['id'],
+	eventId: Event['id'],
 	jwt: string
 ): Promise<Event[]> =>
 	new Promise((resolve, reject) => {
@@ -14,8 +14,8 @@ export const remove = (
 			.post(
 				endPoint,
 				{
-					event_id,
-					participant_id: id,
+					eventId,
+					participantId: id,
 					type: 'remove_participant',
 				},
 				{
@@ -32,7 +32,7 @@ export const remove = (
 
 export const add = (
 	participant: Participant,
-	event_id: Event['id'],
+	eventId: Event['id'],
 	jwt: string
 ): Promise<Event[]> =>
 	new Promise((resolve, reject) => {
@@ -41,7 +41,7 @@ export const add = (
 				endPoint,
 				{
 					data: participant,
-					event_id,
+					eventId,
 					type: 'add_participant',
 				},
 				{

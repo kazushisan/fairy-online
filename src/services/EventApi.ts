@@ -48,7 +48,7 @@ export const remove = (eventId: Event['id'], jwt: string): Promise<Event[]> =>
 				endPoint,
 				{
 					type: 'remove_event',
-					event_id: eventId,
+					eventId,
 				},
 				{
 					headers: { Authorization: `Bearer ${jwt}` },
