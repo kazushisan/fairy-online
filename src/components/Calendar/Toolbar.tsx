@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { Icon } from 'antd'
+import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import { ToolbarProps, NavigateAction } from 'react-big-calendar'
 import styled from 'styled-components'
 
@@ -41,9 +41,9 @@ export const Toolbar = ({
 
 	return (
 		<ToolbarWrapper>
-			<Icon type="left" onClick={onClick('PREV')} style={iconStyle} />
+			<LeftOutlined onClick={onClick('PREV')} style={iconStyle} />
 			<h3 onClick={onClick('TODAY')}>{label}</h3>
-			<Icon type="right" onClick={onClick('NEXT')} style={iconStyle} />
+			<RightOutlined onClick={onClick('NEXT')} style={iconStyle} />
 		</ToolbarWrapper>
 	)
 }
