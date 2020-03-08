@@ -1,10 +1,9 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react'
 import { Form } from 'antd'
+import { FormItemProps } from 'antd/lib/form'
 
-type Props = {
-	label: string
-	children: React.ReactNode
-}
+type Props = FormItemProps
 
 const labelCol = {
 	sm: { span: 8 },
@@ -18,9 +17,15 @@ const wrapperCol = {
 export const ParticipantFormItem = ({
 	label,
 	children,
+	...rest
 }: Props): React.ReactElement => {
 	return (
-		<Form.Item label={label} labelCol={labelCol} wrapperCol={wrapperCol}>
+		<Form.Item
+			label={label}
+			labelCol={labelCol}
+			wrapperCol={wrapperCol}
+			{...rest}
+		>
 			{children}
 		</Form.Item>
 	)

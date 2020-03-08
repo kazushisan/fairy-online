@@ -1,7 +1,8 @@
-import { Button, Dropdown, Icon, Menu, message } from 'antd'
+import React from 'react'
+import { Button, Dropdown, Menu, message } from 'antd'
 import { History } from 'history'
-import * as React from 'react'
 import styled from 'styled-components'
+import { BarsOutlined } from '@ant-design/icons'
 import { CreateEvent } from '../CreateEvent/CreateEvent'
 import { EventStore } from '../../stores/EventStore'
 import { UserStore } from '../../stores/UserStore'
@@ -64,7 +65,7 @@ export const Header = (props: Props): React.ReactElement<any> => {
 				<MenuWrap>
 					<Dropdown overlay={menu} trigger={['click']}>
 						<Button>
-							<Icon type="bars" />
+							<BarsOutlined />
 						</Button>
 					</Dropdown>
 				</MenuWrap>
