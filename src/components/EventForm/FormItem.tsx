@@ -1,23 +1,21 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react'
 import { Form } from 'antd'
+import { FormItemProps } from 'antd/lib/form'
 
-export type Props = {
-	label?: string
-	children: React.ReactNode
-	tail?: boolean
-}
+export type Props = FormItemProps
 
 export const FormItem = ({
 	label = '',
 	children,
-	tail = false,
+	...rest
 }: Props): React.ReactElement<{}> => {
 	const labelCol = {
 		sm: { span: 8 },
 		xs: { span: 24 },
 	}
 
-	const tailWrapperCol = {
+	const noLabelWrapperCol = {
 		xs: {
 			span: 24,
 			offset: 0,
@@ -33,12 +31,21 @@ export const FormItem = ({
 		xs: { span: 24 },
 	}
 
-	if (tail) {
-		return <Form.Item wrapperCol={tailWrapperCol}>{children}</Form.Item>
+	if (!label) {
+		return (
+			<Form.Item wrapperCol={noLabelWrapperCol} {...rest}>
+				{children}
+			</Form.Item>
+		)
 	}
 
 	return (
-		<Form.Item label={label} labelCol={labelCol} wrapperCol={wrapperCol}>
+		<Form.Item
+			label={label}
+			labelCol={labelCol}
+			wrapperCol={wrapperCol}
+			{...rest}
+		>
 			{children}
 		</Form.Item>
 	)
