@@ -1,12 +1,12 @@
 import axios from 'axios'
-import { UserCredentails } from '../entities/UserCredentials'
+import { User } from '../types/User'
 
 const endPoint = '/~fairyski/auth.php'
 
-export const login = (credentials: UserCredentails): Promise<string> =>
+export const login = (credential: User): Promise<string> =>
 	new Promise((resolve, reject) => {
 		axios
-			.post(endPoint, credentials)
+			.post(endPoint, credential)
 			.then(response => {
 				const { jwt } = response.data
 				resolve(jwt)
