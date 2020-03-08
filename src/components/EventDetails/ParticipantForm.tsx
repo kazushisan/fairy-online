@@ -1,14 +1,14 @@
 import React, { useMemo } from 'react'
 import { Checkbox, Form, Input, InputNumber, Modal, Radio, Select } from 'antd'
+import { FormInstance } from 'antd/lib/form'
+
 import { Label } from '../../entities/Label'
 import { Participant } from '../../entities/Participant'
 import { ParticipantFormItem } from './ParticipantFormItem'
-import { FormInstance } from 'antd/lib/form'
 
 type Props = {
-	form: FormInstance,
+	form: FormInstance
 	add_participant: Participant
-	onChange: (object: object) => void
 	onCreate: () => void
 	onCancel: () => void
 	visible: boolean

@@ -1,4 +1,4 @@
-import { Button, Popconfirm, Table } from 'antd'
+import { Button, Popconfirm, Table, Form } from 'antd'
 import { History } from 'history'
 import { set } from 'mobx'
 import { observer } from 'mobx-react'
@@ -8,7 +8,7 @@ import { Label } from '../../entities/Label'
 import { Participant } from '../../entities/Participant'
 import { handleError } from '../../services/handleError'
 import { EventStore } from '../../stores/EventStore'
-import { ParticipantForm, ParticipantFormRef } from './ParticipantForm'
+import { ParticipantForm } from './ParticipantForm'
 
 type Props = {
 	eventStore: EventStore
@@ -26,7 +26,7 @@ export const EventParticipants = observer(
 	({ eventStore, history, canDelete }: Props): React.ReactElement<{}> => {
 		const [adding, setAdding] = useState<boolean>(false)
 
-		const formRef = useRef<ParticipantFormRef>(null)
+		const [form] = Form.useForm()
 
 		const { participants } = eventStore.event
 		const { add_participant } = eventStore
@@ -80,32 +80,8 @@ export const EventParticipants = observer(
 			columns.pop()
 		}
 
-		const handleFormChange = (values: object) => {
-			set(eventStore, {
-				add_participant: Object.assign(add_participant, values),
-			})
-		}
-		const handleCreate = () => {
-			if (!formRef.current) {
-				return
-			}
-
-			const { form } = formRef.current
-			form.validateFields((error: any) => {
-				if (!error) {
-					eventStore
-						.addPariticpant()
-						.then(() => {
-							setAdding(false)
-						})
-						.catch(err => handleError({ err, history }))
-				}
-			})
-		}
+		const handleCreate = () => form.validateFields().then(values => console.log(values))
 		const handleCancel = () => {
-			set(eventStore, {
-				add_participant: new Participant(),
-			})
 			setAdding(false)
 		}
 
@@ -122,9 +98,8 @@ export const EventParticipants = observer(
 				{eventStore.event.can_apply && (
 					<div>
 						<ParticipantForm
+							form={form}
 							add_participant={add_participant}
-							onChange={handleFormChange}
-							wrappedComponentRef={formRef}
 							onCreate={handleCreate}
 							onCancel={handleCancel}
 							visible={adding}
