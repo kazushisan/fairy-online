@@ -5,8 +5,9 @@ export type Event = {
 	title: string
 	start: string
 	end: string
-	description: string
-	canApply: boolean
-	due: string
-	participants: Participant[]
+	description?: string
+	canApply?: boolean
+	due?: string
+	participants?: Participant[]
+	originalId?: Event['id']
 }
