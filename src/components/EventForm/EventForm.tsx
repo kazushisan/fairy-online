@@ -1,9 +1,12 @@
 import React, { useMemo } from 'react'
 import { Button, Checkbox, DatePicker, Form, Input, Modal } from 'antd'
+import { FormInstance } from 'antd/lib/form'
+
 import { FormItem } from './FormItem'
 import { generateFooter } from './generateFooter'
 
 interface Props {
+	form: FormInstance
 	visible: boolean
 	title?: string
 	onOk: () => void
@@ -16,6 +19,7 @@ interface Props {
 }
 
 export const EventForm = ({
+	form,
 	visible,
 	title,
 	onOk,
@@ -23,12 +27,6 @@ export const EventForm = ({
 	onDelete,
 	loading,
 }: Props): React.ReactElement<{}> => {
-	const [form] = Form.useForm()
-
-	const onFinish = (values: any): void => {
-		console.log(values)
-	}
-
 	const footer = useMemo(
 		() =>
 			generateFooter({
@@ -49,7 +47,7 @@ export const EventForm = ({
 			onOk={onOk}
 			footer={footer}
 		>
-			<Form form={form} onFinish={onFinish}>
+			<Form form={form}>
 				<FormItem
 					name="title"
 					label="タイトル"
