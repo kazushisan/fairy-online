@@ -23,9 +23,9 @@ const initialState: State = {
 // actions
 export const setEvents = actionCreator<Event[]>('SET_EVENTS')
 
-export const setSelectedEvent = actionCreator<Event['id']>('SET_SELECTED_EVENT')
+export const selectEvent = actionCreator<Event['id']>('SELECT_EVENT')
 
-export const unsetSelectedEvent = actionCreator<void>('UNSET_SELECTED_EVENT')
+export const unselectEvent = actionCreator<void>('UNSELECT_EVENT')
 
 // thunks
 export const updateEventState = (
@@ -34,7 +34,7 @@ export const updateEventState = (
 ): ThunkAction<any, State, undefined, Action> => (dispatch, getState): any => {
 	dispatch(setEvents(events))
 	if (unset) {
-		return dispatch(unsetSelectedEvent())
+		return dispatch(unselectEvent())
 	}
 
 	const { selectedEvent } = getState()
@@ -43,7 +43,7 @@ export const updateEventState = (
 		return Promise.resolve()
 	}
 
-	return dispatch(setSelectedEvent(selectedEvent.id))
+	return dispatch(selectEvent(selectedEvent.id))
 }
 
 export const loadEvents = (
@@ -112,11 +112,11 @@ const reducer = reducerWithInitialState(initialState)
 		...state,
 		events,
 	}))
-	.case(setSelectedEvent, (state, id) => ({
+	.case(selectEvent, (state, id) => ({
 		...state,
 		selectedEvent: state.events.find(event => event.id === id) || null,
 	}))
-	.case(unsetSelectedEvent, state => ({
+	.case(unselectEvent, state => ({
 		...state,
 		selectedEvent: null,
 	}))
