@@ -23,6 +23,7 @@ module.exports = {
 		"import/no-extraneous-dependencies": 0,
 		"react/state-in-constructor": 0,
 		"@typescript-eslint/camelcase": 0,
+		"@typescript-eslint/explicit-function-return-type": 0,
 		...a11yOff
 	}
 }
