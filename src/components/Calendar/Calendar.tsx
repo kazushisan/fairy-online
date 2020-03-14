@@ -8,7 +8,7 @@ import {
 	Components,
 } from 'react-big-calendar'
 import styled from 'styled-components'
-import { Event } from '../../entities/Event'
+import { Event } from '../../types/Event'
 import { EventWrapper } from './EventWrapper'
 import { Toolbar } from './Toolbar'
 
