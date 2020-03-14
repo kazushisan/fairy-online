@@ -7,118 +7,107 @@ import * as EventApi from '../services/EventApi'
 import * as ParticipantApi from '../services/ParticipantApi'
 import { Event } from '../types/Event'
 import { Participant } from '../types/Participant'
+import { AppState } from '.'
 
 const actionCreator = actionCreatorFactory()
 
-export type State = {
-	selectedEvent: Event | null
+export type EventState = {
+	selectedEventId: Event['id'] | null
 	events: Event[]
 }
 
-const initialState: State = {
-	selectedEvent: null,
+const initialState: EventState = {
+	selectedEventId: null,
 	events: [],
 }
 
 // actions
-export const setEvents = actionCreator<Event[]>('SET_EVENTS')
+export const updateEvents = actionCreator<Event[]>('UPDATE_EVENTS')
 
 export const selectEvent = actionCreator<Event['id']>('SELECT_EVENT')
 
 export const unselectEvent = actionCreator<void>('UNSELECT_EVENT')
 
 // thunks
-export const updateEventState = (
-	events: Event[],
-	unset = false
-): ThunkAction<any, State, undefined, Action> => (dispatch, getState): any => {
-	dispatch(setEvents(events))
-	if (unset) {
-		return dispatch(unselectEvent())
-	}
-
-	const { selectedEvent } = getState()
-
-	if (!selectedEvent) {
-		return Promise.resolve()
-	}
-
-	return dispatch(selectEvent(selectedEvent.id))
-}
-
 export const loadEvents = (
 	jwt: string
-): ThunkAction<any, State, undefined, Action> => (dispatch): any =>
+): ThunkAction<any, AppState, undefined, Action> => (dispatch): any =>
 	EventApi.getEvents(jwt).then((data: any) => {
-		return dispatch(setEvents(data))
+		return dispatch(updateEvents(data))
 	})
 
 export const updateSelectedEvent = (
 	event: Event,
 	jwt: string
-): ThunkAction<any, State, undefined, Action> => (dispatch): any =>
+): ThunkAction<any, AppState, undefined, Action> => (dispatch): any =>
 	EventApi.edit(event, jwt).then((data: any) => {
-		return dispatch(updateEventState(data))
+		return dispatch(updateEvents(data))
 	})
 
 export const removeEvent = (
 	id: Event['id'],
 	jwt: string
-): ThunkAction<any, State, undefined, Action> => (dispatch): any =>
+): ThunkAction<any, AppState, undefined, Action> => (dispatch): any =>
 	EventApi.remove(id, jwt).then((data: any) => {
-		return dispatch(updateEventState(data))
+		return dispatch(updateEvents(data))
 	})
 
 export const addEvent = (
 	event: Event,
 	jwt: string
-): ThunkAction<any, State, undefined, Action> => (dispatch): any =>
+): ThunkAction<any, AppState, undefined, Action> => (dispatch): any =>
 	EventApi.add(event, jwt).then((data: any) => {
-		return dispatch(updateEventState(data))
+		return dispatch(updateEvents(data))
 	})
 
 export const addParticipant = (
 	id: Participant,
 	jwt: string
-): ThunkAction<any, State, undefined, Action> => (dispatch, getState): any => {
-	const { selectedEvent } = getState()
+): ThunkAction<any, AppState, undefined, Action> => (
+	dispatch,
+	getState
+): any => {
+	const { selectedEventId } = getState().event
 
-	if (!selectedEvent) {
+	if (!selectedEventId) {
 		return Promise.resolve()
 	}
-	return ParticipantApi.add(id, selectedEvent.id, jwt).then((data: any) => {
-		return dispatch(updateEventState(data))
+	return ParticipantApi.add(id, selectedEventId, jwt).then((data: any) => {
+		return dispatch(updateEvents(data))
 	})
 }
 
 export const removeParticipant = (
 	id: Participant['id'],
 	jwt: string
-): ThunkAction<any, State, undefined, Action> => (dispatch, getState): any => {
-	const { selectedEvent } = getState()
+): ThunkAction<any, AppState, undefined, Action> => (
+	dispatch,
+	getState
+): any => {
+	const { selectedEventId } = getState().event
 
-	if (!selectedEvent) {
+	if (!selectedEventId) {
 		return Promise.resolve()
 	}
 
-	return ParticipantApi.remove(id, selectedEvent.id, jwt).then((data: any) => {
-		return dispatch(updateEventState(data))
+	return ParticipantApi.remove(id, selectedEventId, jwt).then((data: any) => {
+		return dispatch(updateEvents(data))
 	})
 }
 
 // reducer
 const reducer = reducerWithInitialState(initialState)
-	.case(setEvents, (state, events) => ({
+	.case(updateEvents, (state, events) => ({
 		...state,
 		events,
 	}))
-	.case(selectEvent, (state, id) => ({
+	.case(selectEvent, (state, selectedEventId) => ({
 		...state,
-		selectedEvent: state.events.find(event => event.id === id) || null,
+		selectedEventId,
 	}))
 	.case(unselectEvent, state => ({
 		...state,
-		selectedEvent: null,
+		selectedEventId: null,
 	}))
 
 export default reducer
