@@ -29,64 +29,104 @@ export const selectEvent = actionCreator<Event['id']>('SELECT_EVENT')
 export const unselectEvent = actionCreator<void>('UNSELECT_EVENT')
 
 // thunks
-export const loadEvents = (
-	jwt: string
-): ThunkAction<any, AppState, undefined, Action> => (dispatch): any =>
-	EventApi.getEvents(jwt).then((data: any) => {
+export const loadEvents = (): ThunkAction<any, AppState, undefined, Action> => (
+	dispatch,
+	getState
+): any => {
+	const { jwt } = getState().user
+
+	if (!jwt) {
+		return Promise.resolve()
+	}
+
+	return EventApi.getEvents(jwt).then((data: any) => {
 		return dispatch(updateEvents(data))
 	})
+}
 
 export const editEvent = (
-	event: Event,
-	jwt: string
-): ThunkAction<any, AppState, undefined, Action> => (dispatch): any =>
-	EventApi.edit(event, jwt).then((data: any) => {
-		return dispatch(updateEvents(data))
-	})
-
-export const removeEvent = (
-	id: Event['id'],
-	jwt: string
-): ThunkAction<any, AppState, undefined, Action> => (dispatch): any =>
-	EventApi.remove(id, jwt).then((data: any) => {
-		return dispatch(updateEvents(data))
-	})
-
-export const addEvent = (
-	event: Event,
-	jwt: string
-): ThunkAction<any, AppState, undefined, Action> => (dispatch): any =>
-	EventApi.add(event, jwt).then((data: any) => {
-		return dispatch(updateEvents(data))
-	})
-
-export const addParticipant = (
-	id: Participant,
-	jwt: string
+	event: Event
 ): ThunkAction<any, AppState, undefined, Action> => (
 	dispatch,
 	getState
 ): any => {
-	const { selectedEventId } = getState().event
+	const { jwt } = getState().user
 
-	if (!selectedEventId) {
+	if (!jwt) {
 		return Promise.resolve()
 	}
+
+	return EventApi.edit(event, jwt).then((data: any) => {
+		return dispatch(updateEvents(data))
+	})
+}
+
+export const removeEvent = (
+	id: Event['id']
+): ThunkAction<any, AppState, undefined, Action> => (
+	dispatch,
+	getState
+): any => {
+	const { jwt } = getState().user
+
+	if (!jwt) {
+		return Promise.resolve()
+	}
+
+	return EventApi.remove(id, jwt).then((data: any) => {
+		return dispatch(updateEvents(data))
+	})
+}
+
+export const addEvent = (
+	event: Event
+): ThunkAction<any, AppState, undefined, Action> => (
+	dispatch,
+	getState
+): any => {
+	const { jwt } = getState().user
+
+	if (!jwt) {
+		return Promise.resolve()
+	}
+
+	return EventApi.add(event, jwt).then((data: any) => {
+		return dispatch(updateEvents(data))
+	})
+}
+
+export const addParticipant = (
+	id: Participant
+): ThunkAction<any, AppState, undefined, Action> => (
+	dispatch,
+	getState
+): any => {
+	const state = getState()
+	const { selectedEventId } = state.event
+
+	const { jwt } = state.user
+
+	if (!jwt || !selectedEventId) {
+		return Promise.resolve()
+	}
+
 	return ParticipantApi.add(id, selectedEventId, jwt).then((data: any) => {
 		return dispatch(updateEvents(data))
 	})
 }
 
 export const removeParticipant = (
-	id: Participant['id'],
-	jwt: string
+	id: Participant['id']
 ): ThunkAction<any, AppState, undefined, Action> => (
 	dispatch,
 	getState
 ): any => {
-	const { selectedEventId } = getState().event
+	const state = getState()
+	const { selectedEventId } = state.event
 
-	if (!selectedEventId) {
+	const { jwt } = state.user
+
+	if (!jwt || !selectedEventId) {
 		return Promise.resolve()
 	}
 
