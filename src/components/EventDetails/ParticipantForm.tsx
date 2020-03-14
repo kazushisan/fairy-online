@@ -2,20 +2,18 @@ import React, { useMemo } from 'react'
 import { Checkbox, Form, Input, InputNumber, Modal, Radio, Select } from 'antd'
 import { FormInstance } from 'antd/lib/form'
 
-import { Label } from '../../entities/Label'
-import { Participant } from '../../entities/Participant'
 import { ParticipantFormItem } from './ParticipantFormItem'
+import * as label from '../../consts/label'
+import { yearOptions } from '../../consts/options'
 
 type Props = {
 	form: FormInstance
-	add_participant: Participant
 	onCreate: () => void
 	onCancel: () => void
 	visible: boolean
 	title: string
 }
 
-const label = new Label()
 const { Option } = Select
 export const ParticipantForm = ({
 	form,
@@ -70,7 +68,7 @@ export const ParticipantForm = ({
 					]}
 				>
 					<Select>
-						{label.year_list.map((item: string) => (
+						{yearOptions.map((item: string) => (
 							<Option value={item} key={item}>
 								{item}
 							</Option>
@@ -109,7 +107,7 @@ export const ParticipantForm = ({
 				</ParticipantFormItem>
 				<ParticipantFormItem
 					name="canDrive"
-					label={label.can_drive}
+					label={label.canDrive}
 					valuePropName="checked"
 				>
 					<Checkbox>可能</Checkbox>
