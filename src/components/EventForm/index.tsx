@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { Button, Checkbox, DatePicker, Form, Input, Modal } from 'antd'
+import { Checkbox, DatePicker, Form, Input, Modal } from 'antd'
 import { FormInstance } from 'antd/lib/form'
 
 import { FormItem } from './FormItem'
@@ -18,7 +18,7 @@ interface Props {
 	}
 }
 
-export const EventForm = ({
+export function EventForm({
 	form,
 	visible,
 	title,
@@ -26,7 +26,7 @@ export const EventForm = ({
 	onCancel,
 	onDelete,
 	loading,
-}: Props): React.ReactElement<{}> => {
+}: Props): React.ReactElement<{}> {
 	const footer = useMemo(
 		() =>
 			generateFooter({

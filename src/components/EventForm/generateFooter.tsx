@@ -12,13 +12,13 @@ type Props = {
 	}
 }
 
-export const generateFooter = ({
+export function generateFooter({
 	title,
 	onOk,
 	onCancel,
 	onDelete,
 	loading,
-}: Props): React.ReactElement<{}>[] => {
+}: Props): React.ReactElement<{}>[] {
 	const buttons = [
 		<Button key="back" onClick={onCancel}>
 			キャンセル

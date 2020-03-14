@@ -5,11 +5,11 @@ import { FormItemProps } from 'antd/lib/form'
 
 export type Props = FormItemProps
 
-export const FormItem = ({
+export function FormItem({
 	label = '',
 	children,
 	...rest
-}: Props): React.ReactElement<{}> => {
+}: Props): React.ReactElement<{}> {
 	const labelCol = {
 		sm: { span: 8 },
 		xs: { span: 24 },
