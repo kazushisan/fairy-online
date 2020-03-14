@@ -6,8 +6,11 @@ import { connect } from 'react-redux'
 
 import { EditEvent } from './EditEvent'
 import { EventParticipants } from './EventParticipants'
+
 import { Event } from '../../types/Event'
+import { Participant } from '../../types/Participant'
 import { AppState } from '../../store'
+import * as actionCreator from '../../ducks/event'
 
 interface Props {
 	selectedEvent: Event | null
@@ -15,6 +18,9 @@ interface Props {
 	history: History
 	visible: boolean
 	onClose: () => void
+	editEvent: (event: Event) => Promise<any>
+	removeEvent: (eventId: Event['id']) => Promise<any>
+	removeParticipant: (participantId: Participant['id']) => Promise<any>
 }
 const DrawerContents = styled.div`
 	overflow: scroll;
@@ -45,6 +51,9 @@ function EventDetailsComponent({
 	visible,
 	onClose,
 	history,
+	editEvent,
+	removeEvent,
+	removeParticipant,
 }: Props): React.ReactElement<{}> | null {
 	const width = calcWidth()
 
@@ -70,10 +79,22 @@ function EventDetailsComponent({
 					<DueInfo due={due} />
 					<p>{description}</p>
 				</div>
-				{isAdmin && <EditEvent history={history} />}
+				{isAdmin && (
+					<EditEvent
+						history={history}
+						event={selectedEvent}
+						editEvent={editEvent}
+						removeEvent={removeEvent}
+					/>
+				)}
 				<Divider />
 				{canApply && <h3>現在参加申請を受け付けています</h3>}
-				<EventParticipants history={history} canDelete={!!canApply} />
+				<EventParticipants
+					history={history}
+					canDelete={!!canApply}
+					event={selectedEvent}
+					removeParticipant={removeParticipant}
+				/>
 			</DrawerContents>
 		</Drawer>
 	)
@@ -90,4 +111,8 @@ const mapStateToProps = (state: AppState) => {
 	}
 }
 
-export const EventDetails = connect(mapStateToProps)(EventDetailsComponent)
+export const EventDetails = connect(mapStateToProps, {
+	editEvent: actionCreator.editEvent,
+	removeEvent: actionCreator.removeEvent,
+	removeParticipant: actionCreator.removeParticipant,
+})(EventDetailsComponent)
