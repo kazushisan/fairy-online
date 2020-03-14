@@ -3,9 +3,14 @@ import { Button, Dropdown, Menu, message } from 'antd'
 import { History } from 'history'
 import styled from 'styled-components'
 import { BarsOutlined } from '@ant-design/icons'
+import { connect } from 'react-redux'
+
 import { CreateEvent } from '../CreateEvent'
-import { EventStore } from '../../stores/EventStore'
-import { UserStore } from '../../stores/UserStore'
+import * as userActionCreator from '../../ducks/user'
+import * as eventActionCreator from '../../ducks/event'
+
+import { AppState } from '../../store'
+import { Event } from '../../types/Event'
 
 const HeaderContainer = styled.header`
 	padding: 11px 16px 11px;
@@ -30,30 +35,33 @@ const MenuWrap = styled.div`
 `
 
 interface Props {
-	userStore: UserStore
-	eventStore: EventStore
 	history: History
+	logout: () => Promise<any>
+	user: string | null
+	addEvent: (event: Event) => Promise<any>
 }
 
-export const Header = (props: Props): React.ReactElement<any> => {
-	const { userStore, eventStore, history } = props
+function HeaderComponent({
+	history,
+	logout,
+	user,
+	addEvent,
+}: Props): React.ReactElement<any> {
 	const handleLogout = () => {
-		userStore.logout()
+		logout()
 		history.push('/~fairyski/login')
 		message.success('ログアウトしました')
 	}
 	const menu = (
 		<Menu>
-			{userStore.user === 'admin' && (
+			{user === 'admin' && (
 				<Menu.Item key="create">
-					<CreateEvent eventStore={eventStore} history={history} />
+					<CreateEvent history={history} addEvent={addEvent} />
 				</Menu.Item>
 			)}
-			{userStore.user && (
+			{user && (
 				<Menu.Item>
-					<a href="javasript:;" onClick={handleLogout}>
-						ログアウト
-					</a>
+					<a onClick={handleLogout}>ログアウト</a>
 				</Menu.Item>
 			)}
 		</Menu>
@@ -61,7 +69,7 @@ export const Header = (props: Props): React.ReactElement<any> => {
 	return (
 		<HeaderContainer>
 			<h1>FOM: Fairy Online Manager</h1>
-			{userStore.user && (
+			{user && (
 				<MenuWrap>
 					<Dropdown overlay={menu} trigger={['click']}>
 						<Button>
@@ -73,3 +81,12 @@ export const Header = (props: Props): React.ReactElement<any> => {
 		</HeaderContainer>
 	)
 }
+
+const mapStateToProps = (state: AppState) => ({
+	user: state.user.user,
+})
+
+export const Header = connect(mapStateToProps, {
+	logout: userActionCreator.logout,
+	addEvent: eventActionCreator.addEvent,
+})(HeaderComponent)
