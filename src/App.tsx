@@ -1,19 +1,18 @@
-import { Provider } from 'mobx-react'
-import * as React from 'react'
+import React from 'react'
+import { Provider } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
 import './App.scss'
 import { Routes } from './Routes'
-import { eventStore } from './stores/EventStore'
-import { userStore } from './stores/UserStore'
+import store from './store'
 
-export const App = (): React.ReactElement<any> => {
+export const App = (): React.ReactElement<{}> => {
 	return (
-		<div>
-			<Provider eventStore={eventStore} userStore={userStore}>
+		<>
+			<Provider store={store}>
 				<Router>
 					<Routes />
 				</Router>
 			</Provider>
-		</div>
+		</>
 	)
 }

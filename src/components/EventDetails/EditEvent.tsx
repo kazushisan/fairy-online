@@ -1,12 +1,16 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import { Button, message, Form } from 'antd'
 import { History } from 'history'
 import moment from 'moment'
 import { handleError } from '../../services/handleError'
-import { EventForm } from '../EventForm/EventForm'
+import { EventForm } from '../EventForm'
+import { Event } from '../../types/Event'
 
 type Props = {
+	event: Event
 	history: History
+	editEvent: (event: Event) => Promise<any>
+	removeEvent: (event: Event['id']) => Promise<any>
 }
 
 type Loading = {
@@ -14,7 +18,12 @@ type Loading = {
 	delete: boolean
 }
 
-export const EditEvent = ({ history }: Props): React.ReactElement<{}> => {
+export function EditEvent({
+	event,
+	history,
+	editEvent,
+	removeEvent,
+}: Props): React.ReactElement<{}> {
 	const [visible, setVisible] = useState<boolean>(false)
 	const [loading, setLoading] = useState<Loading>({
 		submit: false,
@@ -22,35 +31,89 @@ export const EditEvent = ({ history }: Props): React.ReactElement<{}> => {
 	})
 	const [form] = Form.useForm()
 
-	const handleOk = async () => {
-		await form.validateFields().then((values: any) => {
-			console.log(values)
-		})
-	}
+	const onOk = async () =>
+		form
+			.validateFields()
+			.then(values => {
+				const editedEvent = {
+					id: event.id,
+					start: values.range[0].format('YYYY-MM-DD'),
+					end: values.range[1].format('YYYY-MM-DD'),
+					due: values.due ? values.due.format('YYYY-MM-DD') : '',
+					canApply: values.canApply,
+					title: values.title,
+					description: values.description,
+				}
 
-	const handleCancel = () => {
+				return editEvent(editedEvent)
+			})
+			.then(() => {
+				setVisible(false)
+				setLoading({
+					...loading,
+					submit: false,
+				})
+			})
+			.catch(error => {
+				setLoading({
+					...loading,
+					submit: false,
+				})
+				handleError({ err: error, history })
+			})
+
+	const onCancel = () => {
 		setVisible(false)
 	}
 
-	const handleDelete = () => {
-		setLoading({ ...loading, delete: true })
-	}
+	const onDelete = () =>
+		Promise.resolve()
+			.then(() => {
+				setLoading({
+					...loading,
+					delete: true,
+				})
 
-	const handleClick = () => {
+				return removeEvent(event.id)
+			})
+			.then(() => {
+				message.success('削除しました')
+				setLoading({
+					...loading,
+					delete: false,
+				})
+				setVisible(false)
+			})
+			.catch(err => {
+				setLoading({
+					...loading,
+					delete: false,
+				})
+				handleError({ err, history })
+			})
+
+	const onStartEdit = () => {
+		form.setFieldsValue({
+			title: event.title,
+			description: event.description,
+			range: [moment(event.start), moment(event.end)],
+			canApply: event.canApply || false,
+			due: event.due ? moment(event.due) : null,
+		})
 		setVisible(true)
 	}
 
 	return (
 		<div>
-			<Button type="primary" onClick={handleClick}>
+			<Button type="primary" onClick={onStartEdit}>
 				編集する
 			</Button>
 			<EventForm
 				form={form}
 				visible={visible}
-				onCancel={handleCancel}
-				onOk={handleOk}
-				onDelete={handleDelete}
+				onCancel={onCancel}
+				onOk={onOk}
+				onDelete={onDelete}
 				loading={loading}
 				title="イベントを編集する"
 			/>

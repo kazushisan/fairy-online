@@ -24,13 +24,13 @@ try{
 				case "remove_event":
 					if($token->user !== "admin") throw new Exception("bad request");
 					$id_list = array_column($events, 'id');
-					$i = array_search($input["event_id"], $id_list);
+					$i = array_search($input["eventId"], $id_list);
 					array_splice($events, $i, 1);
 					break;
 				case "edit_event":
 					if($token->user !== "admin") throw new Exception("bad request");
 					$id_list = array_column($events, 'id');
-					$i = array_search($input["event_id"], $id_list);
+					$i = array_search($input["eventId"], $id_list);
 					$events[$i] = $input["data"];
 					break;
 				case "add_event":
@@ -39,14 +39,14 @@ try{
 					break;
 				case "add_participant":
 					$id_list = array_column($events, 'id');
-					$i = array_search($input["event_id"], $id_list);
+					$i = array_search($input["eventId"], $id_list);
 					$events[$i]["participants"][] = $input["data"];
 					break;
 				case "remove_participant":
 					$id_list = array_column($events, 'id');
-					$i = array_search($input["event_id"], $id_list);
+					$i = array_search($input["eventId"], $id_list);
 					$participant_id_list = array_column($events[$i]["participants"], 'id');
-					$participant_i = array_search($input["participant_id"], $participant_id_list);
+					$participant_i = array_search($input["participantId"], $participant_id_list);
 					array_splice($events[$i]["participants"], $participant_i, 1);
 					break;
 			}

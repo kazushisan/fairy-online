@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { Button } from 'antd'
 import { EventWrapperProps } from 'react-big-calendar'
-import { Event } from '../../entities/Event'
+import { Event } from '../../types/Event'
 
 type Props = EventWrapperProps<Event> & {
 	children?: React.ReactNode
