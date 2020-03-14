@@ -3,7 +3,7 @@ import { Button, Form, Input, message } from 'antd'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { History } from 'history'
 import { parse } from 'query-string'
-import { UserStore } from '../../stores/UserStore'
+import { Credential } from '../../types/Credential'
 
 const style = {
 	form: {
@@ -16,24 +16,18 @@ const style = {
 }
 
 type Props = {
-	userStore: UserStore
+	login: (credential: Credential) => Promise<void>
 	history: History
 }
 
-export const LoginForm = ({
-	userStore,
-	history,
-}: Props): React.ReactElement<{}> => {
+export function LoginForm({ login, history }: Props): React.ReactElement<{}> {
 	const [form] = Form.useForm()
 	const [loading, setLoading] = useState<boolean>(false)
 
 	const onFinish = useCallback(
-		async values => {
-			console.log(values)
-
+		values => {
 			setLoading(true)
-			await userStore
-				.login(values)
+			return login(values)
 				.then(() => {
 					message.success('ログインしました')
 					const { redirect } = parse(history.location.search)
@@ -43,7 +37,7 @@ export const LoginForm = ({
 						history.push('/~fairyski/main')
 					}
 				})
-				.catch(err => {
+				.catch((err: any) => {
 					setLoading(false)
 					if (err.status === 400) {
 						message.error('ユーザ情報が正しくありません。')
@@ -54,7 +48,7 @@ export const LoginForm = ({
 					}
 				})
 		},
-		[userStore, history, form]
+		[login, history, form]
 	)
 
 	return (
