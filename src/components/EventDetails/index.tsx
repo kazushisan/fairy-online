@@ -19,6 +19,7 @@ interface Props {
 	editEvent: (event: Event) => Promise<any>
 	removeEvent: (eventId: Event['id']) => Promise<any>
 	removeParticipant: (participantId: Participant['id']) => Promise<any>
+	addParticipant: (participant: Participant) => Promise<any>
 }
 const DrawerContents = styled.div`
 	overflow: scroll;
@@ -50,6 +51,7 @@ function EventDetailsComponent({
 	editEvent,
 	removeEvent,
 	removeParticipant,
+	addParticipant,
 }: Props): React.ReactElement<{}> | null {
 	const width = calcWidth()
 
@@ -94,6 +96,7 @@ function EventDetailsComponent({
 					canDelete={!!canApply}
 					event={selectedEvent}
 					removeParticipant={removeParticipant}
+					addParticipant={addParticipant}
 				/>
 			</DrawerContents>
 		</Drawer>
@@ -115,4 +118,5 @@ export const EventDetails = connect(mapStateToProps, {
 	editEvent: actionCreator.editEvent,
 	removeEvent: actionCreator.removeEvent,
 	removeParticipant: actionCreator.removeParticipant,
+	addParticipant: actionCreator.addParticipant,
 })(EventDetailsComponent)

@@ -8,12 +8,14 @@ import { ParticipantForm } from './ParticipantForm'
 import * as label from '../../consts/label'
 import { Event } from '../../types/Event'
 import { Participant } from '../../types/Participant'
+import { generateId } from '../../services/generateId'
 
 type Props = {
 	history: History
 	canDelete: boolean
 	event: Event
 	removeParticipant: (participantId: Participant['id']) => Promise<any>
+	addParticipant: (participant: Participant) => Promise<any>
 }
 
 const ButtonWrap = styled.div`
@@ -25,6 +27,7 @@ export function EventParticipants({
 	canDelete,
 	removeParticipant,
 	event,
+	addParticipant,
 }: Props): React.ReactElement<{}> {
 	const [adding, setAdding] = useState<boolean>(false)
 
@@ -53,8 +56,8 @@ export function EventParticipants({
 			title: label.sex,
 		},
 		{
-			dataIndex: 'can_drive',
-			render: (can_drive: boolean) => (can_drive ? 'はい' : 'いいえ'),
+			dataIndex: 'canDrive',
+			render: (canDrive: boolean) => (canDrive ? 'はい' : 'いいえ'),
 			title: label.canDrive,
 		},
 		{
@@ -79,7 +82,31 @@ export function EventParticipants({
 	}
 
 	const handleCreate = () =>
-		form.validateFields().then(values => console.log(values))
+		form
+			.validateFields()
+			.then(values => {
+				const { name, affiliation, year, age, sex, canDrive, note } = values
+
+				const participant = {
+					id: generateId(),
+					name,
+					affiliation,
+					year,
+					age,
+					sex,
+					canDrive,
+					note,
+				}
+
+				return addParticipant(participant)
+			})
+			.then(() => {
+				setAdding(false)
+			})
+			.catch(err => {
+				handleError({ err, history })
+			})
+
 	const handleCancel = () => {
 		setAdding(false)
 	}
