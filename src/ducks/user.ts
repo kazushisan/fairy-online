@@ -6,15 +6,16 @@ import { reducerWithInitialState } from 'typescript-fsa-reducers'
 
 import * as UserApi from '../services/UserApi'
 import { Credential } from '../types/Credential'
+import { AppState } from '.'
 
 const actionCreator = actionCreatorFactory()
 
-export type State = {
+export type UserState = {
 	user: string | null
 	jwt: string | null
 }
 
-const initialState: State = {
+const initialState: UserState = {
 	user: null,
 	jwt: null,
 }
@@ -31,7 +32,7 @@ export const unsetJwt = actionCreator<void>('UNSET_JWT')
 // thunks
 export const setUserFromJwt = (): ThunkAction<
 	any,
-	State,
+	AppState,
 	undefined,
 	Action
 > => (dispatch): any => {
@@ -53,13 +54,13 @@ export const setUserFromJwt = (): ThunkAction<
 
 export const login = (
 	credential: Credential
-): ThunkAction<any, State, undefined, Action> => (dispatch): any =>
+): ThunkAction<any, AppState, undefined, Action> => (dispatch): any =>
 	UserApi.login(credential).then(jwt => {
 		window.sessionStorage.setItem('fairy_jwt', jwt)
 		dispatch(setUserFromJwt())
 	})
 
-export const logout = (): ThunkAction<any, State, undefined, Action> => (
+export const logout = (): ThunkAction<any, AppState, undefined, Action> => (
 	dispatch
 ): any => {
 	dispatch(unsetJwt())
