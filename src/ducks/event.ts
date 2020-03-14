@@ -32,7 +32,7 @@ export const unselectEvent = actionCreator<void>('UNSELECT_EVENT')
 export const loadEvents = (): ThunkAction<any, AppState, undefined, Action> => (
 	dispatch,
 	getState
-): any => {
+): Promise<any> => {
 	const { jwt } = getState().user
 
 	if (!jwt) {

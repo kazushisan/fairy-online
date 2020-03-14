@@ -4,7 +4,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { EventStore } from '../stores/EventStore'
 import { UserStore } from '../stores/UserStore'
-import { Header } from './Header/Header'
+import { Header } from './Header'
 import { LoginForm } from './LoginForm/LoginForm'
 
 interface Props extends RouteComponentProps {

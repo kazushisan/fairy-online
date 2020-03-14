@@ -16,8 +16,6 @@ interface Props {
 	selectedEvent: Event | null
 	isAdmin: boolean
 	history: History
-	visible: boolean
-	onClose: () => void
 	editEvent: (event: Event) => Promise<any>
 	removeEvent: (eventId: Event['id']) => Promise<any>
 	removeParticipant: (participantId: Participant['id']) => Promise<any>
@@ -48,8 +46,6 @@ const calcWidth = (): string => (window.innerWidth < 800 ? '100vw' : '800px')
 function EventDetailsComponent({
 	selectedEvent,
 	isAdmin,
-	visible,
-	onClose,
 	history,
 	editEvent,
 	removeEvent,
@@ -63,10 +59,14 @@ function EventDetailsComponent({
 
 	const { title, start, end, due, description, canApply } = selectedEvent
 
+	const onClose = () => {
+		history.push(`/~fairyski/main`)
+	}
+
 	return (
 		<Drawer
 			placement="right"
-			visible={visible}
+			visible={!!selectedEvent}
 			title="イベント詳細"
 			width={width}
 			onClose={onClose}

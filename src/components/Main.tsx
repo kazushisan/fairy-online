@@ -1,43 +1,47 @@
+import React, { useEffect } from 'react'
 import { message } from 'antd'
-import { inject, observer } from 'mobx-react'
-import * as React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { Event } from '../entities/Event'
+
+import * as actionCreator from '../ducks/event'
 import { handleError } from '../services/handleError'
-import { EventStore } from '../stores/EventStore'
-import { UserStore } from '../stores/UserStore'
-import { Calendar } from './Calendar/Calendar'
-import { EventDetails } from './EventDetails/EventDetails'
-import { Header } from './Header/Header'
+import { Calendar } from './Calendar'
+import { EventDetails } from './EventDetails'
+import { Header } from './Header'
+
+import { Event } from '../types/Event'
 
 interface MatchParams {
 	id?: string
 }
-interface Props extends RouteComponentProps<MatchParams> {
-	eventStore: EventStore
-	userStore: UserStore
+
+type Props = RouteComponentProps<MatchParams> & {
+	loadEvents: () => Promise<void>
+	selectEvent: (eventId: Event['id']) => any
+	unselectEvent: (param: void) => any
 }
 
 const Container = styled.div`
 	display: block;
 `
 
-@inject('eventStore', 'userStore')
-@(withRouter as any)
-@observer
-export class Main extends React.Component<Props> {
-	public async componentDidMount(): Promise<void> {
-		const { eventStore, history } = this.props
-		// eslint-disable-next-line react/destructuring-assignment
-		const { id } = this.props.match.params
+function MainEntry({
+	history,
+	match,
+	loadEvents,
+	selectEvent,
+	location,
+	unselectEvent,
+}: Props) {
+	useEffect(() => {
+		const { id } = match.params
 
-		await eventStore
-			.load()
+		loadEvents()
 			.then(() => {
 				if (id) {
 					try {
-						eventStore.setEvent(id)
+						selectEvent(id)
 					} catch (err) {
 						message.error(err)
 						history.push('/~fairyski/main')
@@ -45,57 +49,36 @@ export class Main extends React.Component<Props> {
 				}
 			})
 			.catch(err => handleError({ err, history }))
-	}
+	}, [])
 
-	public componentDidUpdate(prevProps: Props): void {
-		// eslint-disable-next-line react/destructuring-assignment
-		if (this.props.location.pathname !== prevProps.location.pathname) {
-			const { eventStore, history } = this.props
-			// eslint-disable-next-line react/destructuring-assignment
-			const { id } = this.props.match.params
+	useEffect(() => {
+		const { id } = match.params
 
-			if (id) {
-				try {
-					eventStore.setEvent(id)
-				} catch (err) {
-					message.error(err)
-					history.push('/~fairyski/main')
-				}
-			} else {
-				eventStore.unsetEvent()
+		if (id) {
+			try {
+				selectEvent(id)
+			} catch (err) {
+				message.error(err)
+				history.push('/~fairyski/main')
 			}
+		} else {
+			unselectEvent()
 		}
-	}
+	}, [location.pathname])
 
-	public render() {
-		const { eventStore, history, userStore } = this.props
-
-		const onSelectEvent = (event: Event) => {
-			const id = event.original_id ? event.original_id : event.id
-			history.push(`/~fairyski/event/${id}`)
-		}
-		const onClose = () => {
-			history.push(`/~fairyski/main`)
-		}
-		return (
-			<Container>
-				<Header
-					history={history}
-					eventStore={eventStore}
-					userStore={userStore}
-				/>
-				<Calendar
-					events={[...eventStore.events, ...eventStore.deadlines]}
-					onSelectEvent={onSelectEvent}
-				/>
-				<EventDetails
-					eventStore={eventStore}
-					userStore={userStore}
-					visible={eventStore.event.id !== ''}
-					onClose={onClose}
-					history={history}
-				/>
-			</Container>
-		)
-	}
+	return (
+		<Container>
+			<Header history={history} />
+			<Calendar history={history} />
+			<EventDetails history={history} />
+		</Container>
+	)
 }
+
+export const Main = withRouter(
+	connect(null, {
+		loadEvents: actionCreator.loadEvents,
+		selectEvent: actionCreator.selectEvent,
+		unselectEvent: actionCreator.unselectEvent,
+	})(MainEntry)
+)
