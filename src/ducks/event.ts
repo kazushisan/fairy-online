@@ -7,7 +7,7 @@ import * as EventApi from '../services/EventApi'
 import * as ParticipantApi from '../services/ParticipantApi'
 import { Event } from '../types/Event'
 import { Participant } from '../types/Participant'
-import { AppState } from '.'
+import { AppState } from '../store'
 
 const actionCreator = actionCreatorFactory()
 

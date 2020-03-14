@@ -1,8 +1,8 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 
-import event from './event'
-import user from './user'
+import event from './ducks/event'
+import user from './ducks/user'
 
 const rootReducer = combineReducers({
 	event,

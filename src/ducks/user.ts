@@ -6,7 +6,7 @@ import { reducerWithInitialState } from 'typescript-fsa-reducers'
 
 import * as UserApi from '../services/UserApi'
 import { Credential } from '../types/Credential'
-import { AppState } from '.'
+import { AppState } from '../store'
 
 const actionCreator = actionCreatorFactory()
 
