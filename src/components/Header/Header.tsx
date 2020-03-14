@@ -3,7 +3,7 @@ import { Button, Dropdown, Menu, message } from 'antd'
 import { History } from 'history'
 import styled from 'styled-components'
 import { BarsOutlined } from '@ant-design/icons'
-import { CreateEvent } from '../CreateEvent/CreateEvent'
+import { CreateEvent } from '../CreateEvent'
 import { EventStore } from '../../stores/EventStore'
 import { UserStore } from '../../stores/UserStore'
 

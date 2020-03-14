@@ -36,7 +36,7 @@ export const loadEvents = (
 		return dispatch(updateEvents(data))
 	})
 
-export const updateSelectedEvent = (
+export const editEvent = (
 	event: Event,
 	jwt: string
 ): ThunkAction<any, AppState, undefined, Action> => (dispatch): any =>
