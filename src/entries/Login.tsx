@@ -5,8 +5,8 @@ import { RouteComponentProps, withRouter } from 'react-router-dom'
 
 import * as userActionCreator from '../ducks/user'
 
-import { Header } from './Header'
-import { LoginForm } from './LoginForm'
+import { Header } from '../components/Header'
+import { LoginForm } from '../components/LoginForm'
 
 import { Credential } from '../types/Credential'
 

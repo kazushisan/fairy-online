@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import { Home } from './components/Home'
-import { Login } from './components/Login'
-import { Main } from './components/Main'
+import { Home } from './entries/Home'
+import { Login } from './entries/Login'
+import { Main } from './entries/Main'
 
 export const Routes = (): React.ReactElement<any> => {
 	return (

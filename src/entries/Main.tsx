@@ -6,9 +6,9 @@ import styled from 'styled-components'
 
 import * as actionCreator from '../ducks/event'
 import { handleError } from '../services/handleError'
-import { Calendar } from './Calendar'
-import { EventDetails } from './EventDetails'
-import { Header } from './Header'
+import { Calendar } from '../components/Calendar'
+import { EventDetails } from '../components/EventDetails'
+import { Header } from '../components/Header'
 
 import { Event } from '../types/Event'
 
