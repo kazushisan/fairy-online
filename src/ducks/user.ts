@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Action } from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import actionCreatorFactory from 'typescript-fsa'
@@ -49,22 +48,29 @@ export const setUserFromJwt = (): ThunkAction<
 
 	const user = JSON.parse(atob(jwtTokenData)).user!
 
-	return dispatch(setUser(user))
+	dispatch(setJwt(jwt))
+	dispatch(setUser(user))
+
+	return Promise.resolve()
 }
 
 export const login = (
 	credential: Credential
-): ThunkAction<any, AppState, undefined, Action> => (dispatch): any =>
+): ThunkAction<any, AppState, undefined, Action> => (dispatch): Promise<any> =>
 	UserApi.login(credential).then(jwt => {
 		window.sessionStorage.setItem('fairy_jwt', jwt)
 		dispatch(setUserFromJwt())
+
+		return Promise.resolve()
 	})
 
 export const logout = (): ThunkAction<any, AppState, undefined, Action> => (
 	dispatch
-): any => {
+): Promise<any> => {
 	dispatch(unsetJwt())
-	return dispatch(unsetUser())
+	dispatch(unsetUser())
+
+	return Promise.resolve()
 }
 
 // reducer

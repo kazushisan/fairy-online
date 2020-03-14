@@ -4,7 +4,8 @@ import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
-import * as actionCreator from '../ducks/event'
+import * as eventActionCreator from '../ducks/event'
+import * as userActionCreator from '../ducks/user'
 import { handleError } from '../services/handleError'
 import { Calendar } from '../components/Calendar'
 import { EventDetails } from '../components/EventDetails'
@@ -20,6 +21,7 @@ type Props = RouteComponentProps<MatchParams> & {
 	loadEvents: () => Promise<void>
 	selectEvent: (eventId: Event['id']) => any
 	unselectEvent: (param: void) => any
+	setUserFromJwt: () => Promise<any>
 }
 
 const Container = styled.div`
@@ -33,11 +35,13 @@ function MainEntry({
 	selectEvent,
 	location,
 	unselectEvent,
+	setUserFromJwt,
 }: Props) {
 	useEffect(() => {
 		const { id } = match.params
 
-		loadEvents()
+		setUserFromJwt()
+			.then(() => loadEvents())
 			.then(() => {
 				if (id) {
 					try {
@@ -77,8 +81,9 @@ function MainEntry({
 
 export const Main = withRouter(
 	connect(null, {
-		loadEvents: actionCreator.loadEvents,
-		selectEvent: actionCreator.selectEvent,
-		unselectEvent: actionCreator.unselectEvent,
+		loadEvents: eventActionCreator.loadEvents,
+		selectEvent: eventActionCreator.selectEvent,
+		unselectEvent: eventActionCreator.unselectEvent,
+		setUserFromJwt: userActionCreator.setUserFromJwt,
 	})(MainEntry)
 )
