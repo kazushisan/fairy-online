@@ -14,4 +14,4 @@ Homestead.yaml
 .env
 .phpunit.result.cache
 
-*.sqlite
+*.sqlite*
