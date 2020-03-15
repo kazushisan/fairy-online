@@ -8,3 +8,8 @@ public/*.gz
 
 yarn-error.log
 .vscode/
+
+Homestead.json
+Homestead.yaml
+.env
+.phpunit.result.cache
