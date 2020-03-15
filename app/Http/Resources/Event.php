@@ -22,6 +22,7 @@ class Event extends JsonResource
             'end' => $this->end->format('Y-m-d'),
             'due' => $this->due->format('Y-m-d'),
             'canApply' => $this->can_apply,
+            'participant' => Participant::collection($this->participants),
         ];
     }
 }

@@ -18,4 +18,12 @@ class Event extends Model {
         'due' => 'date:Y-m-d',
         'can_apply' => 'boolean',
     ];
+
+    /**
+     * Get the comments for the blog post.
+     */
+    public function participants()
+    {
+        return $this->hasMany('App\Models\Participant');
+    }
 }

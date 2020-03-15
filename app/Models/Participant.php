@@ -21,6 +21,6 @@ class Participant extends Model {
      */
     public function post()
     {
-        return $this->belongsTo('App\Event');
+        return $this->belongsTo('App\Models\Event');
     }
 }

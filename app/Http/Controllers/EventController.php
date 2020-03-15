@@ -20,7 +20,7 @@ class EventController extends Controller
 
     public function getEvents()
     {
-        return EventResource::collection(Event::all());
+        return EventResource::collection(Event::with('participants')->get());
     }
 
     public function getEvent($id)
