@@ -25,6 +25,6 @@ class EventController extends Controller
 
     public function getEvent($id)
     {
-        return new EventResource(Event::findOrFail($id));
+        return new EventResource(Event::with('participants')->findOrFail($id));
     }
 }
