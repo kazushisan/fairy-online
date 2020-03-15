@@ -21,4 +21,7 @@ $router->post('/event', 'EventController@create');
 
 $router->get('/event/{id}', 'EventController@get');
 
+$router->put('/event/{id}', 'EventController@update');
+
+
 $router->get('/participant/{id}', 'ParticipantController@getParticipant');
