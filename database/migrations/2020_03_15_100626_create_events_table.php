@@ -19,8 +19,8 @@ class CreateEventsTable extends Migration
             $table->date('start');
             $table->date('end');
             $table->string('description');
-            $table->date('can_apply');
-            $table->date('due');
+            $table->boolean('can_apply');
+            $table->date('due')->nullable();
             $table->string('title');
         });
     }
