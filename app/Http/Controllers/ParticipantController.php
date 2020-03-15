@@ -17,7 +17,7 @@ class ParticipantController extends Controller
         //
     }
 
-    public function getParticipant($id)
+    public function get($id)
     {
         return new ParticipantResource(Participant::findOrFail($id));
     }
