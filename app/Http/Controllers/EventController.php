@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Http\Resources\EventCollection;
 
 class EventController extends Controller
 {
@@ -19,6 +20,6 @@ class EventController extends Controller
 
     public function getEvents()
     {
-        return 'all events';
+        return new EventCollection(Event::all());
     }
 }

@@ -12,7 +12,9 @@ RUN apk --no-cache add apache2 php@php \
 	php-phar@php \
 	php-apache2@php \
 	php-openssl@php \
-	php-zlib@php
+	php-zlib@php \
+    php-pdo@php \
+    php-pdo_sqlite@php
 
 ADD ./apache2.conf /etc/apache2/httpd.conf
 ADD ./userdir.conf /etc/apache2/conf.d/userdir.conf

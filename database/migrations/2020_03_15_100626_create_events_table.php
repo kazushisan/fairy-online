@@ -18,9 +18,10 @@ class CreateEventsTable extends Migration
             $table->timestamps();
             $table->date('start');
             $table->date('end');
-            $table->date('description');
+            $table->string('description');
             $table->date('can_apply');
             $table->date('due');
+            $table->string('title');
         });
     }
 
