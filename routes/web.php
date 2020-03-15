@@ -23,5 +23,8 @@ $router->get('/event/{id}', 'EventController@get');
 
 $router->put('/event/{id}', 'EventController@update');
 
+$router->delete('/event/{id}', 'EventController@delete');
+
+
 
 $router->get('/participant/{id}', 'ParticipantController@getParticipant');

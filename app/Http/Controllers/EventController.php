@@ -82,4 +82,15 @@ class EventController extends Controller
             'id' => $event->id,
         ]);
     }
+
+    public function delete(Request $request, $id)
+    {
+        $event = Event::findOrFail($id);
+
+        $event->delete();
+
+        return response()->json([
+            'success' => true,
+        ]);
+    }
 }
