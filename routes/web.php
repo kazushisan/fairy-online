@@ -15,8 +15,10 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->get('/event', 'EventController@getEvents');
+$router->get('/event', 'EventController@index');
 
-$router->get('/event/{id}', 'EventController@getEvent');
+$router->post('/event', 'EventController@create');
+
+$router->get('/event/{id}', 'EventController@get');
 
 $router->get('/participant/{id}', 'ParticipantController@getParticipant');
