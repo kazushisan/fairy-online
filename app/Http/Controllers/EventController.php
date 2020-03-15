@@ -22,4 +22,9 @@ class EventController extends Controller
     {
         return EventResource::collection(Event::all());
     }
+
+    public function getEvent($id)
+    {
+        return new EventResource(Event::findOrFail($id));
+    }
 }

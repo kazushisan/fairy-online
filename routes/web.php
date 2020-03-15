@@ -16,3 +16,5 @@ $router->get('/', function () use ($router) {
 });
 
 $router->get('/event', 'EventController@getEvents');
+
+$router->get('/event/{id}', 'EventController@getEvent');
