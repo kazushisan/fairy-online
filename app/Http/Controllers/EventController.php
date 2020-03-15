@@ -35,7 +35,7 @@ class EventController extends Controller
             'title' => 'required|string',
             'start' => 'required|date_format:Y-m-d',
             'end' => 'required|date_format:Y-m-d',
-            'description' => 'required|string',
+            'description' => 'string',
             'canApply' => 'required|boolean',
             'due' => 'date_format:Y-m-d|nullable',
         ]);
@@ -62,7 +62,7 @@ class EventController extends Controller
             'title' => 'required|string',
             'start' => 'required|date_format:Y-m-d',
             'end' => 'required|date_format:Y-m-d',
-            'description' => 'required|string',
+            'description' => 'string',
             'canApply' => 'required|boolean',
             'due' => 'date_format:Y-m-d|nullable',
         ]);
