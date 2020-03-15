@@ -18,6 +18,10 @@ class Event extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
+            'start' => $this->start->format('Y-m-d'),
+            'end' => $this->end->format('Y-m-d'),
+            'due' => $this->due->format('Y-m-d'),
+            'canApply' => $this->can_apply,
         ];
     }
 }
