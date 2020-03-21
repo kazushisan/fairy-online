@@ -20,7 +20,7 @@ module.exports = env => {
 		devtool: isProduction ? false : 'inline-source-map',
 		entry: path.resolve(__dirname, 'src/index.tsx'),
 		output: {
-			path: path.resolve(__dirname, 'public/static'),
+			path: path.resolve(__dirname, '../public_html/static'),
 			filename: 'bundle.js',
 		},
 		module: {
