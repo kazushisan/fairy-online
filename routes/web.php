@@ -16,15 +16,22 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
 
     $router->get('/event/{id}', 'EventController@get');
 
-    $router->post('/event', 'EventController@create');
-
-    $router->put('/event/{id}', 'EventController@update');
-
-    $router->delete('/event/{id}', 'EventController@delete');
-
     $router->put('/event/{event_id}/participant', 'ParticipantController@create');
 
     $router->get('/participant/{id}', 'ParticipantController@get');
 
     $router->delete('/participant/{id}', 'ParticipantController@delete');
+
+    // allowed for admin user only
+    $router->group(['middleware' => 'admin_only'], function () use ($router) {
+        $router->post('/event', 'EventController@create');
+
+        $router->put('/event/{id}', 'EventController@update');
+
+        $router->delete('/event/{id}', 'EventController@delete');
+
+    });
 });
+
+$router->post('/login', 'AuthController@login');
+
