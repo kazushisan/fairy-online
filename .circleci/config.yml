@@ -18,7 +18,7 @@ jobs:
           keys:
             - yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run:
-          name: Install Yarn Packges
+          name: Install Yarn Packages
           command: yarn
       - save_cache:
           name: Save Yarn Package Cache
@@ -26,8 +26,11 @@ jobs:
           paths:
             - node_modules
       - run:
-          name: Test files using eslint
-          command: yarn test
+          name: lint check files using eslint
+          command: yarn lint
+      - run:
+          name: check types using tsc
+          command: yarn type-check
       - persist_to_workspace:
           root: .
           paths:
@@ -36,9 +39,9 @@ jobs:
     executor: php
     steps:
       - attach_workspace:
-          at: .   
+          at: .
       - run: sudo composer self-update
-      - restore_cache: 
+      - restore_cache:
           keys:
             - composer-v1-{{ checksum "composer.lock" }}
             - composer-v1-
@@ -72,7 +75,6 @@ jobs:
           name: copy vendor directory to stb server
           command: lftp -u $STB_USER,$STB_PASSWORD -e "mirror -Rev vendor/. vendor/.; bye" sftp://www.stb.tsukuba.ac.jp
 workflows:
-  version: 2.1
   main_workflow:
     jobs:
       - test

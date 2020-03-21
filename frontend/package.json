@@ -6,6 +6,7 @@
 	"scripts": {
 		"build": "cp ./misc/.htaccess.production ./public_html/.htaccess && gzip -c ./public_html/index.html > ./public_html/index.html.gz && webpack --env.production",
 		"lint": "eslint --ext .ts,.tsx ./src",
+        "type-check": "tsc --noEmit",
 		"dev": "webpack-dev-server"
 	},
 	"author": "Kazushi Konosu",
