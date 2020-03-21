@@ -15,9 +15,9 @@ class AdminOnlyMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $user = $request->user();
+        $user = $request->user()->user;
 
-        if ($user['name'] !== 'admin') {
+        if ($user !== env('ADMIN_USER_NAME')) {
             abort(401, 'Unauthorized; general user not allowed.');
         }
 
