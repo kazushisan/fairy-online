@@ -8,7 +8,6 @@ const CompressionPlugin = require('compression-webpack-plugin')
 
 module.exports = env => {
 	const isProduction = Boolean(env && env.production)
-	console.log('Production: ', isProduction)
 
 	const plugins = [new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)]
 	if (isProduction) {
@@ -17,7 +16,6 @@ module.exports = env => {
 
 	return {
 		mode: isProduction ? 'production' : 'development',
-		devtool: isProduction ? false : 'inline-source-map',
 		entry: path.resolve(__dirname, 'src/index.tsx'),
 		output: {
 			path: path.resolve(__dirname, '../public_html/static'),
@@ -47,7 +45,7 @@ module.exports = env => {
 								sourceMap: !isProduction,
 								plugins: [
 									cssnano({ preset: 'default' }),
-									autoprefixer({ grid: true }),
+									autoprefixer(),
 								],
 							},
 						},
@@ -60,15 +58,7 @@ module.exports = env => {
 					],
 				},
 				{
-					test: /\.svg$/,
-					loader: 'file-loader',
-					options: {
-						outputPath: 'assets/',
-						publicPath: 'static/assets/',
-					},
-				},
-				{
-					test: /\.(png|jpg|gif)$/,
+					test: /\.(png|jpg|gif|svg)$/,
 					loader: 'file-loader',
 					options: {
 						outputPath: 'assets/',
