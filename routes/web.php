@@ -11,23 +11,20 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
+$router->group(['middleware' => 'auth'], function () use ($router) {
+    $router->get('/event', 'EventController@index');
+
+    $router->get('/event/{id}', 'EventController@get');
+
+    $router->post('/event', 'EventController@create');
+
+    $router->put('/event/{id}', 'EventController@update');
+
+    $router->delete('/event/{id}', 'EventController@delete');
+
+    $router->put('/event/{event_id}/participant', 'ParticipantController@create');
+
+    $router->get('/participant/{id}', 'ParticipantController@get');
+
+    $router->delete('/participant/{id}', 'ParticipantController@delete');
 });
-
-$router->get('/event', 'EventController@index');
-
-$router->post('/event', 'EventController@create');
-
-$router->get('/event/{id}', 'EventController@get');
-
-$router->put('/event/{id}', 'EventController@update');
-
-$router->delete('/event/{id}', 'EventController@delete');
-
-$router->put('/event/{event_id}/participant', 'ParticipantController@create');
-
-$router->get('/participant/{id}', 'ParticipantController@get');
-
-$router->delete('/participant/{id}', 'ParticipantController@delete');
-
