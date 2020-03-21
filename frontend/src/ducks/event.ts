@@ -56,7 +56,7 @@ export const editEvent = (
 		return Promise.resolve()
 	}
 
-	return EventApi.edit(event, jwt).then((data: any) => {
+	return EventApi.edit(event, jwt).then(() => {
 		return dispatch(loadEvents())
 	})
 }
@@ -73,7 +73,7 @@ export const removeEvent = (
 		return Promise.resolve()
 	}
 
-	return EventApi.remove(id, jwt).then((data: any) => {
+	return EventApi.remove(id, jwt).then(() => {
 		return dispatch(loadEvents())
 	})
 }
@@ -90,7 +90,7 @@ export const addEvent = (
 		return Promise.resolve()
 	}
 
-	return EventApi.add(event, jwt).then((data: any) => {
+	return EventApi.add(event, jwt).then(() => {
 		return dispatch(loadEvents())
 	})
 }
@@ -110,11 +110,9 @@ export const addParticipant = (
 		return Promise.resolve()
 	}
 
-	return ParticipantApi.add(participant, selectedEventId, jwt).then(
-		(data: any) => {
-			return dispatch(loadEvents())
-		}
-	)
+	return ParticipantApi.add(participant, selectedEventId, jwt).then(() => {
+		return dispatch(loadEvents())
+	})
 }
 
 export const removeParticipant = (
@@ -132,7 +130,7 @@ export const removeParticipant = (
 		return Promise.resolve()
 	}
 
-	return ParticipantApi.remove(id, jwt).then((data: any) => {
+	return ParticipantApi.remove(id, jwt).then(() => {
 		return dispatch(loadEvents())
 	})
 }
