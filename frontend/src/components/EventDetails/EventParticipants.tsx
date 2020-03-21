@@ -101,7 +101,7 @@ export function EventParticipants({
 					age,
 					sex,
 					canDrive,
-					note,
+					note: note || '',
 				}
 
 				return addParticipant(participant)
