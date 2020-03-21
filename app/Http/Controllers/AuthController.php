@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use \Firebase\JWT\JWT;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -22,7 +23,7 @@ class AuthController extends Controller
         $this->jwt_key = env('JWT_KEY');
     }
 
-    public function login()
+    public function login(Request $request)
     {
         $this->validate($request, [
             'user' => 'required|string',
@@ -42,7 +43,7 @@ class AuthController extends Controller
                 "user" => $this->general_user_name
             ];
 
-            $jwt = JWT::encode($token, $key, 'HS256');
+            $jwt = JWT::encode($token, $this->jwt_key, 'HS256');
 
             return response()->json([
                 'jwt' => $jwt
@@ -59,7 +60,7 @@ class AuthController extends Controller
                 "user" => $this->admin_user_name
             ];
 
-            $jwt = JWT::encode($token, $key, 'HS256');
+            $jwt = JWT::encode($token, $this->jwt_key, 'HS256');
 
             return response()->json([
                 'jwt' => $jwt
