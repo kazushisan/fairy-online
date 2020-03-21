@@ -100,7 +100,7 @@ export function EventParticipants({
 					year,
 					age,
 					sex,
-					canDrive,
+					canDrive: canDrive || false,
 					note: note || '',
 				}
 
