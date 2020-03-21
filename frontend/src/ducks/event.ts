@@ -5,8 +5,8 @@ import { reducerWithInitialState } from 'typescript-fsa-reducers'
 
 import * as EventApi from '../services/EventApi'
 import * as ParticipantApi from '../services/ParticipantApi'
-import { Event } from '../types/Event'
-import { Participant } from '../types/Participant'
+import { Event, NewEvent } from '../types/Event'
+import { Participant, NewParticipant } from '../types/Participant'
 import { AppState } from '../store'
 
 const actionCreator = actionCreatorFactory()
@@ -79,7 +79,7 @@ export const removeEvent = (
 }
 
 export const addEvent = (
-	event: Event
+	event: NewEvent
 ): ThunkAction<any, AppState, undefined, Action> => (
 	dispatch,
 	getState
@@ -96,7 +96,7 @@ export const addEvent = (
 }
 
 export const addParticipant = (
-	id: Participant
+	participant: NewParticipant
 ): ThunkAction<any, AppState, undefined, Action> => (
 	dispatch,
 	getState
@@ -110,9 +110,11 @@ export const addParticipant = (
 		return Promise.resolve()
 	}
 
-	return ParticipantApi.add(id, selectedEventId, jwt).then((data: any) => {
-		return dispatch(updateEvents(data))
-	})
+	return ParticipantApi.add(participant, selectedEventId, jwt).then(
+		(data: any) => {
+			return dispatch(updateEvents(data))
+		}
+	)
 }
 
 export const removeParticipant = (
@@ -130,7 +132,7 @@ export const removeParticipant = (
 		return Promise.resolve()
 	}
 
-	return ParticipantApi.remove(id, selectedEventId, jwt).then((data: any) => {
+	return ParticipantApi.remove(id, jwt).then((data: any) => {
 		return dispatch(updateEvents(data))
 	})
 }

@@ -1,7 +1,6 @@
 import { yearOptions } from '../consts/options'
 
-export type Participant = {
-	id: string
+export type NewParticipant = {
 	name: string
 	affiliation: string
 	year: typeof yearOptions[number]
@@ -9,4 +8,7 @@ export type Participant = {
 	age: number
 	canDrive: boolean
 	note: string
+}
+export type Participant = NewParticipant & {
+	id: number
 }

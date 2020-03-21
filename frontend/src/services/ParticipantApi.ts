@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { Event } from '../types/Event'
-import { Participant } from '../types/Participant'
+import { Participant, NewParticipant } from '../types/Participant'
 import { generateHeader } from './generateHeader'
 
 const apiBase = '/~fairyski/api'
@@ -18,7 +18,7 @@ export const remove = (id: Participant['id'], jwt: string): Promise<Event[]> =>
 	})
 
 export const add = (
-	participant: Participant,
+	participant: NewParticipant,
 	eventId: Event['id'],
 	jwt: string
 ): Promise<Event[]> =>

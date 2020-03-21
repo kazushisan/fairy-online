@@ -45,7 +45,7 @@ function MainEntry({
 			.then(() => {
 				if (id) {
 					try {
-						selectEvent(id)
+						selectEvent(parseInt(id, 10))
 					} catch (err) {
 						message.error(err)
 						history.push('/~fairyski/main')
@@ -60,7 +60,7 @@ function MainEntry({
 
 		if (id) {
 			try {
-				selectEvent(id)
+				selectEvent(parseInt(id, 10))
 			} catch (err) {
 				message.error(err)
 				history.push('/~fairyski/main')

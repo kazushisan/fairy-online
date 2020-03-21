@@ -7,15 +7,14 @@ import { handleError } from '../../services/handleError'
 import { ParticipantForm } from './ParticipantForm'
 import * as label from '../../consts/label'
 import { Event } from '../../types/Event'
-import { Participant } from '../../types/Participant'
-import { generateId } from '../../services/generateId'
+import { Participant, NewParticipant } from '../../types/Participant'
 
 type Props = {
 	history: History
 	canDelete: boolean
 	event: Event
 	removeParticipant: (participantId: Participant['id']) => Promise<any>
-	addParticipant: (participant: Participant) => Promise<any>
+	addParticipant: (participant: NewParticipant) => Promise<any>
 }
 
 const ButtonWrap = styled.div`
@@ -35,8 +34,8 @@ export function EventParticipants({
 
 	const { participants } = event
 
-	const handleDelete = (id: string) =>
-		removeParticipant(id).catch(err => handleError({ err, history }))
+	const handleDelete = (id: number) =>
+		removeParticipant(id).catch((err: any) => handleError({ err, history }))
 
 	const columns: object[] = [
 		{
@@ -85,10 +84,17 @@ export function EventParticipants({
 		form
 			.validateFields()
 			.then(values => {
-				const { name, affiliation, year, age, sex, canDrive, note } = values
+				const {
+					name,
+					affiliation,
+					year,
+					age,
+					sex,
+					canDrive,
+					note,
+				} = values
 
 				const participant = {
-					id: generateId(),
 					name,
 					affiliation,
 					year,
@@ -131,7 +137,10 @@ export function EventParticipants({
 						title={event.title}
 					/>
 					<ButtonWrap>
-						<Button type="primary" onClick={(): void => setAdding(true)}>
+						<Button
+							type="primary"
+							onClick={(): void => setAdding(true)}
+						>
 							参加申請
 						</Button>
 					</ButtonWrap>

@@ -1,13 +1,16 @@
 import { Participant } from './Participant'
 
-export type Event = {
-	id: string
+export type NewEvent = {
 	title: string
 	start: string
 	end: string
 	description?: string
 	canApply?: boolean
 	due?: string
+}
+
+export type Event = NewEvent & {
+	id: number
 	participants?: Participant[]
 	originalId?: Event['id']
 }

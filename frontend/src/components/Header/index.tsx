@@ -10,7 +10,7 @@ import * as userActionCreator from '../../ducks/user'
 import * as eventActionCreator from '../../ducks/event'
 
 import { AppState } from '../../store'
-import { Event } from '../../types/Event'
+import { NewEvent } from '../../types/Event'
 
 const HeaderContainer = styled.header`
 	padding: 11px 16px 11px;
@@ -38,7 +38,7 @@ interface Props {
 	history: History
 	logout: () => Promise<any>
 	user: string | null
-	addEvent: (event: Event) => Promise<any>
+	addEvent: (event: NewEvent) => Promise<any>
 }
 
 function HeaderComponent({

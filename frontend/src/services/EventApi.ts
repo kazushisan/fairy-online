@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Event } from '../types/Event'
+import { Event, NewEvent } from '../types/Event'
 import { generateHeader } from './generateHeader'
 
 const apiBase = '/~fairyski/api'
@@ -40,7 +40,7 @@ export const remove = (eventId: Event['id'], jwt: string): Promise<Event[]> =>
 			})
 	})
 
-export const add = (event: Event, jwt: string): Promise<Event[]> =>
+export const add = (event: NewEvent, jwt: string): Promise<Event[]> =>
 	new Promise((resolve, reject) => {
 		axios
 			.post(`${apiBase}/event`, event, generateHeader(jwt))

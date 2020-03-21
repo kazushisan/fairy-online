@@ -8,7 +8,7 @@ import { EditEvent } from './EditEvent'
 import { EventParticipants } from './EventParticipants'
 
 import { Event } from '../../types/Event'
-import { Participant } from '../../types/Participant'
+import { Participant, NewParticipant } from '../../types/Participant'
 import { AppState } from '../../store'
 import * as actionCreator from '../../ducks/event'
 
@@ -19,7 +19,7 @@ interface Props {
 	editEvent: (event: Event) => Promise<any>
 	removeEvent: (eventId: Event['id']) => Promise<any>
 	removeParticipant: (participantId: Participant['id']) => Promise<any>
-	addParticipant: (participant: Participant) => Promise<any>
+	addParticipant: (participant: NewParticipant) => Promise<any>
 }
 const DrawerContents = styled.div`
 	overflow: scroll;

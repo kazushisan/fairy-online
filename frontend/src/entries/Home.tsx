@@ -54,7 +54,9 @@ export const Home = (): React.ReactElement<{}> => {
 								<p>一年間を通して部員を募集しています！</p>
 								<p>
 									連絡は
-									<a href="http://twitter.com/fairyskiclub">Twitter</a>
+									<a href="http://twitter.com/fairyskiclub">
+										Twitter
+									</a>
 									またはfairy.event[at]gmail.comまで。
 								</p>
 								<p>部室は体育系サークル館2Fにあります。</p>
@@ -69,7 +71,9 @@ export const Home = (): React.ReactElement<{}> => {
 							<div className="content">
 								<p>
 									新歓情報を含めて
-									<a href="http://twitter.com/fairyskiclub">Twitter</a>
+									<a href="http://twitter.com/fairyskiclub">
+										Twitter
+									</a>
 									でアップデートしています！
 								</p>
 							</div>
@@ -85,15 +89,22 @@ export const Home = (): React.ReactElement<{}> => {
 				<footer className="global-footer">
 					<div className="footer-contents">
 						<div>
-							<p>&copy; {year} 筑波大学体育会フェアリースキークラブ</p>
+							<p>
+								&copy; {year}{' '}
+								筑波大学体育会フェアリースキークラブ
+							</p>
 							<div>
-								<a href="https://www.tsukuba.ac.jp/">筑波大学トップページ</a>
+								<a href="https://www.tsukuba.ac.jp/">
+									筑波大学トップページ
+								</a>
 								<Divider type="vertical" />
 								<a href="https://www.stb.tsukuba.ac.jp/~taiikukai/">
 									筑波大学体育会
 								</a>
 								<Divider type="vertical" />
-								<Link to="/~fairyski/login">FOM: Fairy Online Manager</Link>
+								<Link to="/~fairyski/login">
+									FOM: Fairy Online Manager
+								</Link>
 							</div>
 						</div>
 					</div>

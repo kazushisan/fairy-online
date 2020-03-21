@@ -3,13 +3,12 @@ import { Form } from 'antd'
 import { History } from 'history'
 
 import { EventForm } from '../EventForm'
-import { generateId } from '../../services/generateId'
 import { handleError } from '../../services/handleError'
-import { Event } from '../../types/Event'
+import { NewEvent } from '../../types/Event'
 
 type Props = {
 	history: History
-	addEvent: (event: Event) => Promise<void>
+	addEvent: (event: NewEvent) => Promise<void>
 }
 type Loading = {
 	submit: boolean
@@ -31,7 +30,6 @@ export const CreateEvent = ({
 			.validateFields()
 			.then(values => {
 				const newEvent = {
-					id: generateId(),
 					start: values.range[0].format('YYYY-MM-DD'),
 					end: values.range[1].format('YYYY-MM-DD'),
 					due: values.due ? values.due.format('YYYY-MM-DD') : '',
