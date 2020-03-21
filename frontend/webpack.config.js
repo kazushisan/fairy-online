@@ -16,9 +16,11 @@ module.exports = env => {
 
 	return {
 		mode: isProduction ? 'production' : 'development',
+        devtool: isProduction ? false : 'eval-source-map',
 		entry: path.resolve(__dirname, 'src/index.tsx'),
 		output: {
 			path: path.resolve(__dirname, '../public_html/static'),
+			publicPath: '/~fairyski/static/',
 			filename: 'bundle.js',
 		},
 		module: {
@@ -71,5 +73,19 @@ module.exports = env => {
 			extensions: ['.ts', '.tsx', '.js', '.json'],
 		},
 		plugins: plugins,
+		devServer: {
+			contentBase: path.resolve(__dirname, '../public_html'),
+			contentBasePublicPath: '/~fairyski',
+			compress: true,
+			port: 3000,
+			historyApiFallback: {
+				rewrites: [
+					{ from: /^\/\~fairyski/, to: '/~fairyski/index.html' },
+				],
+			},
+			proxy: {
+				'/~fairyski/api': 'http://localhost:8000/',
+			},
+		},
 	}
 }
