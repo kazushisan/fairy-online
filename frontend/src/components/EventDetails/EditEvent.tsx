@@ -93,6 +93,8 @@ export function EditEvent({
 			})
 
 	const onStartEdit = () => {
+		setVisible(true)
+
 		form.setFieldsValue({
 			title: event.title,
 			description: event.description,
@@ -100,7 +102,6 @@ export function EditEvent({
 			canApply: event.canApply || false,
 			due: event.due ? moment(event.due) : null,
 		})
-		setVisible(true)
 	}
 
 	return (
