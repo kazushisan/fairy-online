@@ -57,7 +57,7 @@ export const editEvent = (
 	}
 
 	return EventApi.edit(event, jwt).then((data: any) => {
-		return dispatch(updateEvents(data))
+		return dispatch(loadEvents())
 	})
 }
 
@@ -74,7 +74,7 @@ export const removeEvent = (
 	}
 
 	return EventApi.remove(id, jwt).then((data: any) => {
-		return dispatch(updateEvents(data))
+		return dispatch(loadEvents())
 	})
 }
 
@@ -91,7 +91,7 @@ export const addEvent = (
 	}
 
 	return EventApi.add(event, jwt).then((data: any) => {
-		return dispatch(updateEvents(data))
+		return dispatch(loadEvents())
 	})
 }
 
@@ -112,7 +112,7 @@ export const addParticipant = (
 
 	return ParticipantApi.add(participant, selectedEventId, jwt).then(
 		(data: any) => {
-			return dispatch(updateEvents(data))
+			return dispatch(loadEvents())
 		}
 	)
 }
@@ -133,7 +133,7 @@ export const removeParticipant = (
 	}
 
 	return ParticipantApi.remove(id, jwt).then((data: any) => {
-		return dispatch(updateEvents(data))
+		return dispatch(loadEvents())
 	})
 }
 
