@@ -78,6 +78,7 @@ $app->configure('app');
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
+    'admin_only' => App\Http\Middleware\AdminOnlyMiddleware::class,
 ]);
 
 /*
