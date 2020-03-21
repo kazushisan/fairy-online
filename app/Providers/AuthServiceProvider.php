@@ -2,7 +2,8 @@
 
 namespace App\Providers;
 
-use App\User;
+use \Firebase\JWT\JWT;
+use Illuminate\Auth\GenericUser;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -31,9 +32,17 @@ class AuthServiceProvider extends ServiceProvider
         // the User instance via an API token or any other method necessary.
 
         $this->app['auth']->viaRequest('api', function ($request) {
-            if ($request->input('api_token')) {
-                return User::where('api_token', $request->input('api_token'))->first();
+            $auth_header = $this->header('Authorization', '');
+
+            if (!Str::startsWith($auth_header, 'Bearer ')) {
+                abort(400, 'authorization bearer missing.');
             }
+
+            $token = JWT::decode(Str::substr($auth_header, 7), env('JWT_KEY'), array('HS256'));
+
+            return new GenericUser([
+                'user' => $token->user,
+            ]);
         });
     }
 }
