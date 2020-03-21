@@ -16,7 +16,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
 
     $router->get('/event/{id}', 'EventController@get');
 
-    $router->put('/event/{event_id}/participant', 'ParticipantController@create');
+    $router->post('/event/{event_id}/participant', 'ParticipantController@create');
 
     $router->get('/participant/{id}', 'ParticipantController@get');
 
