@@ -29,3 +29,5 @@ $router->put('/event/{event_id}/participant', 'ParticipantController@create');
 
 $router->get('/participant/{id}', 'ParticipantController@get');
 
+$router->delete('/participant/{id}', 'ParticipantController@delete');
+

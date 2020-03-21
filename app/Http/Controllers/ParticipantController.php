@@ -62,4 +62,15 @@ class ParticipantController extends Controller
             'id' => $participant->id,
         ]);
     }
+
+    public function delete(Request $request, $id)
+    {
+        $participant = Participant::findOrFail($id);
+
+        $participant->delete();
+
+        return response()->json([
+            'success' => true,
+        ]);
+    }
 }
