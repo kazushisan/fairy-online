@@ -1,12 +1,12 @@
 import axios from 'axios'
 import { Event } from '../types/Event'
 
-const endPoint = '/~fairyski/api.php'
+const apiBase = '/~fairyski/api'
 
 export const getEvents = (jwt: string): Promise<Event[]> =>
 	new Promise((resolve, reject) => {
 		axios
-			.get(endPoint, {
+			.get(`${apiBase}/event`, {
 				headers: {
 					Authorization: `Bearer ${jwt}`,
 				},
@@ -22,17 +22,9 @@ export const getEvents = (jwt: string): Promise<Event[]> =>
 export const edit = (event: Event, jwt: string): Promise<Event[]> =>
 	new Promise((resolve, reject) => {
 		axios
-			.post(
-				endPoint,
-				{
-					type: 'edit_event',
-					data: event,
-					event_id: event.id,
-				},
-				{
-					headers: { Authorization: `Bearer ${jwt}` },
-				}
-			)
+			.put(`${apiBase}/event/${event.id}`, event, {
+				headers: { Authorization: `Bearer ${jwt}` },
+			})
 			.then(response => {
 				resolve(response.data)
 			})
@@ -44,16 +36,9 @@ export const edit = (event: Event, jwt: string): Promise<Event[]> =>
 export const remove = (eventId: Event['id'], jwt: string): Promise<Event[]> =>
 	new Promise((resolve, reject) => {
 		axios
-			.post(
-				endPoint,
-				{
-					type: 'remove_event',
-					eventId,
-				},
-				{
-					headers: { Authorization: `Bearer ${jwt}` },
-				}
-			)
+			.delete(`${apiBase}/event/${eventId}`, {
+				headers: { Authorization: `Bearer ${jwt}` },
+			})
 			.then(response => {
 				resolve(response.data)
 			})
@@ -65,16 +50,9 @@ export const remove = (eventId: Event['id'], jwt: string): Promise<Event[]> =>
 export const add = (event: Event, jwt: string): Promise<Event[]> =>
 	new Promise((resolve, reject) => {
 		axios
-			.post(
-				endPoint,
-				{
-					type: 'add_event',
-					data: event,
-				},
-				{
-					headers: { Authorization: `Bearer ${jwt}` },
-				}
-			)
+			.post(`${apiBase}/event`, event, {
+				headers: { Authorization: `Bearer ${jwt}` },
+			})
 			.then(response => {
 				resolve(response.data)
 			})
