@@ -73,7 +73,7 @@ export function Home(): React.ReactElement<{}> {
 						</div>
 					</section>
 				</div>
-                <Map />
+				<Map />
 				<Footer />
 			</div>
 		</div>
