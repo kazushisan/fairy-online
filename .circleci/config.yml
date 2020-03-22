@@ -2,14 +2,14 @@ version: 2.1
 executors:
   nodejs:
     docker:
-      - image: circleci/node:10.15.0
+      - image: circleci/node:10.16.3
     working_directory: ~/project
   php:
     docker:
       - image: circleci/php:7.2
     working_directory: ~/project
 jobs:
-  test:
+  lint_check:
     executor: nodejs
     steps:
       - checkout
@@ -19,22 +19,30 @@ jobs:
             - yarn-packages-{{ .Branch }}-{{ checksum "frontend/yarn.lock" }}
       - run:
           name: Install Yarn Packages
-          command: cd ~/project/frontend && yarn
+          command: yarn
+          working_directory: ~/project/frontend
       - save_cache:
           name: Save Yarn Package Cache
           key: yarn-packages-{{ .Branch }}-{{ checksum "frontend/yarn.lock" }}
           paths:
             - ~project/frontend/node_modules
       - run:
-          name: lint check files using eslint
-          command: cd ~/project/frontend && yarn lint
-      - run:
-          name: check types using tsc
-          command: cd ~/project/frontend && yarn type-check
+          name: Run ESLint
+          command: yarn lint
+          working_directory: ~/project/frontend
       - persist_to_workspace:
           root: .
           paths:
             - .
+  type_check:
+    executor: nodejs
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Check types using tsc
+          command: cd ~/project/frontend && yarn type-check
+          working_directory: ~/project/frontend
   php_build:
     executor: php
     steps:
@@ -77,10 +85,13 @@ jobs:
 workflows:
   main_workflow:
     jobs:
-      - test
+      - lint_check
+      - type_check:
+          requires:
+            - lint_check
       - php_build:
           requires:
-            - test
+            - type_check
           filters:
             branches:
               only: master
