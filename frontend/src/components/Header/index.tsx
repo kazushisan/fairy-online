@@ -1,9 +1,9 @@
-import React from 'react'
-import { Button, Dropdown, Menu, message } from 'antd'
-import { useHistory } from 'react-router-dom'
+import React, { useMemo } from 'react'
+import { Button, message } from 'antd'
+import { useHistory, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
-import { BarsOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
+import { useMediaQuery } from 'react-responsive'
 
 import { CreateEvent } from '../CreateEvent'
 import * as userActionCreator from '../../ducks/user'
@@ -11,6 +11,8 @@ import * as eventActionCreator from '../../ducks/event'
 
 import { AppState } from '../../store'
 import { NewEvent } from '../../types/Event'
+import { LoginForm } from '../LoginForm'
+import { Credential } from '../../types/Credential'
 
 const HeaderContainer = styled.header`
 	padding: 11px 16px 11px;
@@ -28,56 +30,57 @@ const HeaderContainer = styled.header`
 		flex-grow: 1;
 	}
 `
-const MenuWrap = styled.div`
-	flex-basis: auto;
-	flex-grow: 0;
-	flex-shrink: 0;
-`
 
 interface Props {
 	logout: () => Promise<any>
+	login: (credential: Credential) => Promise<any>
 	user: string | null
 	addEvent: (event: NewEvent) => Promise<any>
+	title: string
 }
 
 function HeaderComponent({
 	logout,
+	login,
 	user,
 	addEvent,
+	title,
 }: Props): React.ReactElement<any> {
 	const history = useHistory()
+	const location = useLocation()
+	const isPc = useMediaQuery({ query: '(min-width: 800px)' })
 
 	const handleLogout = () => {
 		logout()
 		history.push('/~fairyski/login')
 		message.success('ログアウトしました')
 	}
-	const menu = (
-		<Menu>
-			{user === 'admin' && (
-				<Menu.Item key="create">
-					<CreateEvent addEvent={addEvent} />
-				</Menu.Item>
-			)}
-			{user && (
-				<Menu.Item>
-					<a onClick={handleLogout}>ログアウト</a>
-				</Menu.Item>
-			)}
-		</Menu>
+
+	const showLogin = useMemo(
+		() => !user && !location.pathname.includes('login'),
+		[user, location]
 	)
+
 	return (
 		<HeaderContainer>
-			<h1>FOM: Fairy Online Manager</h1>
+			<h1>{title}</h1>
+			{user === 'admin' && <CreateEvent addEvent={addEvent} />}
 			{user && (
-				<MenuWrap>
-					<Dropdown overlay={menu} trigger={['click']}>
-						<Button>
-							<BarsOutlined />
-						</Button>
-					</Dropdown>
-				</MenuWrap>
+				<Button type="default" onClick={handleLogout}>
+					ログアウト
+				</Button>
 			)}
+			{showLogin &&
+				(isPc ? (
+					<LoginForm login={login} isInline />
+				) : (
+					<Button
+						type="default"
+						onClick={() => history.push('/~fairyski/login')}
+					>
+						ログイン
+					</Button>
+				))}
 		</HeaderContainer>
 	)
 }
@@ -88,5 +91,6 @@ const mapStateToProps = (state: AppState) => ({
 
 export const Header = connect(mapStateToProps, {
 	logout: userActionCreator.logout,
+	login: userActionCreator.login,
 	addEvent: eventActionCreator.addEvent,
 })(HeaderComponent)

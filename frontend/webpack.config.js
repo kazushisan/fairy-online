@@ -16,7 +16,7 @@ module.exports = env => {
 
 	return {
 		mode: isProduction ? 'production' : 'development',
-        devtool: isProduction ? false : 'eval-source-map',
+		devtool: isProduction ? false : 'eval-source-map',
 		entry: path.resolve(__dirname, 'src/index.tsx'),
 		output: {
 			path: path.resolve(__dirname, '../public_html/static'),
@@ -31,13 +31,13 @@ module.exports = env => {
 					exclude: /node_modules/,
 				},
 				{
-					test: /\.scss$/,
+					test: /\.css$/,
 					use: [
 						'style-loader',
 						{
 							loader: 'css-loader',
 							options: {
-								importLoaders: 2,
+								importLoaders: 1,
 								sourceMap: !isProduction,
 							},
 						},
@@ -49,12 +49,6 @@ module.exports = env => {
 									cssnano({ preset: 'default' }),
 									autoprefixer(),
 								],
-							},
-						},
-						{
-							loader: 'sass-loader',
-							options: {
-								sourceMap: !isProduction,
 							},
 						},
 					],

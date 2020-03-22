@@ -84,15 +84,7 @@ export function EventParticipants({
 		form
 			.validateFields()
 			.then(values => {
-				const {
-					name,
-					affiliation,
-					year,
-					age,
-					sex,
-					canDrive,
-					note,
-				} = values
+				const { name, affiliation, year, age, sex, canDrive, note } = values
 
 				const participant = {
 					name,
@@ -137,10 +129,7 @@ export function EventParticipants({
 						title={event.title}
 					/>
 					<ButtonWrap>
-						<Button
-							type="primary"
-							onClick={(): void => setAdding(true)}
-						>
+						<Button type="primary" onClick={(): void => setAdding(true)}>
 							参加申請
 						</Button>
 					</ButtonWrap>

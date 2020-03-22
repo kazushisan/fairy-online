@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { Form } from 'antd'
+import { Button, Form } from 'antd'
 import { useHistory } from 'react-router-dom'
 
 import { EventForm } from '../EventForm'
@@ -60,7 +60,9 @@ export const CreateEvent = ({ addEvent }: Props): React.ReactElement<{}> => {
 
 	return (
 		<div>
-			<a onClick={onClickCreateEvent}>新規イベント</a>
+			<Button type="default" onClick={onClickCreateEvent}>
+				新規イベント
+			</Button>
 			<EventForm
 				form={form}
 				visible={visible}

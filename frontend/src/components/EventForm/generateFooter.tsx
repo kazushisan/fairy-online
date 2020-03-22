@@ -23,12 +23,7 @@ export function generateFooter({
 		<Button key="back" onClick={onCancel}>
 			キャンセル
 		</Button>,
-		<Button
-			key="submit"
-			type="primary"
-			onClick={onOk}
-			loading={loading.submit}
-		>
+		<Button key="submit" type="primary" onClick={onOk} loading={loading.submit}>
 			{title ? '変更する' : '作成する'}
 		</Button>,
 	]
