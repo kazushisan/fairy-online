@@ -1,8 +1,9 @@
 import React, { useState, useCallback } from 'react'
 import { Button, Form, Input, message } from 'antd'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
-import { History } from 'history'
+import { useHistory } from 'react-router-dom'
 import { parse } from 'query-string'
+
 import { Credential } from '../../types/Credential'
 
 const style = {
@@ -17,10 +18,11 @@ const style = {
 
 type Props = {
 	login: (credential: Credential) => Promise<void>
-	history: History
 }
 
-export function LoginForm({ login, history }: Props): React.ReactElement<{}> {
+export function LoginForm({ login }: Props): React.ReactElement<{}> {
+	const history = useHistory()
+
 	const [form] = Form.useForm()
 	const [loading, setLoading] = useState<boolean>(false)
 

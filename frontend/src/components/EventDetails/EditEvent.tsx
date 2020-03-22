@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button, message, Form } from 'antd'
-import { History } from 'history'
+import { useHistory } from 'react-router-dom'
 import moment from 'moment'
 import { handleError } from '../../services/handleError'
 import { EventForm } from '../EventForm'
@@ -8,7 +8,6 @@ import { Event } from '../../types/Event'
 
 type Props = {
 	event: Event
-	history: History
 	editEvent: (event: Event) => Promise<any>
 	removeEvent: (event: Event['id']) => Promise<any>
 }
@@ -20,10 +19,10 @@ type Loading = {
 
 export function EditEvent({
 	event,
-	history,
 	editEvent,
 	removeEvent,
 }: Props): React.ReactElement<{}> {
+	const history = useHistory()
 	const [visible, setVisible] = useState<boolean>(false)
 	const [loading, setLoading] = useState<Loading>({
 		submit: false,

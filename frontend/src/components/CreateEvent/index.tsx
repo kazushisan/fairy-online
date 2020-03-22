@@ -1,23 +1,20 @@
 import React, { useState, useCallback } from 'react'
 import { Form } from 'antd'
-import { History } from 'history'
+import { useHistory } from 'react-router-dom'
 
 import { EventForm } from '../EventForm'
 import { handleError } from '../../services/handleError'
 import { NewEvent } from '../../types/Event'
 
 type Props = {
-	history: History
 	addEvent: (event: NewEvent) => Promise<void>
 }
 type Loading = {
 	submit: boolean
 }
 
-export const CreateEvent = ({
-	history,
-	addEvent,
-}: Props): React.ReactElement<{}> => {
+export const CreateEvent = ({ addEvent }: Props): React.ReactElement<{}> => {
+	const history = useHistory()
 	const [visible, setVisible] = useState<boolean>(false)
 	const [loading, setLoading] = useState<Loading>({
 		submit: false,

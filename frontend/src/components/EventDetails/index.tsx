@@ -1,5 +1,5 @@
 import React from 'react'
-import { History } from 'history'
+import { useHistory } from 'react-router-dom'
 import { Divider, Drawer } from 'antd'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
@@ -15,7 +15,6 @@ import * as actionCreator from '../../ducks/event'
 interface Props {
 	selectedEvent: Event | null
 	isAdmin: boolean
-	history: History
 	editEvent: (event: Event) => Promise<any>
 	removeEvent: (eventId: Event['id']) => Promise<any>
 	removeParticipant: (participantId: Participant['id']) => Promise<any>
@@ -47,12 +46,13 @@ const calcWidth = (): string => (window.innerWidth < 800 ? '100vw' : '800px')
 function EventDetailsComponent({
 	selectedEvent,
 	isAdmin,
-	history,
 	editEvent,
 	removeEvent,
 	removeParticipant,
 	addParticipant,
 }: Props): React.ReactElement<{}> | null {
+	const history = useHistory()
+
 	const width = calcWidth()
 
 	if (!selectedEvent) {
@@ -83,7 +83,6 @@ function EventDetailsComponent({
 				</div>
 				{isAdmin && (
 					<EditEvent
-						history={history}
 						event={selectedEvent}
 						editEvent={editEvent}
 						removeEvent={removeEvent}
@@ -92,7 +91,6 @@ function EventDetailsComponent({
 				<Divider />
 				{canApply && <h3>現在参加申請を受け付けています</h3>}
 				<EventParticipants
-					history={history}
 					canDelete={!!canApply}
 					event={selectedEvent}
 					removeParticipant={removeParticipant}
