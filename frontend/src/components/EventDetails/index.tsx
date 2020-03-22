@@ -91,7 +91,6 @@ function EventDetailsComponent({
 				<Divider />
 				{canApply && <h3>現在参加申請を受け付けています</h3>}
 				<EventParticipants
-					history={history}
 					canDelete={!!canApply}
 					event={selectedEvent}
 					removeParticipant={removeParticipant}

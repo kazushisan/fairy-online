@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Popconfirm, Table, Form } from 'antd'
-import { History } from 'history'
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { handleError } from '../../services/handleError'
@@ -10,7 +10,6 @@ import { Event } from '../../types/Event'
 import { Participant, NewParticipant } from '../../types/Participant'
 
 type Props = {
-	history: History
 	canDelete: boolean
 	event: Event
 	removeParticipant: (participantId: Participant['id']) => Promise<any>
@@ -22,12 +21,13 @@ const ButtonWrap = styled.div`
 `
 
 export function EventParticipants({
-	history,
 	canDelete,
 	removeParticipant,
 	event,
 	addParticipant,
 }: Props): React.ReactElement<{}> {
+	const history = useHistory()
+
 	const [adding, setAdding] = useState<boolean>(false)
 
 	const [form] = Form.useForm()
