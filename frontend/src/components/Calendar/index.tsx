@@ -2,7 +2,7 @@ import React from 'react'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { History } from 'history'
+import { useHistory } from 'react-router-dom'
 
 import {
 	Calendar as BigCalendar,
@@ -20,7 +20,6 @@ const localizer = momentLocalizer(moment)
 
 interface Props {
 	events: Event[]
-	history: History
 }
 const components: Components<Event> = {
 	eventWrapper: EventWrapper,
@@ -35,10 +34,9 @@ const CalendarWrapper = styled.div`
 	box-sizing: border-box;
 `
 
-export function CalendarComponent({
-	events,
-	history,
-}: Props): React.ReactElement<{}> {
+export function CalendarComponent({ events }: Props): React.ReactElement<{}> {
+	const history = useHistory()
+
 	const onSelectEvent = (event: Event) => {
 		const id = event.originalId ? event.originalId : event.id
 		history.push(`/~fairyski/event/${id}`)

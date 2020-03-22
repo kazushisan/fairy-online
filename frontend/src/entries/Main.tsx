@@ -73,7 +73,7 @@ function MainEntry({
 	return (
 		<Container>
 			<Header history={history} />
-			<Calendar history={history} />
+			<Calendar />
 			<EventDetails history={history} />
 		</Container>
 	)
