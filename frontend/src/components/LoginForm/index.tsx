@@ -20,7 +20,7 @@ type Props = {
 	login: (credential: Credential) => Promise<void>
 }
 
-export function LoginForm({ login, history }: Props): React.ReactElement<{}> {
+export function LoginForm({ login }: Props): React.ReactElement<{}> {
 	const history = useHistory()
 
 	const [form] = Form.useForm()
