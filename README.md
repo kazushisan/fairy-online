@@ -65,7 +65,7 @@ docker-compose run web php artisan migrate
 yarn install
 ```
 
-# 開発
+## 開発
 
 ```bash
 # APIサーバの起動
