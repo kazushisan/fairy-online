@@ -41,7 +41,7 @@ jobs:
           at: .
       - run:
           name: Check types using tsc
-          command: cd ~/project/frontend && yarn type-check
+          command: yarn type-check
           working_directory: ~/project/frontend
   php_build:
     executor: php
