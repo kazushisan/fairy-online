@@ -16,13 +16,13 @@ jobs:
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
-            - yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-{{ .Branch }}-{{ checksum "frontend/yarn.lock" }}
       - run:
           name: Install Yarn Packages
           command: cd ~/project/frontend && yarn
       - save_cache:
           name: Save Yarn Package Cache
-          key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: yarn-packages-{{ .Branch }}-{{ checksum "frontend/yarn.lock" }}
           paths:
             - ~project/frontend/node_modules
       - run:
