@@ -4,10 +4,13 @@ import { Divider } from 'antd'
 import { Link } from 'react-router-dom'
 
 const Container = styled.footer`
-	display: flex;
 	position: relative;
 	background-color: #fafafa;
 	padding: 48px 16px;
+
+	@media screen and (min-width: 800px) {
+		display: flex;
+	}
 `
 
 const CopyrightNotice = styled.div`
