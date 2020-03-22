@@ -88,7 +88,7 @@ const reducer = reducerWithInitialState(initialState)
 		...state,
 		user: null,
 	}))
-	.case(unsetUser, state => ({
+	.case(unsetJwt, state => ({
 		...state,
 		jwt: null,
 	}))

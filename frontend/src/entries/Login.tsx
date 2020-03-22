@@ -25,7 +25,7 @@ const Heading = styled.h2`
 function LoginEntry({ login }: Props): React.ReactElement<{}> {
 	return (
 		<div id="login">
-			<Header title="FOM: Fairy Online Manager" />
+			<Header title="FOM" />
 			<div className="login">
 				<LoginFormWrapper>
 					<Heading>

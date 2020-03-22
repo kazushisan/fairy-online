@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react'
-import { Button, Dropdown, Menu, message } from 'antd'
+import { Button, message } from 'antd'
 import { useHistory, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
-import { BarsOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
 import { useMediaQuery } from 'react-responsive'
 
@@ -30,11 +29,6 @@ const HeaderContainer = styled.header`
 		padding: 4px 0;
 		flex-grow: 1;
 	}
-`
-const MenuWrap = styled.div`
-	flex-basis: auto;
-	flex-grow: 0;
-	flex-shrink: 0;
 `
 
 interface Props {
@@ -67,31 +61,14 @@ function HeaderComponent({
 		[user, location]
 	)
 
-	const menu = (
-		<Menu>
-			{user === 'admin' && (
-				<Menu.Item key="create">
-					<CreateEvent addEvent={addEvent} />
-				</Menu.Item>
-			)}
-			{user && (
-				<Menu.Item>
-					<a onClick={handleLogout}>ログアウト</a>
-				</Menu.Item>
-			)}
-		</Menu>
-	)
 	return (
 		<HeaderContainer>
 			<h1>{title}</h1>
+			{user === 'admin' && <CreateEvent addEvent={addEvent} />}
 			{user && (
-				<MenuWrap>
-					<Dropdown overlay={menu} trigger={['click']}>
-						<Button>
-							<BarsOutlined />
-						</Button>
-					</Dropdown>
-				</MenuWrap>
+				<Button type="default" onClick={handleLogout}>
+					ログアウト
+				</Button>
 			)}
 			{showLogin &&
 				(isPc ? (
