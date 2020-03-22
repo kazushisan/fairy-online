@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Divider } from 'antd'
-import { Link } from 'react-router-dom'
 
 const Container = styled.footer`
 	position: relative;
@@ -35,8 +34,6 @@ export function Footer(): React.ReactElement<{}> {
 				<a href="https://www.stb.tsukuba.ac.jp/~taiikukai/">
 					筑波大学体育会
 				</a>
-				<Divider type="vertical" />
-				<Link to="/~fairyski/login">FOMにログイン</Link>
 			</Links>
 		</Container>
 	)

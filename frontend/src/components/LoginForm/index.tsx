@@ -17,10 +17,14 @@ const style = {
 }
 
 type Props = {
+	isInline?: boolean
 	login: (credential: Credential) => Promise<void>
 }
 
-export function LoginForm({ login }: Props): React.ReactElement<{}> {
+export function LoginForm({
+	login,
+	isInline = false,
+}: Props): React.ReactElement<{}> {
 	const history = useHistory()
 
 	const [form] = Form.useForm()
@@ -56,9 +60,9 @@ export function LoginForm({ login }: Props): React.ReactElement<{}> {
 	return (
 		<Form
 			onFinish={onFinish}
-			style={style.form}
+			style={isInline ? undefined : style.form}
 			form={form}
-			initialValues={{ user: 'general' }}
+			layout={isInline ? 'inline' : 'horizontal'}
 		>
 			<Form.Item
 				name="user"
@@ -90,12 +94,13 @@ export function LoginForm({ login }: Props): React.ReactElement<{}> {
 						<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />
 					}
 					type="password"
+					placeholder="パスワード"
 				/>
 			</Form.Item>
 			<Button
 				type="primary"
 				htmlType="submit"
-				style={style.loginButton}
+				style={isInline ? undefined : style.loginButton}
 				loading={loading}
 				disabled={loading}
 			>
