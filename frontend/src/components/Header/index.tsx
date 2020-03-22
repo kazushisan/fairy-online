@@ -37,13 +37,15 @@ const MenuWrap = styled.div`
 interface Props {
 	logout: () => Promise<any>
 	user: string | null
-	addEvent: (event: NewEvent) => Promise<any>
+    addEvent: (event: NewEvent) => Promise<any>
+    title: string
 }
 
 function HeaderComponent({
 	logout,
 	user,
-	addEvent,
+    addEvent,
+    title,
 }: Props): React.ReactElement<any> {
 	const history = useHistory()
 
@@ -68,7 +70,7 @@ function HeaderComponent({
 	)
 	return (
 		<HeaderContainer>
-			<h1>FOM: Fairy Online Manager</h1>
+			<h1>{title}</h1>
 			{user && (
 				<MenuWrap>
 					<Dropdown overlay={menu} trigger={['click']}>

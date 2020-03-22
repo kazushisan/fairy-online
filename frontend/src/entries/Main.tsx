@@ -65,7 +65,7 @@ function MainEntry({
 
 	return (
 		<Container>
-			<Header />
+			<Header title="FOM: Fairy Online Manager" />
 			<Calendar />
 			<EventDetails />
 		</Container>
