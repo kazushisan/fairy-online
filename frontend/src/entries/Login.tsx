@@ -26,7 +26,7 @@ const Heading = styled.h2`
 function LoginEntry({ history, login }: Props): React.ReactElement<{}> {
 	return (
 		<div id="login">
-			<Header history={history} />
+			<Header />
 			<div className="login">
 				<LoginFormWrapper>
 					<Heading>
@@ -34,7 +34,7 @@ function LoginEntry({ history, login }: Props): React.ReactElement<{}> {
 						<br />
 						にログイン
 					</Heading>
-					<LoginForm login={login} history={history} />
+					<LoginForm login={login} />
 				</LoginFormWrapper>
 			</div>
 		</div>
