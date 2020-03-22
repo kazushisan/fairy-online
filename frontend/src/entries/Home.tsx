@@ -2,7 +2,7 @@ import { Divider } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-export const Home = (): React.ReactElement<{}> => {
+export function Home(): React.ReactElement<{}> {
 	const year = new Date().getFullYear()
 	return (
 		<div id="home">

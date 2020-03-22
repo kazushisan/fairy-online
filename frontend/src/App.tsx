@@ -5,7 +5,7 @@ import './App.scss'
 import { Routes } from './Routes'
 import store from './store'
 
-export const App = (): React.ReactElement<{}> => {
+export function App(): React.ReactElement<{}> {
 	return (
 		<>
 			<Provider store={store}>

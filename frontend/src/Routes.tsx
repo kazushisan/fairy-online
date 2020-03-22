@@ -4,7 +4,7 @@ import { Home } from './entries/Home'
 import { Login } from './entries/Login'
 import { Main } from './entries/Main'
 
-export const Routes = (): React.ReactElement<any> => {
+export function Routes(): React.ReactElement<any> {
 	return (
 		<Switch>
 			<Route exact path="/~fairyski" component={Home} />
