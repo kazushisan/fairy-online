@@ -1,7 +1,6 @@
-import { Divider } from 'antd'
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { Header } from '../components/Header'
+import { Footer } from '../components/Footer'
 
 export function Home(): React.ReactElement<{}> {
 	const year = new Date().getFullYear()
@@ -80,29 +79,7 @@ export function Home(): React.ReactElement<{}> {
 					height="450"
 					style={{ border: 0, display: 'block', fontSize: 0 }}
 				/>
-				<footer className="global-footer">
-					<div className="footer-contents">
-						<div>
-							<p>
-								&copy; {year}{' '}
-								筑波大学体育会フェアリースキークラブ
-							</p>
-							<div>
-								<a href="https://www.tsukuba.ac.jp/">
-									筑波大学トップページ
-								</a>
-								<Divider type="vertical" />
-								<a href="https://www.stb.tsukuba.ac.jp/~taiikukai/">
-									筑波大学体育会
-								</a>
-								<Divider type="vertical" />
-								<Link to="/~fairyski/login">
-									FOM: Fairy Online Manager
-								</Link>
-							</div>
-						</div>
-					</div>
-				</footer>
+                <Footer />
 			</div>
 		</div>
 	)
