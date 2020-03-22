@@ -69,6 +69,7 @@ export const logout = (): ThunkAction<any, AppState, undefined, Action> => (
 ): Promise<any> => {
 	dispatch(unsetJwt())
 	dispatch(unsetUser())
+	window.sessionStorage.removeItem('fairy_jwt')
 
 	return Promise.resolve()
 }
