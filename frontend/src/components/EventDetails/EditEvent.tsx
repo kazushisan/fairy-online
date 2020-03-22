@@ -22,7 +22,7 @@ export function EditEvent({
 	editEvent,
 	removeEvent,
 }: Props): React.ReactElement<{}> {
-    const history = useHistory()
+	const history = useHistory()
 	const [visible, setVisible] = useState<boolean>(false)
 	const [loading, setLoading] = useState<Loading>({
 		submit: false,

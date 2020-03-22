@@ -45,7 +45,7 @@ function HeaderComponent({
 	user,
 	addEvent,
 }: Props): React.ReactElement<any> {
-    const history = useHistory()
+	const history = useHistory()
 
 	const handleLogout = () => {
 		logout()
