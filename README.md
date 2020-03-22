@@ -1,65 +1,78 @@
 # FOM: Fairy Online Manager
 
-https://www.stb.tsukuba.ac.jp/~fairyski/
-筑波大学体育会フェアリースキークラブのウェブサイトおよび合宿の管理システム
+> 筑波大学体育会フェアリースキークラブのウェブサイトおよび合宿の管理システム
 
-サークルで冬の間に行われるスキー合宿のたびに次の作業が必要でした。
-- スキー合宿の実施と日程、参加者の募集を知らせるメールの送信
-- 参加希望者から個別に来るメールの集計
-- 参加者募集の締め切り日をリマインドするメールの送信
-- 締め切り後の変更への対応
-- 宿泊先、講習の手配
-- 合宿レジュメの公開
+## 目的
 
-このような作業をなるべく楽にこなしたかった・またメールでの管理には限界があるので、合宿のスケジュールおよび参加者を管理するシステムを開発しました。また、ついでに古くなってたウェブサイトも更新しておきました。
+- メーリングリストを使った合宿実施および日程の連絡を，合宿の予定一覧を把握できる画面で置き換える
+- メーリングリストに返信する形で合宿の参加申請を行っていたのを，オンラインのフォームで置き換える
+- 合宿の参加者一覧を表として，誰でも確認できるようにする
+- 古くなっていたサークルのホームページを更新する
 
-当初はVue.jsとES6で適当に作ったものを利用していましたが、勉強も兼ねてReact, Typescriptなどでリファクタしました。維持できなければ意味がないので、なるべくDependencyを減らして、管理者がいなくても（しばらくは）とりあえず動くものを目指しました。本当はFirebaseあたりを使ってバックエンドを作るといい感じだと思いますが、そのような方針もあって今回は大学が提供するApache + PHPサーバを利用しました。[（こちら）](http://www.stb.tsukuba.ac.jp/)
+## 前提
 
-そのため、データはjsonファイルに保存する（微妙な）仕様にしました。
-
-大学のサーバはせいぜいPHPが動くぐらいなので、通知を送信することができません。そのため、Google Apps Scriptを使ってTypescriptのスクリプトを定期実行し、リマインドや通知のメールを送信するようにしました。
-
-## 使ったもの
-
-- React
-- MobX
-- Ant Design React Components
-- Typescript
-- Sass
-- Webpack
-- Docker
-- PHP
-- Google Apps Scripts
+- docker
+- docker-compose
+- node.js v10.16.3
 - yarn
-- CircleCI
-
-などなど
-
-![structure](https://user-images.githubusercontent.com/29304238/52542714-07513000-2de6-11e9-8ddc-39ae0825a9f1.png)
-
-↑フロントエンドを中心とした構成がだいたいわかる図
-
-## Prerequisites
-- Docker
-- Node.js v10.15
 
 ## 開発環境の構築
-```
-$ yarn install
-$ docker-compose run web composer install
-$ php ./misc/generate_password.php # ./data/passwords.json がない場合
-$ echo "[]" > ./data/events.json #データを保存する`data/events.json`の初期化
+
+### env設定
+
+`.env` ファイルを生成します．
+
+```bash
+cp .env.example .env
 ```
 
-## Development Envrionment
+`.env` ファイルの次の項目を設定する必要があります．
+
 ```
-$ docker-compose up # サーバの起動
-$ yarn watch # ファイルのビルド
+ADMIN_USER_NAME=
+ADMIN_USER_PASSWORD=
+GENERAL_USER_NAME=
+GENERAL_USER_PASSWORD=
+JWT_KEY=
 ```
-`http://localhost:8000/~fairyski`にサーバが立ち上がります。実際の管理画面は`http://localhost:8000/~fairyski/login`よりログインできます。
 
+`ADMIN_USER_NAME`, `GENERAL_USER_NAME` にはそれぞれ管理，一般ユーザのユーザ名を設定します．`JWT_KEY` はJWT生成に使われるキーになるので，適当な文字列を設定してください．`ADMIN_USER_PASSWORD` および `GENERAL_USER_PASSWORD` それぞれ管理，一般ユーザのパスワードハッシュです．
 
-## TODO
+次のようなワンライナーを使ってパスワードハッシュを生成して，その結果を指定してください．
 
-- バックエンドが微妙なのでLaravel Lumenあたりを使ってリファクタする。
-- 404ページの作成
+```bash
+php -r "var_dump(password_hash(trim(fgets(STDIN)), PASSWORD_BCRYPT));"
+# 実行すると入力を受け付けるので，ここにハッシュ化したいパスワードを入力します．
+```
+
+### PHPサーバの初期化
+
+```bash
+# php dependencies のインストール
+docker-compose run web composer install
+# sqliteファイルの生成
+touch database/db.sqlite 
+# データベースのマイグレーション
+docker-compose run web php artisan migrate
+```
+
+### フロントエンドの初期化
+
+以下は `frontend/` で実行します．
+
+```bash
+# npm dependenciesのインストール
+yarn install
+```
+
+# 開発
+
+```bash
+# APIサーバの起動
+docker-compose up
+cd frontend
+# webpack-dev-serverの起動
+yarn dev
+```
+
+`localhost:8000/~fairyski` にAPIサーバが，`localhost:3000/~fairyski` にフロントエンドが立ち上がります．`localhost:3000/~fairyski/api/(.*)` にむけたリクエストは，`localhost:8000` のAPIサーバにむけられるので，開発の際は，`localhost:3000/~fairyski` を参照します．
