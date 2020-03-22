@@ -37,15 +37,15 @@ const MenuWrap = styled.div`
 interface Props {
 	logout: () => Promise<any>
 	user: string | null
-    addEvent: (event: NewEvent) => Promise<any>
-    title: string
+	addEvent: (event: NewEvent) => Promise<any>
+	title: string
 }
 
 function HeaderComponent({
 	logout,
 	user,
-    addEvent,
-    title,
+	addEvent,
+	title,
 }: Props): React.ReactElement<any> {
 	const history = useHistory()
 
