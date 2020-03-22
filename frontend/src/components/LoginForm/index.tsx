@@ -74,9 +74,7 @@ export function LoginForm({
 				]}
 			>
 				<Input
-					prefix={
-						<UserOutlined style={{ color: 'rgba(0,0,0,.25)' }} />
-					}
+					prefix={<UserOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
 					placeholder="ユーザ名"
 				/>
 			</Form.Item>
@@ -90,9 +88,7 @@ export function LoginForm({
 				]}
 			>
 				<Input
-					prefix={
-						<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />
-					}
+					prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
 					type="password"
 					placeholder="パスワード"
 				/>

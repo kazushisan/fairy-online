@@ -31,9 +31,7 @@ export function Footer(): React.ReactElement<{}> {
 			<Links>
 				<a href="https://www.tsukuba.ac.jp/">筑波大学トップページ</a>
 				<Divider type="vertical" />
-				<a href="https://www.stb.tsukuba.ac.jp/~taiikukai/">
-					筑波大学体育会
-				</a>
+				<a href="https://www.stb.tsukuba.ac.jp/~taiikukai/">筑波大学体育会</a>
 			</Links>
 		</Container>
 	)
