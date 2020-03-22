@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { RouteComponentProps, withRouter } from 'react-router-dom'
 
 import * as userActionCreator from '../ducks/user'
 
@@ -10,7 +9,7 @@ import { LoginForm } from '../components/LoginForm'
 
 import { Credential } from '../types/Credential'
 
-type Props = RouteComponentProps & {
+type Props = {
 	login: (credential: Credential) => Promise<any>
 }
 
@@ -23,7 +22,7 @@ const Heading = styled.h2`
 	margin: 16px;
 `
 
-function LoginEntry({ history, login }: Props): React.ReactElement<{}> {
+function LoginEntry({ login }: Props): React.ReactElement<{}> {
 	return (
 		<div id="login">
 			<Header />
@@ -41,8 +40,6 @@ function LoginEntry({ history, login }: Props): React.ReactElement<{}> {
 	)
 }
 
-export const Login = withRouter(
-	connect(null, {
-		login: userActionCreator.login,
-	})(LoginEntry)
-)
+export const Login = connect(null, {
+	login: userActionCreator.login,
+})(LoginEntry)

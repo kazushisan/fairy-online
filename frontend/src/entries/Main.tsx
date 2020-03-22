@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { message } from 'antd'
-import { RouteComponentProps, withRouter } from 'react-router-dom'
+import { useHistory, useParams, useLocation } from 'react-router-dom'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
@@ -13,11 +13,7 @@ import { Header } from '../components/Header'
 
 import { Event } from '../types/Event'
 
-interface MatchParams {
-	id?: string
-}
-
-type Props = RouteComponentProps<MatchParams> & {
+type Props = {
 	loadEvents: () => Promise<void>
 	selectEvent: (eventId: Event['id']) => any
 	unselectEvent: (param: void) => any
@@ -29,17 +25,16 @@ const Container = styled.div`
 `
 
 function MainEntry({
-	history,
-	match,
 	loadEvents,
 	selectEvent,
-	location,
 	unselectEvent,
 	setUserFromJwt,
 }: Props) {
-	useEffect(() => {
-		const { id } = match.params
+	const history = useHistory()
+	const location = useLocation()
+	const { id } = useParams()
 
+	useEffect(() => {
 		setUserFromJwt()
 			.then(() => loadEvents())
 			.then(() => {
@@ -56,8 +51,6 @@ function MainEntry({
 	}, [])
 
 	useEffect(() => {
-		const { id } = match.params
-
 		if (id) {
 			try {
 				selectEvent(parseInt(id, 10))
@@ -79,11 +72,9 @@ function MainEntry({
 	)
 }
 
-export const Main = withRouter(
-	connect(null, {
-		loadEvents: eventActionCreator.loadEvents,
-		selectEvent: eventActionCreator.selectEvent,
-		unselectEvent: eventActionCreator.unselectEvent,
-		setUserFromJwt: userActionCreator.setUserFromJwt,
-	})(MainEntry)
-)
+export const Main = connect(null, {
+	loadEvents: eventActionCreator.loadEvents,
+	selectEvent: eventActionCreator.selectEvent,
+	unselectEvent: eventActionCreator.unselectEvent,
+	setUserFromJwt: userActionCreator.setUserFromJwt,
+})(MainEntry)
