@@ -83,7 +83,6 @@ function EventDetailsComponent({
 				</div>
 				{isAdmin && (
 					<EditEvent
-						history={history}
 						event={selectedEvent}
 						editEvent={editEvent}
 						removeEvent={removeEvent}
