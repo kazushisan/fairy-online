@@ -56,7 +56,7 @@ function HeaderComponent({
 		<Menu>
 			{user === 'admin' && (
 				<Menu.Item key="create">
-					<CreateEvent history={history} addEvent={addEvent} />
+					<CreateEvent addEvent={addEvent} />
 				</Menu.Item>
 			)}
 			{user && (
