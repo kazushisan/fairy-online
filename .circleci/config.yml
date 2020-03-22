@@ -2,43 +2,54 @@ version: 2.1
 executors:
   nodejs:
     docker:
-      - image: circleci/node:10.15.0
+      - image: circleci/node:10.16.3
     working_directory: ~/project
   php:
     docker:
       - image: circleci/php:7.2
     working_directory: ~/project
 jobs:
-  test:
+  lint_check:
     executor: nodejs
     steps:
       - checkout
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
-            - yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-{{ .Branch }}-{{ checksum "frontend/yarn.lock" }}
       - run:
-          name: Install Yarn Packges
+          name: Install Yarn Packages
           command: yarn
+          working_directory: ~/project/frontend
       - save_cache:
           name: Save Yarn Package Cache
-          key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: yarn-packages-{{ .Branch }}-{{ checksum "frontend/yarn.lock" }}
           paths:
-            - node_modules
+            - ~project/frontend/node_modules
       - run:
-          name: Test files using eslint
-          command: yarn test
+          name: Run ESLint
+          command: yarn lint
+          working_directory: ~/project/frontend
       - persist_to_workspace:
           root: .
           paths:
             - .
+  type_check:
+    executor: nodejs
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Check types using tsc
+          command: yarn type-check
+          working_directory: ~/project/frontend
   php_build:
     executor: php
     steps:
       - attach_workspace:
-          at: .   
+          at: .
       - run: sudo composer self-update
-      - restore_cache: 
+      - restore_cache:
           keys:
             - composer-v1-{{ checksum "composer.lock" }}
             - composer-v1-
@@ -72,13 +83,15 @@ jobs:
           name: copy vendor directory to stb server
           command: lftp -u $STB_USER,$STB_PASSWORD -e "mirror -Rev vendor/. vendor/.; bye" sftp://www.stb.tsukuba.ac.jp
 workflows:
-  version: 2.1
   main_workflow:
     jobs:
-      - test
+      - lint_check
+      - type_check:
+          requires:
+            - lint_check
       - php_build:
           requires:
-            - test
+            - type_check
           filters:
             branches:
               only: master

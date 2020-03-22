@@ -8,7 +8,6 @@ const CompressionPlugin = require('compression-webpack-plugin')
 
 module.exports = env => {
 	const isProduction = Boolean(env && env.production)
-	console.log('Production: ', isProduction)
 
 	const plugins = [new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)]
 	if (isProduction) {
@@ -17,10 +16,11 @@ module.exports = env => {
 
 	return {
 		mode: isProduction ? 'production' : 'development',
-		devtool: isProduction ? false : 'inline-source-map',
+        devtool: isProduction ? false : 'eval-source-map',
 		entry: path.resolve(__dirname, 'src/index.tsx'),
 		output: {
 			path: path.resolve(__dirname, '../public_html/static'),
+			publicPath: '/~fairyski/static/',
 			filename: 'bundle.js',
 		},
 		module: {
@@ -47,7 +47,7 @@ module.exports = env => {
 								sourceMap: !isProduction,
 								plugins: [
 									cssnano({ preset: 'default' }),
-									autoprefixer({ grid: true }),
+									autoprefixer(),
 								],
 							},
 						},
@@ -60,15 +60,7 @@ module.exports = env => {
 					],
 				},
 				{
-					test: /\.svg$/,
-					loader: 'file-loader',
-					options: {
-						outputPath: 'assets/',
-						publicPath: 'static/assets/',
-					},
-				},
-				{
-					test: /\.(png|jpg|gif)$/,
+					test: /\.(png|jpg|gif|svg)$/,
 					loader: 'file-loader',
 					options: {
 						outputPath: 'assets/',
@@ -81,5 +73,19 @@ module.exports = env => {
 			extensions: ['.ts', '.tsx', '.js', '.json'],
 		},
 		plugins: plugins,
+		devServer: {
+			contentBase: path.resolve(__dirname, '../public_html'),
+			contentBasePublicPath: '/~fairyski',
+			compress: true,
+			port: 3000,
+			historyApiFallback: {
+				rewrites: [
+					{ from: /^\/\~fairyski/, to: '/~fairyski/index.html' },
+				],
+			},
+			proxy: {
+				'/~fairyski/api': 'http://localhost:8000/',
+			},
+		},
 	}
 }
