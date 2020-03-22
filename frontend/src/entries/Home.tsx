@@ -1,20 +1,14 @@
 import { Divider } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { Header } from '../components/Header'
 
 export function Home(): React.ReactElement<{}> {
 	const year = new Date().getFullYear()
 	return (
 		<div id="home">
-			<div className="sub-area" />
+			<Header title="筑波大学体育会フェアリースキークラブ" />
 			<div className="main-area">
-				<header className="global-header">
-					<div>
-						<h3>筑波大学体育会</h3>
-						<h1>フェアリースキークラブ</h1>
-						<h5>Fairy Ski Club, University of Tsukuba</h5>
-					</div>
-				</header>
 				<div className="main">
 					<section id="about">
 						<div>
