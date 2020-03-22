@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Dropdown, Menu, message } from 'antd'
-import { History } from 'history'
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { BarsOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
@@ -35,18 +35,18 @@ const MenuWrap = styled.div`
 `
 
 interface Props {
-	history: History
 	logout: () => Promise<any>
 	user: string | null
 	addEvent: (event: NewEvent) => Promise<any>
 }
 
 function HeaderComponent({
-	history,
 	logout,
 	user,
 	addEvent,
 }: Props): React.ReactElement<any> {
+    const history = useHistory()
+
 	const handleLogout = () => {
 		logout()
 		history.push('/~fairyski/login')
