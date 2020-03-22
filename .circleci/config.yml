@@ -3,7 +3,7 @@ executors:
   nodejs:
     docker:
       - image: circleci/node:10.15.0
-    working_directory: ~/project/frontend
+    working_directory: ~/project
   php:
     docker:
       - image: circleci/php:7.2
@@ -19,18 +19,18 @@ jobs:
             - yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run:
           name: Install Yarn Packages
-          command: yarn
+          command: cd ~/project/frontend && yarn
       - save_cache:
           name: Save Yarn Package Cache
           key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
-            - node_modules
+            - ~project/frontend/node_modules
       - run:
           name: lint check files using eslint
-          command: yarn lint
+          command: cd ~/project/frontend && yarn lint
       - run:
           name: check types using tsc
-          command: yarn type-check
+          command: cd ~/project/frontend && yarn type-check
       - persist_to_workspace:
           root: .
           paths:
