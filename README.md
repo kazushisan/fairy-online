@@ -17,6 +17,8 @@
 - Dockerを使うことで，大学のApacheサーバ環境をローカルに再現・環境構築を簡単にする
 - CircleCIを使い，デプロイ・チェックを自動化
 
+![image](https://user-images.githubusercontent.com/29304238/77434068-a2a73800-6e23-11ea-9279-759d83d25069.png)
+
 ## 前提
 
 - docker
